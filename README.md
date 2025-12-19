@@ -1,0 +1,266 @@
+React + Vite Project
+
+This project is created using React with Vite for a fast, modern development experience.
+
+🚀 Tech Stack
+
+⚛️ React
+
+⚡ Vite
+
+🎨 Tailwind CSS (optional)
+
+🎬 Framer Motion (animations)
+
+🧩 clsx (conditional class names)
+
+🎯 lucide-react (icons)
+
+📦 Installation & Setup
+
+1️⃣ Clone the repository (if applicable)
+
+git clone <your-repo-url>
+cd <project-folder>
+
+2️⃣ Install dependencies
+
+npm install
+
+3️⃣ Start the development server
+
+npm run dev
+
+The app will run at:
+
+http://localhost:5173
+
+📚 Installed Libraries
+
+🔹 lucide-react (Icons)
+
+Lightweight, clean SVG icons for React.
+
+npm install lucide-react
+
+Usage example:
+
+import { Home, User } from "lucide-react";
+
+<Home className="w-5 h-5" />
+
+🔹 framer-motion (Animations)
+
+Powerful animation library for React.
+
+npm install framer-motion
+
+Usage example:
+
+import { motion } from "framer-motion";
+
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+>
+  Hello World
+</motion.div>
+
+🔹 clsx (Conditional Class Names)
+
+Utility for constructing className strings conditionally.
+
+npm install clsx
+
+Usage example:
+
+import clsx from "clsx";
+
+<div className={clsx("p-4", isActive && "bg-green-500")} />
+
+➕ Installing More Dependencies (Future)
+
+You can add more libraries anytime using:
+
+npm install package-name
+
+Example:
+
+npm install react-router-dom axios
+
+📁 Project Folder Structure
+
+This project uses a monorepo-style structure with separate admin and client applications.
+
+proveIt/
+├─ admin/
+├─ public/
+│  └─ favicon.svg
+│
+├─ src/
+│  ├─ app/                 # App bootstrap & core wiring
+│  │  ├─ App.jsx
+│  │  ├─ main.jsx
+│  │  ├─ routes.jsx
+│  │  ├─ providers.jsx
+│  │  └─ error-boundary.jsx
+│  │
+│  ├─ features/            # Feature-based architecture (MOST IMPORTANT)
+│  │  ├─ auth/
+│  │  │  ├─ components/
+│  │  │  ├─ hooks/
+│  │  │  ├─ services/
+│  │  │  ├─ api.js
+│  │  │  └─ index.js
+│  │  │
+│  │  ├─ dashboard/
+│  │  ├─ users/
+│  │  ├─ settings/
+│  │  └─ index.js
+│  │
+│  ├─ shared/              # Reusable but app-specific
+│  │  ├─ ui/               # Buttons, Inputs, Modals
+│  │  ├─ components/
+│  │  ├─ hooks/
+│  │  ├─ animations/
+│  │  └─ index.js
+│  │
+│  ├─ services/            # Core services (global)
+│  │  ├─ apiClient.js
+│  │  ├─ authService.js
+│  │  └─ storageService.js
+│  │
+│  ├─ store/               # Global state
+│  │  ├─ index.js
+│  │  ├─ auth.slice.js
+│  │  └─ ui.slice.js
+│  │
+│  ├─ config/              # Configuration
+│  │  ├─ env.js
+│  │  ├─ routes.js
+│  │  └─ constants.js
+│  │
+│  ├─ lib/                 # External libs abstraction (PRO LEVEL)
+│  │  ├─ axios.js
+│  │  ├─ framer.js
+│  │  ├─ icons.js
+│  │  └─ clsx.js
+│  │
+│  ├─ assets/
+│  │  ├─ images/
+│  │  ├─ icons/
+│  │  └─ fonts/
+│  │
+│  ├─ styles/
+│  │  ├─ globals.css
+│  │  ├─ tailwind.css
+│  │  └─ themes.css
+│  │
+│  └─ tests/
+│     ├─ unit/
+│     ├─ integration/
+│     └─ e2e/
+│
+├─ index.html
+├─ package.json
+├─ vite.config.js
+├─ .env.example
+└─ README.md
+│
+├─ client/
+├─ public/
+│  └─ favicon.svg
+│
+├─ src/
+│  ├─ app/                     # App bootstrap layer
+│  │  ├─ App.jsx               # Root component
+│  │  ├─ main.jsx              # Entry point
+│  │  ├─ routes.jsx            # All route definitions
+│  │  ├─ providers.jsx         # Context / Theme / Query providers
+│  │  └─ error-boundary.jsx    # Global error handling
+│  │
+│  ├─ features/                # Feature-based architecture (CORE)
+│  │  ├─ auth/                 # Login / Signup / OTP
+│  │  │  ├─ components/
+│  │  │  ├─ hooks/
+│  │  │  ├─ services/
+│  │  │  ├─ api.js
+│  │  │  └─ index.js
+│  │  │
+│  │  ├─ home/
+│  │  │  ├─ components/
+│  │  │  ├─ Home.jsx
+│  │  │  └─ index.js
+│  │  │
+│  │  ├─ profile/
+│  │  ├─ orders/
+│  │  ├─ notifications/
+│  │  └─ index.js
+│  │
+│  ├─ shared/                  # Reusable (client-only)
+│  │  ├─ ui/                   # Buttons, Inputs, Modals
+│  │  ├─ components/           # Navbar, Footer, Layout
+│  │  ├─ hooks/
+│  │  ├─ animations/
+│  │  └─ index.js
+│  │
+│  ├─ services/                # App-level services
+│  │  ├─ apiClient.js          # Axios instance
+│  │  ├─ authService.js
+│  │  └─ storageService.js
+│  │
+│  ├─ store/                   # Global state (Redux/Zustand)
+│  │  ├─ index.js
+│  │  ├─ auth.slice.js
+│  │  └─ ui.slice.js
+│  │
+│  ├─ config/                  # Config & constants
+│  │  ├─ env.js
+│  │  ├─ routes.js
+│  │  └─ constants.js
+│  │
+│  ├─ lib/                     # 3rd-party wrappers (PRO MOVE)
+│  │  ├─ axios.js              # Axios config
+│  │  ├─ framer.js             # Framer presets
+│  │  ├─ icons.js              # lucide-react exports
+│  │  └─ clsx.js
+│  │
+│  ├─ assets/
+│  │  ├─ images/
+│  │  ├─ icons/
+│  │  └─ fonts/
+│  │
+│  ├─ styles/
+│  │  ├─ globals.css
+│  │  ├─ tailwind.css
+│  │  └─ themes.css
+│  │
+│  └─ tests/
+│     ├─ unit/
+│     ├─ integration/
+│     └─ e2e/
+│
+├─ index.html
+├─ package.json
+├─ vite.config.js
+├─ .env.example
+└─ README.md
+
+✅ Best Practices
+
+Keep components small and reusable
+
+Use clsx for conditional styling
+
+Use framer-motion for smooth animations
+
+Organize icons in a single file if reused often
+
+🧑‍💻 Author
+
+Banty
+Creative Web Developer
+
+📄 License
+
+This project is open-source and free to use.
