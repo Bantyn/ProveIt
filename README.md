@@ -41,7 +41,8 @@ npm run dev
 The app will run at:
 
 ```
-http://localhost:5173
+Client : http://localhost:5173
+Client : http://localhost:5174
 ```
 
 
@@ -123,6 +124,15 @@ Example:
 
 ```bash
 npm install react-router-dom axios
+```
+
+
+---
+
+# In single line Insalltion
+
+```bash
+npm i react-router-dom clsx lucide-react framer-motion axios
 ```
 
 
@@ -314,3 +324,5 @@ Creative Web Developer
 # This project is open-source and free to use.
 
 > > > > > > > 7fe0ee377e3e934af1a0601f5ee38e2e706bfcf1
+
+

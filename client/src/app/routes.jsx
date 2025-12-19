@@ -1,0 +1,32 @@
+// Authanication
+import Login from "../features/auth/login/Login";
+import ClientSignup from "../features/auth/signup/client/ClientSignup";
+import CompanySignup from "../features/auth/signup/company/CompanySignup";
+
+// Pages
+import Home from "../features/home/Home";
+import Landing from "../features/landing/Landing";
+
+
+export const routes = [
+   {
+    path: "/",
+    element: <Landing />,
+  },
+  {
+    path: "/home",
+    element: <Home />,
+  },
+  {
+    path: "/masterLogin",
+    element: <Login />,
+  },
+  {
+    path: "/signup/clientSignup",
+    element: <ClientSignup />,
+  },
+  {
+    path: "/signup/clientSignup",
+    element: <CompanySignup />,
+  }
+];
