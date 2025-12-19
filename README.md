@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # React + Vite Project
 
 This project is created using **React with Vite** for a fast, modern development experience.
@@ -316,5 +314,3 @@ Creative Web Developer
 # This project is open-source and free to use.
 
 > > > > > > > 7fe0ee377e3e934af1a0601f5ee38e2e706bfcf1
-
-
