@@ -14,16 +14,16 @@ export default function App() {
     {/* <ThemeProvider> */}
      <ErrorBoundary>
 
-      <header>
+      <header className=''>
         <Navbar></Navbar>
       </header>
 
-      <main className='pt-24 md:pt-28'>
+      <main className='pt-24 md:pt-28 min-h-screen'>
       {element}
       </main>
       
       
-      <footer className='mt-24'>
+      <footer className='mt-24 border-t-1 border-gray-300 bg-white  transition-all duration-200 dark:border-amber-50/10'>
           <Footer></Footer>
       </footer>
 
