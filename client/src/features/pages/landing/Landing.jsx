@@ -128,17 +128,18 @@ export const FloatingIconsHero = React.forwardRef(
     };
 
     return (
+      <>
       <section
         ref={ref}
         onMouseMove={handleMouseMove}
         className={clsx(
-          "relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden ",
+          "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
           className
         )}
         {...props}
       >
         {/* Background Floating Icons */}
-        <div className="absolute inset-0 w-full h-full bg-white dark:bg-black">
+        <div className="absolute inset-0 w-full h-full ">
           {icons.map((iconData, index) => (
             <Icon
               key={iconData.id}
@@ -169,6 +170,10 @@ export const FloatingIconsHero = React.forwardRef(
           </div>
         </div>
       </section>
+      <section>
+        
+      </section>
+      </>
     );
   }
 );
