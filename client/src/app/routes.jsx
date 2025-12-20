@@ -1,7 +1,7 @@
 // Authanication
 import Login from "../features/auth/login/Login";
 import ClientSignup from "../features/auth/signup/client/ClientSignup";
-import CompanySignin from "../features/auth/signup/company/CompanySignin";
+import CompanySignup from "../features/pages/CompanyAuth/Register";
 
 // Pages
 import Home from "../features/pages/home/Home";
@@ -27,6 +27,6 @@ export const routes = [
   },
   {
     path: "/signup/companySignup",
-    element: <CompanySignin />,
+    element: <CompanySignup />,
   }
 ];
