@@ -132,7 +132,7 @@ npm install react-router-dom axios
 # In single line Insalltion
 
 ```bash
-npm i react-router-dom clsx lucide-react framer-motion axios
+npm i react-router-dom clsx lucide-react framer-motion axios @radix-ui/react-slot class-variance-authority
 ```
 
 
@@ -240,20 +240,20 @@ proveIt/
 │  │  │
 │  │  ├─ home/
 │  │  │  ├─ components/
-│  │  │  ├─ Home.jsx
-│  │  │  └─ index.js
+│  │  │  └─ Home.jsx
+│  │  │  
 │  │  │
 │  │  ├─ profile/
 │  │  ├─ orders/
 │  │  ├─ notifications/
-│  │  └─ index.js
+│  │  └─ index.jsx
 │  │
 │  ├─ shared/                  # Reusable (client-only)
 │  │  ├─ ui/                   # Buttons, Inputs, Modals
 │  │  ├─ components/           # Navbar, Footer, Layout
 │  │  ├─ hooks/
 │  │  ├─ animations/
-│  │  └─ index.js
+│  │  └─ index.jsx
 │  │
 │  ├─ services/                # App-level services
 │  │  ├─ apiClient.js          # Axios instance

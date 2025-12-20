@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorFallback from "./ErrorFallback";
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -10,17 +11,14 @@ export default class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
+  componentDidCatch(error, info) {
+    console.error("Unhandled App Error:", error, info);
+  }
+
   render() {
     if (this.state.hasError) {
-      return (
-        <div className="min-h-screen flex items-center justify-center">
-          <h1 className="text-xl font-semibold text-red-500">
-            Something went wrong 😢
-          </h1>
-        </div>
-      );
+      return <ErrorFallback />;
     }
-
     return this.props.children;
   }
 }
