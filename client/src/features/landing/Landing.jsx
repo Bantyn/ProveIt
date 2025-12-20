@@ -154,7 +154,7 @@ export const FloatingIconsHero = React.forwardRef(
           </p>
           <div className="mt-10">
 
-            <motion.button className=""  initial={{ opacity: 0, y: 20 }}
+            {/* <motion.button className=""  initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover="hover"
                 whileTap={{ scale: 0.94 }}>
@@ -192,8 +192,8 @@ export const FloatingIconsHero = React.forwardRef(
                   <span className="relative z-10">{ctaText}</span>
                 </span>
               </Link>
-            </motion.button>
-          
+            </motion.button> */}
+            <UltimateGlassCTA ctaHref="/home" ctaText="Explore" ></UltimateGlassCTA>
           
           </div>
         </div>
@@ -434,3 +434,94 @@ const IconYouTube = (props) => (
     />
   </svg>
 );
+
+import { useRef } from "react";
+// Button
+function UltimateGlassCTA({ ctaText, ctaHref }) {
+  const ref = useRef(null);
+
+  // 🎯 Magnetic cursor
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 20 });
+  const springY = useSpring(y, { stiffness: 300, damping: 20 });
+
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left - rect.width / 2;
+    const offsetY = e.clientY - rect.top - rect.height / 2;
+    x.set(offsetX * 0.25);
+    y.set(offsetY * 0.25);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      href={ctaHref}
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      whileTap={{ scale: 0.92 }}
+      className="relative group inline-flex"
+    >
+      <span
+        className="absolute inset-0 rounded-3xl blur-2xl opacity-60
+        bg-gradient-to-r
+        from-amber-400 via-orange-500 to-pink-500
+        dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600
+        transition-all duration-700
+        group-hover:opacity-100"
+      />
+
+      
+      <span
+        className="relative overflow-hidden rounded-3xl
+        px-12 py-4
+        font-semibold text-white tracking-wide
+        backdrop-blur-xl
+        bg-white/10 dark:bg-black/20
+        border dark:border-white/20 border-black/20 
+        shadow-xl"
+      >
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileHover={{ scale: 2.5, opacity: 0.15 }}
+          transition={{ duration: 0.6 }}
+          className="absolute inset-0 rounded-full
+          bg-white"
+        />
+
+        {[...Array(6)].map((_, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, scale: 0 }}
+            whileHover={{
+              opacity: 1,
+              scale: 1,
+              x: Math.cos((i * Math.PI) / 3) * 20,
+              y: Math.sin((i * Math.PI) / 3) * 20,
+            }}
+            transition={{ duration: 0.4 }}
+            className="absolute top-1/2 left-1/2 h-1.5 w-1.5
+            rounded-full bg-white"
+          />
+        ))}
+
+        <motion.span
+          whileHover={{ x: "120%" }}
+          transition={{ duration: 0.8 }}
+          className="absolute top-0 left-[-120%] h-full w-[120%]
+          bg-gradient-to-r from-transparent via-white/40 to-transparent
+          skew-x-12"
+        />
+
+        <span className="relative z-10 text-black dark:text-white">{ctaText}</span>
+      </span>
+    </motion.a>
+  );
+}
