@@ -1,7 +1,7 @@
 // Authanication
 import Login from "../features/auth/login/Login";
 import ClientSignup from "../features/auth/signup/client/ClientSignup";
-import CompanySignup from "../features/pages/CompanyAuth/Register";
+import CompanySignup from "../features/auth/signup/company/CompanyAuth/Register";
 
 // Pages
 import Home from "../features/pages/home/Home";

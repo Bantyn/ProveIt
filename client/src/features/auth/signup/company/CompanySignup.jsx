@@ -837,8 +837,8 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-import LoadingOverlay from "../../../pages/CompanyAuth/LoadingOverlay";
-import PlanSelectionPage from "../../../pages/CompanyAuth/PlanSelectionModal";
+import LoadingOverlay from "./CompanyAuth/LoadingOverlay";
+import PlanSelectionPage from "./CompanyAuth/PlanSelectionModal";
 
 const CompanyRegisterForm = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import CompanyRegisterForm from "../../auth/signup/company/CompanySignup";
+import CompanyRegisterForm from "../CompanySignup";
 import {
   Sparkles,
   Shield,
