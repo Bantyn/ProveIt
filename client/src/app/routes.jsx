@@ -26,7 +26,7 @@ export const routes = [
     element: <ClientSignup />,
   },
   {
-    path: "/signup/clientSignup",
+    path: "/signup/companySignup",
     element: <CompanySignup />,
   }
 ];
