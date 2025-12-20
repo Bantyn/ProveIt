@@ -4,8 +4,8 @@ import ClientSignup from "../features/auth/signup/client/ClientSignup";
 import CompanySignup from "../features/auth/signup/company/CompanySignup";
 
 // Pages
-import Home from "../features/home/Home";
-import Landing from "../features/landing/Landing";
+import Home from "../features/pages/home/Home";
+import Landing from "../features/pages/landing/Landing";
 
 
 export const routes = [
