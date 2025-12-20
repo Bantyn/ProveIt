@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
-
+import {Link} from "react-router-dom";
 // --- Demo Landing Component ---
 export default function Landing() {
   // --- Demo icons array ---
@@ -153,11 +153,48 @@ export const FloatingIconsHero = React.forwardRef(
             {subtitle}
           </p>
           <div className="mt-10">
-            <button
-              className="px-8 py-6 text-base font-semibold dark:text-white/90"
-            >
-              <a href={ctaHref}>{ctaText}</a>
-            </button>
+
+            <motion.button className=""  initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover="hover"
+                whileTap={{ scale: 0.94 }}>
+              <Link
+                to={ctaHref}
+               
+                className="relative inline-flex group"
+              >
+                <span
+                  className="absolute inset-0 rounded-2xl blur-xl opacity-60
+                   bg-gradient-to-r from-amber-400 via-orange-500 to-pink-500
+                   transition-all duration-500
+                   group-hover:opacity-100 group-hover:blur-2xl"
+                />
+
+                <span
+                  className="relative overflow-hidden rounded-2xl
+                   px-10 py-3
+                   font-semibold tracking-wide
+                   text-white
+                   bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600
+                   shadow-lg shadow-amber-500/40
+                   backdrop-blur-xl"
+                >
+                  <motion.span
+                    variants={{
+                      hover: { x: "120%" },
+                    }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    className="absolute top-0 left-[-120%] h-full w-[120%]
+                     bg-gradient-to-r from-transparent via-white/40 to-transparent
+                     skew-x-12"
+                  />
+
+                  <span className="relative z-10">{ctaText}</span>
+                </span>
+              </Link>
+            </motion.button>
+          
+          
           </div>
         </div>
       </section>
