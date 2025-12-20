@@ -3,13 +3,14 @@
 import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
-import {Link} from "react-router-dom";
 import { useRef } from "react";
+import { TestimonialsColumn } from "../../../components/ui/testominals/testimonials-columns-1.jsx";
+import { CheckCircle, Clock } from "lucide-react";
+import {Particles} from "./Partical.jsx";
 
-
-// --- Demo Landing Component ---
+// --- default Landing Component ---
 export default function Landing() {
-  // --- Demo icons array ---
+  // ---  icons array ---
   const demoIcons = [
     { id: 1, icon: IconGoogle, className: "top-[10%] left-[10%] w-10 h-10" },
     { id: 2, icon: IconApple, className: "top-[20%] right-[8%] w-10 h-10" },
@@ -34,17 +35,57 @@ export default function Landing() {
   ];
 
   return (
-    <FloatingIconsHero
-      title="Skill-Verified Hiring Platform"
-      subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
-      ctaText="Expolore"
-      ctaHref="/home"
-      icons={demoIcons}
-    />
+    <>
+      <section>
+        {/* // Hero Section */}
+        
+        
+        
+        {/* <Particles
+        className="absolute h-full" // make it cover the container
+        quantity={150}               // number of particles
+        size={0.8}                   // particle size
+        color="#fff010"              // particle color
+        staticity={80}               // magnetism strength
+        ease={30}                    // movement ease
+      /> */}
+        
+        
+        <FloatingIconsHero
+          title="Skill-Verified Hiring Platform"
+          subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
+          ctaText="Expolore"
+          ctaHref="/home"
+          icons={demoIcons}
+        />
+      </section>
+
+      
+      {/* // second section */}
+      <section className="min-h-screen">
+        
+        {/* Second Sub Title */}
+        <WordFadeIn
+          className="mt-60  tracking-widest text-5xl text-black dark:text-white/80 "
+          text="Show Your Skills and Get Hired"
+          delay={0.06}
+        ></WordFadeIn>
+          
+        <HiredEmployeesTimeline
+          title="Hired Employees This Week"
+          employees={employees}
+        />
+
+        {/* // Testimonials */}
+        <Testimonials />
+        
+      </section>
+
+      {/* // third section */}
+      <section></section>
+    </>
   );
 }
-
-
 
 // --- Reusable Icon Component ---
 const Icon = ({ mouseX, mouseY, iconData, index }) => {
@@ -115,7 +156,6 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
   );
 };
 
-
 // --- Main Floating Icons Hero Component ---
 export const FloatingIconsHero = React.forwardRef(
   ({ className, title, subtitle, ctaText, ctaHref, icons, ...props }, ref) => {
@@ -129,56 +169,58 @@ export const FloatingIconsHero = React.forwardRef(
 
     return (
       <>
-      <section
-        ref={ref}
-        onMouseMove={handleMouseMove}
-        className={clsx(
-          "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
-          className
-        )}
-        {...props}
-      >
-        {/* Background Floating Icons */}
-        <div className="absolute inset-0 w-full h-full ">
-          {icons.map((iconData, index) => (
-            <Icon
-              key={iconData.id}
-              mouseX={mouseX}
-              mouseY={mouseY}
-              iconData={iconData}
-              index={index}
-            />
-          ))}
-        </div>
+        <div
+          ref={ref}
+          onMouseMove={handleMouseMove}
+          className={clsx(
+            "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
+            className
+          )}
+          {...props}
+        >
+          {/* Background Floating Icons */}
+          <div className="absolute inset-0 w-full h-full ">
+            {icons.map((iconData, index) => (
+              <Icon
+                key={iconData.id}
+                mouseX={mouseX}
+                mouseY={mouseY}
+                iconData={iconData}
+                index={index}
+              />
+            ))}
+          </div>
 
-        {/* Foreground Content */}
-        <div className="relative z-10 text-center px-4 ">
-          
-          
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
-            {title}
-          </h1>
-          
-          
-          <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
-            {subtitle}
-          </p>
+          {/* Foreground Content */}
+          <div className="relative z-10 text-center px-4 ">
+            <div className="text-4xl md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
+              <WordFadeIn
+                text={title}
+                delay={0.3}
+                className="text-black dark:text-white/80"
+              />
+             
 
+            </div>
 
-          <div className="md:mt-15 mt-30">
-            <UltimateGlassCTA ctaHref="/home" ctaText="Explore" ></UltimateGlassCTA>
+            <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
+              {subtitle}
+            </p>
+
+            <div className="md:mt-15 mt-30">
+              <UltimateGlassCTA
+                ctaHref={ctaHref}
+                ctaText={ctaText}
+              ></UltimateGlassCTA>
+
+             
+            </div>
           </div>
         </div>
-      </section>
-      <section>
-        
-      </section>
       </>
     );
   }
 );
-
-
 
 // ------------------- SVG ICONS -------------------
 const IconGoogle = (props) => (
@@ -456,7 +498,6 @@ export function UltimateGlassCTA({ ctaText, ctaHref }) {
         group-hover:opacity-100"
       />
 
-      
       <span
         className="relative overflow-hidden rounded-3xl
         px-12 py-4
@@ -498,8 +539,304 @@ export function UltimateGlassCTA({ ctaText, ctaHref }) {
           skew-x-12"
         />
 
-        <span className="relative z-10 text-black dark:text-white">{ctaText}</span>
+        <span className="relative z-10 text-black dark:text-white">
+          {ctaText}
+        </span>
       </span>
     </motion.a>
+  );
+}
+// --------------------------------------------------------------------------------------------------------
+// Word Fead Effect
+export function WordFadeIn({ text, className = "", delay = 0.15, variants }) {
+  const words = text.split(" ");
+
+  const defaultVariants = {
+    hidden: { opacity: 0 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * delay,
+      },
+    }),
+  };
+
+  return (
+    <motion.h1
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.6 }}
+      variants={variants || defaultVariants}
+      className={clsx(
+        "font-display text-center tracking-[-0.02em] mb-15 drop-shadow-sm",
+        className
+      )}
+    >
+      {words.map((word, i) => (
+        <motion.span
+          key={`${word}-${i}`}
+          variants={variants || defaultVariants}
+          custom={i}
+          className="inline-block"
+        >
+          {word}&nbsp;
+        </motion.span>
+      ))}
+    </motion.h1>
+  );
+}
+
+// --------------------------------------------------------------------------------------------------------
+// Testimonial Slider
+
+// Testimonials Datas fetching Reviews API in Future
+const testimonials = [
+  {
+    text: "This Web3-powered platform transformed the way our organization operates. From smart automation to real-time finance tracking, everything feels futuristic and incredibly efficient.",
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
+    name: "Briana Patton",
+    role: "Operations Manager",
+  },
+  {
+    text: "The AI-driven insights are on another level. Integrating the MERN stack with Gemini AI gives us unmatched speed, reliability, and automation across our workflows.",
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
+    name: "Bilal Ahmed",
+    role: "IT Manager",
+  },
+  {
+    text: "Their support team is outstanding. From onboarding to optimization, they helped us unlock the full power of AI automation in our operations.",
+    image: "https://randomuser.me/api/portraits/women/3.jpg",
+    name: "Saman Malik",
+    role: "Customer Support Lead",
+  },
+  {
+    text: "The seamless Web3 integration and AI-powered modules drastically improved our data security, efficiency, and decision-making. Truly next-gen technology.",
+    image: "https://randomuser.me/api/portraits/men/4.jpg",
+    name: "Omar Raza",
+    role: "CEO",
+  },
+  {
+    text: "With intelligent dashboards and real-time analytics, our team works faster and smarter. This solution boosted our productivity like never before.",
+    image: "https://randomuser.me/api/portraits/women/5.jpg",
+    name: "Zainab Hussain",
+    role: "Project Manager",
+  },
+  {
+    text: "Implementation was incredibly smooth. The platform is built with clean UI, powerful features, and outstanding AI capabilities. Highly recommended!",
+    image: "https://randomuser.me/api/portraits/women/6.jpg",
+    name: "Aliza Khan",
+    role: "Business Analyst",
+  },
+  {
+    text: "Our marketing operations improved instantly. The AI workflows automate repetitive tasks and help us make data-driven decisions effortlessly.",
+    image: "https://randomuser.me/api/portraits/men/7.jpg",
+    name: "Farhan Siddiqui",
+    role: "Marketing Director",
+  },
+  {
+    text: "They understood our requirements perfectly and delivered a high-performance platform that blends AI, security, and Web3 capabilities flawlessly.",
+    image: "https://randomuser.me/api/portraits/women/8.jpg",
+    name: "Sana Sheikh",
+    role: "Sales Manager",
+  },
+  {
+    text: "Our online performance doubled after switching. With smart automation and seamless AI tools, our conversions and workflow efficiency skyrocketed.",
+    image: "https://randomuser.me/api/portraits/men/9.jpg",
+    name: "Hassan Ali",
+    role: "E-commerce Manager",
+  },
+];
+
+// Splitting Testimonials into 3 Columns
+const firstColumn = testimonials.slice(0, 3);
+const secondColumn = testimonials.slice(3, 6);
+const thirdColumn = testimonials.slice(6, 9);
+
+const Testimonials = () => {
+  return (
+    <>
+      <section className="bg-background my-20 relative  bg-white/90 dark:bg-black text-black dark:text-white transition-all duration-500">
+        <div className="container z-10 mx-auto">
+          <motion.div
+            initial={{ opacity: 0.0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.5,
+              ease: "easeInOut",
+            }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
+          >
+            <div className="flex justify-center">
+              <div className="border py-1 px-4 mt-30 rounded-lg dark:text-white/50  dark:hover:text-white/80 text-black/30 bg-amber-50/5 hover:text-black transition-all ease-in-out duration-150 hover:scale-105">
+                Testimonials
+              </div>
+            </div>
+
+            <h2 className="text-black/90 text-xl dark:text-white/80 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter mt-5">
+              What Our Clients Say
+            </h2>
+            <p className="text-black/90 text-center mt-5 opacity-75 dark:text-white/75">
+              Real feedback from teams who transformed their workflow with our
+              AI-powered Web3 platform.
+            </p>
+          </motion.div>
+
+          <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
+            <TestimonialsColumn testimonials={firstColumn} duration={15} />
+            <TestimonialsColumn
+              testimonials={secondColumn}
+              className=" hidden md:block"
+              duration={19}
+            />
+            <TestimonialsColumn
+              testimonials={thirdColumn}
+              className="hidden lg:block"
+              duration={17}
+            />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+// --------------------------------------------------------------------------------------------------------
+// Heird Employee section
+
+// Data
+const employees = [
+  {
+    name: "Aarav Patel",
+    bio: "Aarav Patel is a Frontend Developer with a strong background in React and Next.js. He has a knack for creating intuitive and responsive user interfaces.",
+    role: "Frontend Developer",
+    date: "12 Sep 2025",
+    status: "completed",
+    image: "https://i.pravatar.cc/150?img=12",
+  },
+  {
+    name: "Neha Sharma",
+    bio: "Neha Sharma is a UI/UX Designer with a focus on creating visually appealing and user-friendly interfaces. She has a keen eye for detail and a strong understanding of user psychology.",
+    role: "UI/UX Designer",
+    date: "14 Sep 2025",
+    status: "onboarding",
+    image: "https://i.pravatar.cc/150?img=32",
+  },
+  {
+    name: "Rohit Verma",
+    bio: "Rohit Verma is a Backend Engineer with expertise in Node.js and MongoDB. He has a passion for building scalable and efficient server-side applications.",
+    role: "Backend Engineer",
+    date: "16 Sep 2025",
+    status: "onboarding",
+    image: "https://i.pravatar.cc/150?img=45",
+  },
+];
+
+export function HiredEmployeesTimeline({ title, employees }) {
+  return (
+    <>
+      <section className="max-w-4xl mx-auto px-4 py-16">
+        {/* Header */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl font-bold text-center mb-12"
+        >
+          {title}
+        </motion.h2>
+
+        {/* Timeline */}
+        <div className="relative">
+          {/* Vertical Line */}
+          <div className="absolute left-6 top-0 bottom-0 w-px bg-border" />
+
+          {employees.map((emp, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="relative flex gap-6 mb-10"
+            >
+              {/* Avatar */}
+              <div className="relative z-10">
+                <div className="w-15 h-15 rounded-full overflow-hidden border-2 border-white dark:border-amber-50/20 bg-background shadow-lg shadow-gray-500/50 hover:scale-105 transition-all duration-300">
+                  <img
+                    src={emp.image}
+                    alt={emp.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Card */}
+              <div className="flex-1">
+                <div className="rounded-xl border-1 border-gray-200 hover:border-gray-300 dark:border-amber-50/20 bg-card p-8 shadow-sm hover:shadow-md  transition-all duration-300 hover:-translate-y-1">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="text-xl tracking-widest font-semibold dark:text-amber-50/80">
+                        {emp.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground font-semibold text-black/50 dark:text-amber-50/50 mb-3">
+                        {emp.bio}
+                      </p>
+                      <p className="text-sm text-muted-foreground font-bold text-black/60 dark:text-amber-50/50 mb-3">
+                        Joined on {emp.date}
+                      </p>
+                      <p className="text-md font-semibold text-muted-foreground text-black/50 dark:text-amber-50/50 mb-1">
+                        {emp.role}
+                      </p>
+                    </div>
+
+                    <StatusBadge status={emp.status} />
+                  </div>
+
+                  {/* Progress */}
+                  <div className="h-1 rounded-full bg-muted overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{
+                        width: emp.status === "completed" ? "100%" : "60%",
+                      }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1 }}
+                      className={`h-full rounded-full ${
+                        emp.status === "completed"
+                          ? "bg-green-500"
+                          : "bg-blue-500"
+                      }`}
+                    />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+//  Small Status Badge
+function StatusBadge({ status }) {
+  const isCompleted = status === "completed";
+
+  return (
+    <div
+      className={`flex items-center gap-1 text-xs px-2 py-1 rounded-full font-medium
+        ${
+          isCompleted
+            ? "bg-green-100 text-green-700"
+            : "bg-blue-100 text-blue-700"
+        }`}
+    >
+      {isCompleted ? <CheckCircle size={14} /> : <Clock size={14} />}
+      {isCompleted ? "Completed" : "Onboarding"}
+    </div>
   );
 }
