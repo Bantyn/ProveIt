@@ -32,8 +32,8 @@ export default function Landing() {
 
   return (
     <FloatingIconsHero
-      title="A World of Innovation"
-      subtitle="Explore a universe of possibilities with our platform, connecting you to the tools and technologies that shape the future."
+      title="Skill-Verified Hiring Platform"
+      subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
       ctaText="Expolore"
       ctaHref="/home"
       icons={demoIcons}
