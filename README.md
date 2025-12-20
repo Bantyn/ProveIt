@@ -42,7 +42,7 @@ The app will run at:
 
 ```
 Client : http://localhost:5173
-Client : http://localhost:5174
+Admin : http://localhost:5174
 ```
 
 
