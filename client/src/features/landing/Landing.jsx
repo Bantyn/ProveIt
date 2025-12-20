@@ -4,6 +4,9 @@ import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
 import {Link} from "react-router-dom";
+import { useRef } from "react";
+
+
 // --- Demo Landing Component ---
 export default function Landing() {
   // --- Demo icons array ---
@@ -40,6 +43,8 @@ export default function Landing() {
     />
   );
 }
+
+
 
 // --- Reusable Icon Component ---
 const Icon = ({ mouseX, mouseY, iconData, index }) => {
@@ -110,6 +115,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
   );
 };
 
+
 // --- Main Floating Icons Hero Component ---
 export const FloatingIconsHero = React.forwardRef(
   ({ className, title, subtitle, ctaText, ctaHref, icons, ...props }, ref) => {
@@ -146,61 +152,29 @@ export const FloatingIconsHero = React.forwardRef(
 
         {/* Foreground Content */}
         <div className="relative z-10 text-center px-4 ">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/90">
+          
+          
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
             {title}
           </h1>
-          <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/90">
+          
+          
+          <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
             {subtitle}
           </p>
-          <div className="mt-10">
 
-            {/* <motion.button className=""  initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover="hover"
-                whileTap={{ scale: 0.94 }}>
-              <Link
-                to={ctaHref}
-               
-                className="relative inline-flex group"
-              >
-                <span
-                  className="absolute inset-0 rounded-2xl blur-xl opacity-60
-                   bg-gradient-to-r from-amber-400 via-orange-500 to-pink-500
-                   transition-all duration-500
-                   group-hover:opacity-100 group-hover:blur-2xl"
-                />
 
-                <span
-                  className="relative overflow-hidden rounded-2xl
-                   px-10 py-3
-                   font-semibold tracking-wide
-                   text-white
-                   bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600
-                   shadow-lg shadow-amber-500/40
-                   backdrop-blur-xl"
-                >
-                  <motion.span
-                    variants={{
-                      hover: { x: "120%" },
-                    }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="absolute top-0 left-[-120%] h-full w-[120%]
-                     bg-gradient-to-r from-transparent via-white/40 to-transparent
-                     skew-x-12"
-                  />
-
-                  <span className="relative z-10">{ctaText}</span>
-                </span>
-              </Link>
-            </motion.button> */}
+          <div className="md:mt-15 mt-30">
             <UltimateGlassCTA ctaHref="/home" ctaText="Explore" ></UltimateGlassCTA>
-          
           </div>
         </div>
       </section>
     );
   }
 );
+
+
+
 // ------------------- SVG ICONS -------------------
 const IconGoogle = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none">
@@ -435,9 +409,8 @@ const IconYouTube = (props) => (
   </svg>
 );
 
-import { useRef } from "react";
-// Button
-function UltimateGlassCTA({ ctaText, ctaHref }) {
+// ------------------- Button -------------------
+export function UltimateGlassCTA({ ctaText, ctaHref }) {
   const ref = useRef(null);
 
   // 🎯 Magnetic cursor
