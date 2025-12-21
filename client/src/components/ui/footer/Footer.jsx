@@ -42,7 +42,7 @@ export default function Footer() {
     <footer
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className={clsx("relative  bg-background overflow-hidden", "py-50 px-6")}
+      className={clsx(" relative bg-background overflow-hidden", "py-50 px-6")}
     >
       {/* Grid base */}
       <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.08]">

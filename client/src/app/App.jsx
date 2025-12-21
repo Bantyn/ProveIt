@@ -23,7 +23,7 @@ export default function App() {
       </main>
       
       
-      <footer className='mt-24 border-t-1 border-gray-300 bg-white  transition-all duration-200 dark:border-amber-50/10'>
+      <footer className='mt-24 border-t-1 border-gray-30  transition-all duration-200 dark:border-amber-50/10'>
           <Footer></Footer>
       </footer>
 

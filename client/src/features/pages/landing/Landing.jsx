@@ -7,39 +7,166 @@ import { useRef } from "react";
 import { TestimonialsColumn } from "../../../components/ui/testominals/testimonials-columns-1.jsx";
 import { CheckCircle, Clock } from "lucide-react";
 import {Particles} from "./Partical.jsx";
+import CompitionHelp from "./timeline.jsx"
 
 // --- default Landing Component ---
 export default function Landing() {
   // ---  icons array ---
-  const demoIcons = [
-    { id: 1, icon: IconGoogle, className: "top-[10%] left-[10%] w-10 h-10" },
-    { id: 2, icon: IconApple, className: "top-[20%] right-[8%] w-10 h-10" },
-    { id: 3, icon: IconMicrosoft, className: "top-[80%] left-[10%] w-10 h-10" },
-    { id: 4, icon: IconFigma, className: "bottom-[10%] right-[10%] w-10 h-10" },
-    { id: 5, icon: IconGitHub, className: "top-[5%] left-[30%] w-10 h-10" },
-    { id: 6, icon: IconSlack, className: "top-[5%] right-[30%] w-10 h-10" },
-    { id: 7, icon: IconVercel, className: "bottom-[8%] left-[25%] w-10 h-10" },
-    { id: 8, icon: IconStripe, className: "top-[40%] left-[15%] w-10 h-10" },
-    { id: 9, icon: IconDiscord, className: "top-[75%] right-[25%] w-10 h-10" },
-    { id: 10, icon: IconX, className: "top-[90%] left-[70%] w-10 h-10" },
-    { id: 11, icon: IconNotion, className: "top-[50%] right-[5%] w-10 h-10" },
-    { id: 12, icon: IconSpotify, className: "top-[55%] left-[5%] w-10 h-10" },
-    { id: 13, icon: IconDropbox, className: "top-[5%] left-[55%] w-10 h-10" },
-    {
-      id: 14,
-      icon: IconTwitch,
-      className: "bottom-[5%] right-[45%] w-10 h-10",
-    },
-    { id: 15, icon: IconLinear, className: "top-[25%] right-[20%] w-10 h-10" },
-    { id: 16, icon: IconYouTube, className: "top-[60%] left-[30%] w-10 h-10" },
-  ];
+ const demoIcons = [
+   {
+     id: 1,
+     icon: IconGoogle,
+     className: "top-[10%] left-[10%] w-10 h-10",
+   },
+   {
+     id: 2,
+     icon: IconApple,
+     className: "top-[20%] right-[8%] w-10 h-10",
+   },
+   {
+     id: 3,
+     icon: IconMicrosoft,
+     className: "top-[80%] left-[10%] w-10 h-10",
+   },
+   {
+     id: 4,
+     icon: IconFigma,
+     className:
+       "bottom-[10%] right-[10%] w-10 h-10",
+   },
+   {
+     id: 5,
+     icon: IconGitHub,
+     className: "top-[5%] left-[30%] w-10 h-10",
+   },
+   {
+     id: 6,
+     icon: IconSlack,
+     className: "top-[5%] right-[30%]  w-10 h-10",
+   },
+   {
+     id: 7,
+     icon: IconVercel,
+     className: "bottom-[8%] left-[25%]  w-10 h-10",
+   },
+   {
+     id: 8,
+     icon: IconStripe,
+     className: "top-[40%] left-[15%] w-10 h-10",
+   },
+   {
+     id: 9,
+     icon: IconDiscord,
+     className: "top-[75%] right-[25%]  w-10 h-10",
+   },
+   {
+     id: 10,
+     icon: IconX,
+     className: "top-[90%] left-[70%]  w-10 h-10",
+   },
+   {
+     id: 11,
+     icon: IconNotion,
+     className: "top-[50%] right-[5%]  w-10 h-10",
+   },
+   {
+     id: 12,
+     icon: IconSpotify,
+     className: "top-[55%] left-[5%]  w-10 h-10",
+   },
+   {
+     id: 13,
+     icon: IconDropbox,
+     className: "top-[5%] left-[55%]  w-10 h-10",
+   },
+   {
+     id: 14,
+     icon: IconTwitch,
+     className: "bottom-[5%] right-[45%]  w-10 h-10",
+   },
+   {
+     id: 15,
+     icon: IconLinear,
+     className: "top-[25%] right-[20%]  w-10 h-10",
+   },
+   {
+     id: 16,
+     icon: IconYouTube,
+     className: "top-[60%] left-[30%]  w-10 h-10",
+   },
+ ];
 
+  // Compition Help  Data
+const timelineData = [
+  {
+    title: "Step 1",
+    ClientSignup: "/signup/clientSignup",
+    CompanySignup: "/signup/companySignup",
+    content: (
+      <p className="text-neutral-700 dark:text-neutral-300">
+        Create your ProveIt.io account using email or social login to get
+        started with competitions.
+      </p>
+    ),
+    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fee19917cc8400fe361d_HackerRank%20Community%20Video-transcode.mp4",
+  },
+  {
+    title: "Step 2",
+    content: (
+      <p className="text-neutral-700 dark:text-neutral-300">
+        Complete your profile with accurate details so companies can verify
+        your submissions easily.
+      </p>
+    ),
+    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F67abf3b87b35de0f7a554086_engageloop%20%281%29-transcode.mp4",
+  },
+  {
+    title: "Step 3",
+    content: (
+      <p className="text-neutral-700 dark:text-neutral-300">
+        Browse active competitions and choose the one that matches your
+        skills and interests.
+      </p>
+    ),
+    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fef1ba10dbc08fa26cee_HackerRank%20Screen%20Transcode-transcode.mp4",
+  },
+  {
+    title: "Step 4",
+    join: "/signup/clientSignup",
+    rules: "/client/rules",
+    content: (
+      <p className="text-neutral-700 dark:text-neutral-300">
+        Read the competition rules, deadlines, and evaluation criteria before
+        joining.
+      </p>
+    ),
+    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fef60ab73dfc01af6953_HackerRank%20Interview%20Transcode-transcode.mp4",
+  },
+  {
+    title: "Step 5",
+    content: (
+      <p className="text-neutral-700 dark:text-neutral-300">
+        Submit your solution or project within the given time using the
+        provided submission guidelines.
+      </p>
+    ),
+    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741feface5fde257eba2e92_HackerRank%20Skillup%20Transcode-transcode.mp4",
+  },
+  {
+    title: "Step 6",
+    content: (
+      <p className="text-neutral-700 dark:text-neutral-300">
+        Track your progress, results, and feedback directly from your
+        dashboard after submission.
+      </p>
+    ),
+    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F67abf3b87b35de0f7a554086_engageloop%20%281%29-transcode.mp4",
+  },
+];
   return (
     <>
       <section>
         {/* // Hero Section */}
-        
-        
         
         {/* <Particles
         className="absolute h-full" // make it cover the container
@@ -54,8 +181,10 @@ export default function Landing() {
         <FloatingIconsHero
           title="Skill-Verified Hiring Platform"
           subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
-          ctaText="Expolore"
-          ctaHref="/home"
+          ctaText="Company"
+          ctaText2="Employees"
+          ctaHref="/signup/companySignup"
+          ctaHref2="/signup/clientSignup"
           icons={demoIcons}
         />
       </section>
@@ -66,23 +195,30 @@ export default function Landing() {
         
         {/* Second Sub Title */}
         <WordFadeIn
-          className="mt-60  tracking-widest text-5xl text-black dark:text-white/80 "
+          className="md:mt-60 mt-50 mb-30 md:tracking-widest md:text-5xl text-8xl font-bold md:font-semibold  text-black dark:text-white/80 "
           text="Show Your Skills and Get Hired"
           delay={0.06}
         ></WordFadeIn>
           
+
+          {/* Hired Employees */}
         <HiredEmployeesTimeline
           title="Hired Employees This Week"
           employees={employees}
         />
 
+
+         {/* Compition Help Section */}
+        <CompitionHelp data={timelineData}></CompitionHelp>
+
+
+
         {/* // Testimonials */}
         <Testimonials />
-        
-      </section>
 
-      {/* // third section */}
-      <section></section>
+
+
+      </section>
     </>
   );
 }
@@ -158,7 +294,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
 
 // --- Main Floating Icons Hero Component ---
 export const FloatingIconsHero = React.forwardRef(
-  ({ className, title, subtitle, ctaText, ctaHref, icons, ...props }, ref) => {
+  ({ className, title, subtitle, ctaText, ctaHref,ctaText2, ctaHref2, icons, ...props }, ref) => {
     const mouseX = React.useRef(0);
     const mouseY = React.useRef(0);
 
@@ -192,25 +328,29 @@ export const FloatingIconsHero = React.forwardRef(
           </div>
 
           {/* Foreground Content */}
-          <div className="relative z-10 text-center px-4 ">
-            <div className="text-4xl md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
+          <div className="relative z-10 text-center px-4">
+            <div className="md:-mt-40  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
               <WordFadeIn
                 text={title}
                 delay={0.3}
                 className="text-black dark:text-white/80"
               />
-             
-
             </div>
 
             <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
               {subtitle}
             </p>
 
-            <div className="md:mt-15 mt-30">
+            <div className="md:mt-15 mt-30 flex justify-center gap-10">
               <UltimateGlassCTA
                 ctaHref={ctaHref}
                 ctaText={ctaText}
+              ></UltimateGlassCTA>
+
+              <UltimateGlassCTA
+                ctaHref={ctaHref2}
+                ctaText={ctaText2}
+                className="bg-gradient-to-l from-blue-500 to-violet-400 hover:to-violet-400  hover:from-blue-500   rounded-4xl"
               ></UltimateGlassCTA>
 
              
@@ -457,7 +597,7 @@ const IconYouTube = (props) => (
 );
 
 // ------------------- Button -------------------
-export function UltimateGlassCTA({ ctaText, ctaHref }) {
+export function UltimateGlassCTA({ ctaText, ctaHref,className }) {
   const ref = useRef(null);
 
   // 🎯 Magnetic cursor
@@ -487,7 +627,7 @@ export function UltimateGlassCTA({ ctaText, ctaHref }) {
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
       whileTap={{ scale: 0.92 }}
-      className="relative group inline-flex"
+      className={clsx("relative group inline-flex",className)}
     >
       <span
         className="absolute inset-0 rounded-3xl blur-2xl opacity-60
@@ -744,7 +884,7 @@ export function HiredEmployeesTimeline({ title, employees }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-3xl font-bold text-center mb-12"
+          className="text-3xl font-bold text-center mb-12 dark:text-white"
         >
           {title}
         </motion.h2>
@@ -776,7 +916,7 @@ export function HiredEmployeesTimeline({ title, employees }) {
 
               {/* Card */}
               <div className="flex-1">
-                <div className="rounded-xl border-1 border-gray-200 hover:border-gray-300 dark:border-amber-50/20 bg-card p-8 shadow-sm hover:shadow-md  transition-all duration-300 hover:-translate-y-1">
+                <div className="rounded-4xl border-1 border-gray-200 hover:border-gray-300 dark:hover:border-gray-300/60 dark:border-amber-50/20 bg-card p-8 shadow-sm hover:shadow-md  transition-all duration-300 hover:-translate-y-1">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <h3 className="text-xl tracking-widest font-semibold dark:text-amber-50/80">
