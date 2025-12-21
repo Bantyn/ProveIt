@@ -95,7 +95,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 300, damping: 20 });
   const springY = useSpring(y, { stiffness: 300, damping: 20 });
-
+ 
   React.useEffect(() => {
     const handleMouseMove = () => {
       if (!ref.current) return;
