@@ -833,8 +833,8 @@ import { CheckCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
-import LoadingOverlay from "../../../pages/CompanyAuth/LoadingOverlay";
-import PlanSelectionPage from "../../../pages/CompanyAuth/PlanSelectionModal";
+import LoadingOverlay from "./CompanyAuth/LoadingOverlay";
+import PlanSelectionPage from "./CompanyAuth/PlanSelectionModal";
 
 const INDUSTRIES = [
   "Technology",
