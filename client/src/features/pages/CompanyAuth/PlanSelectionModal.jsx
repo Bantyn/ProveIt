@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 const plans = [
   {
@@ -30,29 +30,32 @@ const plans = [
   },
 ];
 
-const PlanSelectionModal = ({ show, onSelect }) => {
-  if (!show) return null;
-
+const PlanSelectionPage = ({ onSelect }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="bg-gray-900 border border-gray-700 rounded-2xl max-w-4xl w-full p-6"
-      >
-        <h2 className="text-2xl font-bold text-white text-center mb-6">
-          Choose Your Plan
-        </h2>
+    <div className="min-h-screen w-full bg-[#05070f] relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute inset-0">
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-blue-500/30 blur-[140px]" />
+        <div className="absolute top-1/3 -right-32 w-[500px] h-[500px] bg-indigo-500/30 blur-[160px]" />
+      </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative z-10 max-w-6xl mx-auto px-6 py-20"
+      >
+        <h1 className="text-3xl font-bold text-white text-center mb-4">
+          Choose Your Plan
+        </h1>
+        <p className="text-center text-slate-400 mb-12">
+          Select a plan that fits your hiring needs
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-8">
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className="border border-gray-700 rounded-xl p-5 hover:border-blue-500 transition"
+              className="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-blue-500/60 transition"
             >
               <h3 className="text-lg font-semibold text-white">
                 {plan.name}
@@ -61,9 +64,9 @@ const PlanSelectionModal = ({ show, onSelect }) => {
                 {plan.price}
               </p>
 
-              <ul className="mt-4 space-y-2 text-gray-300 text-sm">
+              <ul className="mt-6 space-y-3 text-slate-300 text-sm">
                 {plan.features.map((f, i) => (
-                  <li key={i} className="flex gap-2 items-center">
+                  <li key={i} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
                     {f}
                   </li>
@@ -71,8 +74,8 @@ const PlanSelectionModal = ({ show, onSelect }) => {
               </ul>
 
               <button
-                onClick={() => onSelect(plan.id)}
-                className="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                onClick={() => onSelect(plan)}
+                className="mt-8 w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
               >
                 Select Plan
               </button>
@@ -80,8 +83,8 @@ const PlanSelectionModal = ({ show, onSelect }) => {
           ))}
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
-export default PlanSelectionModal;
+export default PlanSelectionPage;

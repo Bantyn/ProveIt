@@ -828,17 +828,30 @@
 // import PlanSelectionModal from "../../../pages/CompanyAuth/PlanSelectionModal";
 // import LoadingOverlay from "../../../pages/CompanyAuth/LoadingOverlay";
 
-
 import React, { useState } from "react";
-import {
-  CheckCircle,
-  AlertCircle,
-} from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 import LoadingOverlay from "../../../pages/CompanyAuth/LoadingOverlay";
 import PlanSelectionPage from "../../../pages/CompanyAuth/PlanSelectionModal";
+
+const INDUSTRIES = [
+  "Technology",
+  "Finance",
+  "Healthcare",
+  "Education",
+  "Manufacturing",
+  "Retail",
+  "Marketing",
+  "Other",
+];
+
+const generateUsername = (name) => {
+  const clean = name.replace(/\s+/g, "").toLowerCase();
+  const digits = Math.floor(1000 + Math.random() * 9000);
+  return `${clean}${digits}`;
+};
 
 const CompanyRegisterForm = () => {
   const navigate = useNavigate();
@@ -850,10 +863,10 @@ const CompanyRegisterForm = () => {
 
   const [formData, setFormData] = useState({
     companyName: "",
+    companyUsername: "",
     email: "",
     password: "",
     confirmPassword: "",
-    website: "",
     hqLocation: "",
     industry: "",
     taxId: "",
@@ -862,39 +875,34 @@ const CompanyRegisterForm = () => {
     termsAccepted: false,
   });
 
-  const [errors, setErrors] = useState({});
-
   /* ---------------- VALIDATION ---------------- */
   const validateStep = (stepNumber) => {
-    const newErrors = {};
-
     if (stepNumber === 1) {
-      if (!formData.companyName) newErrors.companyName = "Required";
-      if (!/^\S+@\S+\.\S+$/.test(formData.email))
-        newErrors.email = "Invalid email";
-      if (formData.password.length < 8)
-        newErrors.password = "Min 8 characters";
-      if (formData.password !== formData.confirmPassword)
-        newErrors.confirmPassword = "Passwords do not match";
-      if (!formData.hqLocation) newErrors.hqLocation = "Required";
+      return (
+        formData.companyName &&
+        formData.hqLocation &&
+        /^\S+@\S+\.\S+$/.test(formData.email) &&
+        formData.password.length >= 8 &&
+        formData.password === formData.confirmPassword
+      );
     }
 
     if (stepNumber === 2) {
-      if (!formData.industry) newErrors.industry = "Select industry";
-      if (!formData.taxId) newErrors.taxId = "Required";
-      if (!formData.contactPerson) newErrors.contactPerson = "Required";
-      if (!formData.contactPhone) newErrors.contactPhone = "Required";
-      if (!formData.termsAccepted)
-        newErrors.termsAccepted = "Accept terms";
+      return (
+        formData.industry &&
+        formData.taxId &&
+        formData.contactPerson &&
+        formData.contactPhone &&
+        formData.termsAccepted
+      );
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return true;
   };
 
   /* ---------------- HANDLERS ---------------- */
   const handleNext = () => {
-    if (!validateStep(step)) return;
+    if (!validateStep(1)) return;
     setStep(2);
   };
 
@@ -902,20 +910,32 @@ const CompanyRegisterForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    if (name === "companyName") {
+      setFormData((p) => ({
+        ...p,
+        companyName: value,
+        companyUsername:
+          p.companyUsername || generateUsername(value),
+      }));
+      return;
+    }
+
     setFormData((p) => ({
       ...p,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  /* STEP 1 SUBMIT → LOADER → PLAN MODAL */
+  /* SUBMIT → LOADER → FULL SCREEN PLAN */
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!validateStep(2)) return;
 
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1500));
+    await new Promise((r) => setTimeout(r, 1200));
     setIsSubmitting(false);
+
     setShowPlans(true);
   };
 
@@ -929,139 +949,144 @@ const CompanyRegisterForm = () => {
   const handleFinalSubmit = async () => {
     setIsSubmitting(true);
 
-    const payload = {
-      ...formData,
-      plan: selectedPlan,
-    };
-
+    const payload = { ...formData, plan: selectedPlan };
     console.log("FINAL PAYLOAD:", payload);
 
-    await new Promise((r) => setTimeout(r, 1500));
-
+    await new Promise((r) => setTimeout(r, 1200));
     setIsSubmitting(false);
+
     navigate("/company/waiting-approval");
   };
 
+  /* ================= FULL SCREEN PLAN PAGE ================= */
+  if (showPlans) {
+    return <PlanSelectionPage onSelect={handlePlanSelect} />;
+  }
+
+  /* ================= NORMAL FORM ================= */
   return (
     <>
-      {/* FULL SCREEN LOADER */}
       <AnimatePresence>
         {isSubmitting && <LoadingOverlay />}
       </AnimatePresence>
 
-      {/* FULL SCREEN PLAN SELECTION */}
-      <AnimatePresence>
-        {showPlans && (
-          <PlanSelectionPage onSelect={handlePlanSelect} />
-        )}
-      </AnimatePresence>
-
-      {!showPlans && (
-        <div className="w-full">
-          {/* STEPPER */}
-          <div className="px-4 py-6 border-b border-gray-800">
-            <div className="flex justify-center gap-12">
-              {["Company Info", "Verification"].map((label, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      step > i + 1
-                        ? "bg-green-500"
-                        : step === i + 1
-                        ? "bg-blue-500"
-                        : "bg-gray-800"
-                    }`}
-                  >
-                    <CheckCircle className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-sm text-gray-300">{label}</span>
+      <div className="w-full">
+        {/* STEPPER */}
+        <div className="px-4 py-6 border-b border-gray-800">
+          <div className="flex justify-center gap-12">
+            {["Company Info", "Verification"].map((label, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    step > i + 1
+                      ? "bg-green-500"
+                      : step === i + 1
+                      ? "bg-blue-500"
+                      : "bg-gray-800"
+                  }`}
+                >
+                  <CheckCircle className="w-5 h-5 text-white" />
                 </div>
-              ))}
+                <span className="text-sm text-gray-300">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <form onSubmit={handleRegister} className="p-6 md:p-8">
+          {step === 1 && (
+            <div className="grid md:grid-cols-2 gap-6">
+              <Input label="Company Name *" name="companyName" onChange={handleChange} />
+
+              <Input
+                label="Company Username"
+                value={formData.companyUsername}
+                disabled
+              />
+
+              <Input label="Email *" name="email" onChange={handleChange} />
+              <Input type="password" label="Password *" name="password" onChange={handleChange} />
+              <Input type="password" label="Confirm Password *" name="confirmPassword" onChange={handleChange} />
+              <Input label="HQ Location *" name="hqLocation" onChange={handleChange} />
             </div>
+          )}
+
+          {step === 2 && (
+            <div className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <Select
+                  label="Industry *"
+                  name="industry"
+                  value={formData.industry}
+                  onChange={handleChange}
+                  options={INDUSTRIES}
+                />
+                <Input label="Tax ID *" name="taxId" onChange={handleChange} />
+                <Input label="Contact Person *" name="contactPerson" onChange={handleChange} />
+                <Input label="Phone *" name="contactPhone" onChange={handleChange} />
+              </div>
+
+              <label className="flex gap-3 text-gray-300">
+                <input type="checkbox" name="termsAccepted" onChange={handleChange} />
+                I agree to terms & admin approval
+              </label>
+
+              {selectedPlan && (
+                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500">
+                  <p className="text-emerald-400 font-semibold">
+                    Selected Plan: {selectedPlan.name}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="flex justify-between mt-10">
+            {step > 1 && (
+              <button
+                type="button"
+                onClick={handleBack}
+                className="px-8 py-3 border rounded-xl text-gray-300"
+              >
+                Back
+              </button>
+            )}
+
+            {step < 2 ? (
+              <button
+                type="button"
+                disabled={!validateStep(1)}
+                onClick={handleNext}
+                className="px-8 py-3 bg-blue-600 rounded-xl text-white disabled:opacity-50"
+              >
+                Continue
+              </button>
+            ) : !selectedPlan ? (
+              <button
+                type="submit"
+                className="px-8 py-3 bg-green-600 rounded-xl text-white"
+              >
+                Register & Choose Plan
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleFinalSubmit}
+                className="px-8 py-3 bg-emerald-600 rounded-xl text-white"
+              >
+                Final Submit
+              </button>
+            )}
           </div>
 
-          {/* FORM */}
-          <form onSubmit={handleRegister} className="p-6 md:p-8">
-            {step === 1 && (
-              <div className="space-y-6">
-                <h3 className="text-xl font-bold text-white">
-                  Company Information
-                </h3>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Input label="Company Name *" name="companyName" onChange={handleChange} />
-                  <Input label="Email *" name="email" onChange={handleChange} />
-                  <Input type="password" label="Password *" name="password" onChange={handleChange} />
-                  <Input type="password" label="Confirm Password *" name="confirmPassword" onChange={handleChange} />
-                  <Input label="HQ Location *" name="hqLocation" onChange={handleChange} />
-                  <Input label="Website" name="website" onChange={handleChange} />
-                </div>
-              </div>
-            )}
-
-            {step === 2 && (
-              <div className="space-y-6">
-                <h3 className="text-xl font-bold text-white">
-                  Verification & Legal
-                </h3>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Input label="Industry *" name="industry" onChange={handleChange} />
-                  <Input label="Tax ID *" name="taxId" onChange={handleChange} />
-                  <Input label="Contact Person *" name="contactPerson" onChange={handleChange} />
-                  <Input label="Phone *" name="contactPhone" onChange={handleChange} />
-                </div>
-
-                <label className="flex gap-3 text-gray-300">
-                  <input type="checkbox" name="termsAccepted" onChange={handleChange} />
-                  I agree to terms & admin approval
-                </label>
-
-                {/* SELECTED PLAN BADGE */}
-                {selectedPlan && (
-                  <div className="mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500">
-                    <p className="text-emerald-400 font-semibold">
-                      Selected Plan: {selectedPlan.name}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="flex justify-between mt-10">
-              {step > 1 && (
-                <button type="button" onClick={handleBack}
-                  className="px-8 py-3 rounded-xl border border-gray-700 text-gray-300">
-                  Back
-                </button>
-              )}
-
-              {step < 2 ? (
-                <button type="button" onClick={handleNext}
-                  className="px-8 py-3 rounded-xl bg-blue-600 text-white">
-                  Continue
-                </button>
-              ) : !selectedPlan ? (
-                <button className="px-8 py-3 rounded-xl bg-green-600 text-white">
-                  Register & Choose Plan
-                </button>
-              ) : (
-                <button type="button" onClick={handleFinalSubmit}
-                  className="px-8 py-3 rounded-xl bg-emerald-600 text-white">
-                  Final Submit
-                </button>
-              )}
-            </div>
-
-            <p className="text-center mt-8 text-gray-400">
-              Already registered?{" "}
-              <Link to="/company/login" className="text-blue-400">
-                Sign in
-              </Link>
-            </p>
-          </form>
-        </div>
-      )}
+          <p className="text-center mt-8 text-gray-400">
+            Already registered?{" "}
+            <Link to="/company/login" className="text-blue-400">
+              Sign in
+            </Link>
+          </p>
+        </form>
+      </div>
     </>
   );
 };
@@ -1072,8 +1097,26 @@ const Input = ({ label, ...props }) => (
     <label className="text-sm text-gray-300">{label}</label>
     <input
       {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white"
+      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white disabled:opacity-70"
     />
+  </div>
+);
+
+/* SELECT */
+const Select = ({ label, options, ...props }) => (
+  <div className="space-y-2">
+    <label className="text-sm text-gray-300">{label}</label>
+    <select
+      {...props}
+      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white"
+    >
+      <option value="">Select industry</option>
+      {options.map((o) => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
+    </select>
   </div>
 );
 
