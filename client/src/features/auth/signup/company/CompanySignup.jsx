@@ -965,11 +965,6 @@ const CompanyRegisterForm = () => {
 
   /* ================= NORMAL FORM ================= */
   return (
-<<<<<<< HEAD
-    <div>i am test</div>
-  )
-}
-=======
     <>
       <AnimatePresence>
         {isSubmitting && <LoadingOverlay />}
@@ -1126,4 +1121,3 @@ const Select = ({ label, options, ...props }) => (
 );
 
 export default CompanyRegisterForm;
->>>>>>> kishan
