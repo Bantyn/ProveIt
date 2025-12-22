@@ -153,31 +153,39 @@ const CompanySignup = () => {
   };
 
   return (
-    <>
-      <AnimatePresence>
-        {isSubmitting && <LoadingOverlay />}
-      </AnimatePresence>
+    <div className="min-h-screen bg-gradient-to-br  relative overflow-hidden">
 
-      <div className="w-full">
-        {/* STEPPER */}
-        <div className="px-4 py-6 border-b border-gray-800">
-          <div className="flex justify-center gap-12">
-            {["Company Info", "Verification"].map((label, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    step > i + 1
-                      ? "bg-green-500"
-                      : step === i + 1
-                      ? "bg-blue-500"
-                      : "bg-gray-800"
-                  }`}
-                >
-                  <CheckCircle className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-sm text-gray-300">{label}</span>
-              </div>
-            ))}
+      {/* Particles */}
+      {particles.map(p => (
+        <div key={p.id} className="absolute rounded-full bg-indigo-500/20"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            animation: `float ${p.speed}s linear infinite`
+          }}
+        />
+      ))}
+
+      <div className="relative z-10 grid lg:grid-cols-2 min-h-screen max-w-7xl mx-auto px-6">
+
+        {/* LEFT */}
+        <div className="flex items-center">
+          <div className="max-w-lg">
+            <BrandLogo />
+            <h1 className="text-4xl font-bold text-slate-800 dark:text-white mt-8 mb-3">
+              Create your company account
+            </h1>
+            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
+              Hire based on real skills — verified, secure, and compliant.
+            </p>
+
+            <div className="space-y-6 bg-white/70 dark:bg-slate-800/20 backdrop-blur-[2px] border-2  dark:border-neutral-50/10 p-8 rounded-2xl border backdrop-blur">
+              <FeatureCard icon="🧪" title="Skill-Based Hiring" desc="Assess real-world project submissions" />
+              <FeatureCard icon="🛡️" title="Verified Companies" desc="Tax & identity validation required" />
+              <FeatureCard icon="📊" title="Hiring Analytics" desc="Track performance & candidate quality" />
+            </div>
           </div>
         </div>
 
@@ -203,37 +211,30 @@ const CompanySignup = () => {
           </div>
         </div>
       </div>
-    </>
+
+      <style jsx global>{`
+        @keyframes float {
+          0% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
+          100% { transform: translateY(0); }
+        }
+        .animate-slide-in {
+          animation: slideIn 0.5s ease-out;
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.4s ease-in;
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+    </div>
   );
 };
 
-/* INPUT */
-const Input = ({ label, ...props }) => (
-  <div className="space-y-2">
-    <label className="text-sm text-gray-300">{label}</label>
-    <input
-      {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white disabled:opacity-70"
-    />
-  </div>
-);
-
-/* SELECT */
-const Select = ({ label, options, ...props }) => (
-  <div className="space-y-2">
-    <label className="text-sm text-gray-300">{label}</label>
-    <select
-      {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white"
-    >
-      <option value="">Select industry</option>
-      {options.map((o) => (
-        <option key={o} value={o}>
-          {o}
-        </option>
-      ))}
-    </select>
-  </div>
-);
-
-export default CompanyRegisterForm;
+export default CompanySignup;
