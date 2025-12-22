@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
 import {Link} from "react-router-dom";
 import { useRef } from "react";
-import Navbar from '../../components/navbar'
+import Navbar from '../../components/Navbar'
 
 // --- Demo Landing Component ---
 export default function Landing() {

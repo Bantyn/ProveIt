@@ -138,6 +138,7 @@ export default function Navbar() {
     { name: 'Projects', url: '/projects', icon: Briefcase },
     { name: 'Resume', url: '/resume', icon: FileText },
     { name: 'Login', url: '/login', icon: FileText },
+    { name: 'SignUp', url: '/signup/clientSignup', icon: FileText },
 
   ];
 
