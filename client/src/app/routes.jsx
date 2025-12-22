@@ -1,5 +1,5 @@
 // Authanication
-import Login from "../features/auth/login/Login";
+import Login from "../features/auth/login/Login.jsx";
 import ClientSignup from "../features/auth/signup/client/ClientSignup";
 import CompanySignup from "../features/auth/signup/company/CompanySignup";
 
@@ -18,7 +18,7 @@ export const routes = [
     element: <Home />,
   },
   {
-    path: "/masterLogin",
+    path: "/login",
     element: <Login />,
   },
   {
