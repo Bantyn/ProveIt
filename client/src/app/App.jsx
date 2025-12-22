@@ -4,6 +4,8 @@ import { routes } from "./routes.jsx";
 // import { ThemeProvider } from "next-themes";
 import { useRoutes } from "react-router-dom";
 import '../styles/App.css'
+import Footer from '../components/ui/footer/Footer.jsx'
+import Navbar from '../components/ui/navbar/Navbar.jsx';
 
 export default function App() {
   const element = useRoutes(routes);
@@ -12,17 +14,17 @@ export default function App() {
     {/* <ThemeProvider> */}
      <ErrorBoundary>
 
-      <header>
-        <h1 class="dark:text-white text-center py-5 bg-white dark:bg-black border-b-1 dark:border-amber-50/10 fixed border-blac/10 z-50 w-full top-0">ProveIt header</h1>
+      <header className=''>
+        <Navbar></Navbar>
       </header>
 
-      <main className='md:mt-15 mt-30'>
+      <main className='pt-24 md:pt-28 min-h-screen'>
       {element}
       </main>
       
       
-      <footer className='mt-50'>
-          <h1 class="dark:text-white text-center py-5 bg-white dark:bg-black border-t-1 dark:border-amber-50/10 border-blac/10 h-50 pt-10">ProveIt footer</h1>
+      <footer className='mt-24 border-t-1 border-gray-500/20  transition-all duration-200 dark:border-amber-50/10'>
+          <Footer></Footer>
       </footer>
 
     </ErrorBoundary>

@@ -1,5 +1,5 @@
 export default function CompanySignup() {
   return (
-    <div>i am main</div>
+    <div>Banty Sing up page</div>
   )
 }
