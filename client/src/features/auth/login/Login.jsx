@@ -3,7 +3,7 @@ import { Eye, EyeOff, Github, Mail, Lock, ArrowRight, Sparkles, Moon, Sun } from
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framgit brer-motion";
 import AOS from "aos";
 import LightRays from '../../components/LightRays';
 
