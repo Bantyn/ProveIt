@@ -153,14 +153,7 @@ const CompanySignup = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <>
-      <AnimatePresence>
-        {isSubmitting && <LoadingOverlay />}
-      </AnimatePresence>
-=======
     <div className="min-h-screen bg-gradient-to-br  relative overflow-hidden">
->>>>>>> 2e2ba0d604aecb18c6cf36a9b5bf059a2a1977b3
 
       {/* Particles */}
       {particles.map(p => (
@@ -188,7 +181,7 @@ const CompanySignup = () => {
               Hire based on real skills — verified, secure, and compliant.
             </p>
 
-            <div className="space-y-6 bg-white/70 dark:bg-slate-800/20 backdrop-blur-[2px] border-2  dark:border-neutral-50/10 p-8 rounded-2xl border backdrop-blur">
+            <div className="space-y-6 bg-white/70 dark:bg-slate-800/20 backdrop-blur-[2px] border-2   dark:border-neutral-50/10 p-8 rounded-2xl border backdrop-blur">
               <FeatureCard icon="🧪" title="Skill-Based Hiring" desc="Assess real-world project submissions" />
               <FeatureCard icon="🛡️" title="Verified Companies" desc="Tax & identity validation required" />
               <FeatureCard icon="📊" title="Hiring Analytics" desc="Track performance & candidate quality" />
@@ -244,37 +237,4 @@ const CompanySignup = () => {
   );
 };
 
-<<<<<<< HEAD
-/* INPUT */
-const Input = ({ label, ...props }) => (
-  <div className="space-y-2">
-    <label className="text-sm text-gray-300">{label}</label>
-    <input
-      {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white disabled:opacity-70"
-    />
-  </div>
-);
-
-/* SELECT */
-const Select = ({ label, options, ...props }) => (
-  <div className="space-y-2">
-    <label className="text-sm text-gray-300">{label}</label>
-    <select
-      {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white"
-    >
-      <option value="">Select industry</option>
-      {options.map((o) => (
-        <option key={o} value={o}>
-          {o}
-        </option>
-      ))}
-    </select>
-  </div>
-);
-
-export default CompanyRegisterForm;
-=======
 export default CompanySignup;
->>>>>>> 2e2ba0d604aecb18c6cf36a9b5bf059a2a1977b3
