@@ -1,1096 +1,250 @@
-// import React, { useState } from 'react';
-// import { 
-//   Building2, Mail, Globe, FileText, Users, CreditCard, 
-//   Shield, CheckCircle, AlertCircle, Upload, Lock,
-//   Calendar, Phone, Briefcase
-// } from 'lucide-react';
-// import { Link, useNavigate } from 'react-router-dom';
+// import { Link } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {Link} from "react-router-dom"
+/* ===================== Reusable UI ===================== */
+
+const BrandLogo = () => (
+  <div className="flex items-center gap-3">
+    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+      P
+    </div>
+    <span className="text-2xl font-bold bg-gradient-to-br from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+      ProveIt.io
+    </span>
+  </div>
+);
+
+const InputField = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  error,
+}) => (
+  <div className="animate-fade-in">
+    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+      {label}
+    </label>
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className={`w-full px-4 py-3.5 rounded-xl border-1 bg-slate-50 dark:bg-slate-800/10 
+      dark:text-white transition-all duration-300 focus:outline-none focus:border-indigo-500
+      ${error ? "border-red-400" : "border-slate-200 dark:border-slate-700"}`}
+    />
+    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+  </div>
+);
+
+const FeatureCard = ({ icon, title, desc }) => (
+  <div className="flex items-start gap-4 hover:-translate-y-1 bg-neutral-50/2 hover:bg-neutral-50/10 transition-all duration-300 p-3 rounded-xl">
+    <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-xl shadow flex items-center justify-center text-xl">
+      {icon}
+    </div>
+    <div>
+      <h4 className="font-semibold text-slate-800 dark:text-white">{title}</h4>
+      <p className="text-slate-600 dark:text-slate-400 text-sm">{desc}</p>
+    </div>
+  </div>
+);
+
+/* ===================== Progress ===================== */
+
+const ProgressBar = ({ step, total }) => (
+  <div className="mb-6">
+    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
+      <span>Step {step} of {total}</span>
+      <span>{Math.round((step / total) * 100)}%</span>
+    </div>
+    <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+      <div
+        className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-700"
+        style={{ width: `${(step / total) * 100}%`,boxShadow:"0px 0px 10px 30px #9333EA" }}
+      />
+    </div>
+  </div>
+);
+
+/* ===================== Steps ===================== */
+
+const StepCompany = ({ data, onChange, errors }) => (
+  <div className="space-y-5 animate-slide-in">
+    <InputField label="Company Name" name="companyName" value={data.companyName} onChange={onChange} placeholder="Acme Technologies Pvt Ltd" error={errors.companyName} />
+    <InputField label="Company Website" name="website" value={data.website} onChange={onChange} placeholder="https://www.acme.com" />
+    <InputField label="Official Email" name="email" type="email" value={data.email} onChange={onChange} placeholder="hr@acme.com" error={errors.email} />
+    <InputField label="Create Password" name="password" type="password" value={data.password} onChange={onChange} placeholder="Minimum 6 characters" error={errors.password} />
+  </div>
+);
+
+const StepVerification = ({ data, onChange, errors }) => (
+  <div className="space-y-5 animate-slide-in">
+    <InputField label="GST / Tax ID" name="taxId" value={data.taxId} onChange={onChange} placeholder="27AAECS1234F1Z5" error={errors.taxId} />
+    <InputField label="Company PAN / Registration ID" name="pan" value={data.pan} onChange={onChange} placeholder="AAECS1234F" error={errors.pan} />
+    <InputField label="Registered Company Address" name="address" value={data.address} onChange={onChange} placeholder="401, Tech Park, Bengaluru, Karnataka, India" />
+    <InputField label="Team Size" name="teamSize" value={data.teamSize} onChange={onChange} placeholder="10 – 50 employees" />
+  </div>
+);
+
+const StepReview = ({ data }) => (
+  <div className="space-y-3 animate-slide-in text-sm">
+    {Object.entries(data).map(([k, v]) => (
+      <div key={k} className="flex justify-between border-b border-slate-200 dark:border-slate-700 py-2">
+        <span className="text-slate-600 dark:text-slate-400 capitalize">
+          {k.replace(/([A-Z])/g, " $1")}
+        </span>
+        <span className="font-medium text-slate-800 dark:text-white">{v || "-"}</span>
+      </div>
+    ))}
+  </div>
+);
 
-// const CompanyRegisterForm = () => {
-//   const navigate = useNavigate();
-//   const [step, setStep] = useState(1);
-//   const [formData, setFormData] = useState({
-//     // Step 1: Basic Info
-//     companyName: '',
-//     legalName: '',
-//     email: '',
-//     password: '',
-//     confirmPassword: '',
-//     website: '',
-//     industry: '',
-//     foundedYear: new Date().getFullYear(),
+/* ===================== Main Page ===================== */
 
-//     // Step 2: Company Details
-//     size: '',
-//     description: '',
-//     hqLocation: '',
-//     logo: null,
-
-//     // Step 3: Subscription Plan
-//     plan: 'professional',
-
-//     // Step 4: Verification
-//     taxId: '',
-//     contactPerson: '',
-//     contactPhone: '',
-//     termsAccepted: false
-//   });
-
-//   const [errors, setErrors] = useState({});
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-
-//   const plans = [
-//     {
-//       id: 'starter',
-//       name: 'Starter',
-//       price: '$299',
-//       period: '/month',
-//       description: 'Perfect for startups',
-//       features: ['5 job posts/month', '100 candidate views', 'Basic analytics', 'Email support', '3 active job slots'],
-//       color: 'from-blue-500 to-cyan-500',
-//       highlighted: false
-//     },
-//     {
-//       id: 'professional',
-//       name: 'Professional',
-//       price: '$699',
-//       period: '/month',
-//       description: 'Best for growing teams',
-//       features: ['15 job posts/month', '500 candidate views', 'Advanced analytics', 'Priority support', 'AI screening', '10 active job slots'],
-//       color: 'from-indigo-600 to-purple-600',
-//       highlighted: true
-//     },
-//     {
-//       id: 'enterprise',
-//       name: 'Enterprise',
-//       price: 'Custom',
-//       period: ' /month',
-//       description: 'For large organizations',
-//       features: ['Unlimited job posts', 'Unlimited candidates', 'Dedicated manager', 'Custom integrations', 'White-label', 'API access'],
-//       color: 'from-gray-700 to-gray-900',
-//       highlighted: false
-//     }
-//   ];
-
-//   const industries = [
-//     'Technology & Software',
-//     'Finance & Banking', 
-//     'Healthcare & Medical',
-//     'Education & E-learning',
-//     'E-commerce & Retail',
-//     'Manufacturing & Industry',
-//     'Consulting & Services',
-//     'Marketing & Advertising',
-//     'Real Estate & Construction',
-//     'Media & Entertainment',
-//     'Other'
-//   ];
-
-//   const companySizes = [
-//     '1-10 employees',
-//     '11-50 employees', 
-//     '51-200 employees',
-//     '201-500 employees',
-//     '501-1000 employees',
-//     '1000+ employees'
-//   ];
-
-//   const validateStep = (stepNumber) => {
-//     const newErrors = {};
-
-//     if (stepNumber === 1) {
-//       if (!formData.companyName.trim()) newErrors.companyName = 'Company name is required';
-//       if (!formData.email.trim()) newErrors.email = 'Email is required';
-//       else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
-//       if (!formData.password) newErrors.password = 'Password is required';
-//       else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
-//       if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
-//       if (!formData.industry) newErrors.industry = 'Please select an industry';
-//     }
-
-//     if (stepNumber === 2) {
-//       if (!formData.size) newErrors.size = 'Please select company size';
-//       if (!formData.description.trim()) newErrors.description = 'Company description is required';
-//       else if (formData.description.length < 100) newErrors.description = 'Description should be at least 100 characters';
-//     }
-
-//     if (stepNumber === 4) {
-//       if (!formData.contactPerson.trim()) newErrors.contactPerson = 'Contact person is required';
-//       if (!formData.contactPhone.trim()) newErrors.contactPhone = 'Contact phone is required';
-//       if (!formData.taxId.trim()) newErrors.taxId = 'Tax ID is required';
-//       if (!formData.termsAccepted) newErrors.termsAccepted = 'You must accept the terms';
-//     }
-
-//     setErrors(newErrors);
-//     return Object.keys(newErrors).length === 0;
-//   };
-
-//   const handleNext = () => {
-//     if (validateStep(step)) {
-//       setStep(prev => Math.min(prev + 1, 4));
-//     }
-//   };
-
-//   const handleBack = () => {
-//     setStep(prev => Math.max(prev - 1, 1));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     if (!validateStep(4)) return;
-
-//     setIsSubmitting(true);
-
-//     // Simulate API call
-//     try {
-//       await new Promise(resolve => setTimeout(resolve, 1500));
-
-//       // Store registration data
-//       localStorage.setItem('companyRegistration', JSON.stringify({
-//         email: formData.email,
-//         timestamp: new Date().toISOString(),
-//         status: 'pending'
-//       }));
-
-//       // Redirect to success page
-//       navigate('/company/registration-success');
-//     } catch (error) {
-//       console.error('Registration failed:', error);
-//     } finally {
-//       setIsSubmitting(false);
-//     }
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, value, type, checked } = e.target;
-//     setFormData(prev => ({
-//       ...prev,
-//       [name]: type === 'checkbox' ? checked : value
-//     }));
-
-//     // Clear error when user starts typing
-//     if (errors[name]) {
-//       setErrors(prev => ({ ...prev, [name]: '' }));
-//     }
-//   };
-
-//   const handleFileUpload = (e) => {
-//     const file = e.target.files[0];
-//     if (file && file.type.startsWith('image/')) {
-//       if (file.size <= 5 * 1024 * 1024) { // 5MB limit
-//         setFormData(prev => ({ ...prev, logo: file }));
-//       } else {
-//         setErrors(prev => ({ ...prev, logo: 'File size must be less than 5MB' }));
-//       }
-//     }
-//   };
-
-//   const StepIndicator = () => (
-//     <div className="px-4 py-6 border-b border-gray-800">
-//       <div className="flex items-center justify-between max-w-2xl mx-auto">
-//         {[
-//           { number: 1, label: 'Company Info', icon: Building2 },
-//           { number: 2, label: 'Details', icon: Briefcase },
-//           { number: 3, label: 'Plan', icon: CreditCard },
-//           { number: 4, label: 'Verification', icon: Shield }
-//         ].map((stepItem, index) => (
-//           <React.Fragment key={stepItem.number}>
-//             <div className="flex flex-col items-center">
-//               <div className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
-//                 step === stepItem.number 
-//                   ? 'border-blue-500 bg-blue-500 text-white shadow-lg shadow-blue-500/30' 
-//                   : step > stepItem.number 
-//                   ? 'border-green-500 bg-green-500 text-white' 
-//                   : 'border-gray-700 bg-gray-800 text-gray-400'
-//               }`}>
-//                 {step > stepItem.number ? (
-//                   <CheckCircle className="w-6 h-6" />
-//                 ) : (
-//                   <stepItem.icon className="w-5 h-5" />
-//                 )}
-//               </div>
-//               <span className={`text-xs mt-2 font-medium ${
-//                 step >= stepItem.number ? 'text-white' : 'text-gray-500'
-//               }`}>
-//                 {stepItem.label}
-//               </span>
-//             </div>
-//             {index < 3 && (
-//               <div className={`flex-1 h-1 mx-4 rounded-full ${
-//                 step > stepItem.number ? 'bg-green-500' : 'bg-gray-800'
-//               }`} />
-//             )}
-//           </React.Fragment>
-//         ))}
-//       </div>
-//     </div>
-//   );
-
-//   return (
-//     <div className="w-full">
-//       <StepIndicator />
-
-//       <form onSubmit={handleSubmit} className="p-6 md:p-8">
-
-//         {/* Step 1: Basic Information */}
-//         {step === 1 && (
-//           <div className="space-y-6 animate-fadeIn">
-//             <div className="mb-8">
-//               <h3 className="text-xl font-bold text-white mb-2">Company Information</h3>
-//               <p className="text-gray-400">Tell us about your company</p>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//               {/* Company Name */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Company Name *
-//                 </label>
-//                 <div className="relative">
-//                   <Building2 className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="text"
-//                     name="companyName"
-//                     value={formData.companyName}
-//                     onChange={handleChange}
-//                     placeholder="Acme Inc."
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.companyName ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                   />
-//                 </div>
-//                 {errors.companyName && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.companyName}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Legal Name */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Legal Business Name
-//                 </label>
-//                 <input
-//                   type="text"
-//                   name="legalName"
-//                   value={formData.legalName}
-//                   onChange={handleChange}
-//                   placeholder="Legal entity name"
-//                   className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-//                 />
-//               </div>
-
-//               {/* Email */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Official Email *
-//                 </label>
-//                 <div className="relative">
-//                   <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="email"
-//                     name="email"
-//                     value={formData.email}
-//                     onChange={handleChange}
-//                     placeholder="hr@company.com"
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.email ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                   />
-//                 </div>
-//                 {errors.email && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.email}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Industry */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Industry *
-//                 </label>
-//                 <div className="relative">
-//                   <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <select
-//                     name="industry"
-//                     value={formData.industry}
-//                     onChange={handleChange}
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.industry ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none`}
-//                   >
-//                     <option value="">Select your industry</option>
-//                     {industries.map(ind => (
-//                       <option key={ind} value={ind}>{ind}</option>
-//                     ))}
-//                   </select>
-//                 </div>
-//                 {errors.industry && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.industry}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Password */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Password *
-//                 </label>
-//                 <div className="relative">
-//                   <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="password"
-//                     name="password"
-//                     value={formData.password}
-//                     onChange={handleChange}
-//                     placeholder="Minimum 8 characters"
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.password ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                   />
-//                 </div>
-//                 {errors.password && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.password}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Confirm Password */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Confirm Password *
-//                 </label>
-//                 <div className="relative">
-//                   <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="password"
-//                     name="confirmPassword"
-//                     value={formData.confirmPassword}
-//                     onChange={handleChange}
-//                     placeholder="Confirm your password"
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.confirmPassword ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                   />
-//                 </div>
-//                 {errors.confirmPassword && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.confirmPassword}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Website */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Website
-//                 </label>
-//                 <div className="relative">
-//                   <Globe className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="url"
-//                     name="website"
-//                     value={formData.website}
-//                     onChange={handleChange}
-//                     placeholder="https://company.com"
-//                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-//                   />
-//                 </div>
-//               </div>
-
-//               {/* Founded Year */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Founded Year
-//                 </label>
-//                 <div className="relative">
-//                   <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="number"
-//                     name="foundedYear"
-//                     value={formData.foundedYear}
-//                     onChange={handleChange}
-//                     min="1900"
-//                     max={new Date().getFullYear()}
-//                     className="w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-//                   />
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Step 2: Company Details */}
-//         {step === 2 && (
-//           <div className="space-y-6 animate-fadeIn">
-//             <div className="mb-8">
-//               <h3 className="text-xl font-bold text-white mb-2">Company Details</h3>
-//               <p className="text-gray-400">More about your organization</p>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//               {/* Company Size */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Company Size *
-//                 </label>
-//                 <div className="relative">
-//                   <Users className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <select
-//                     name="size"
-//                     value={formData.size}
-//                     onChange={handleChange}
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.size ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                   >
-//                     <option value="">Select company size</option>
-//                     {companySizes.map(size => (
-//                       <option key={size} value={size}>{size}</option>
-//                     ))}
-//                   </select>
-//                 </div>
-//                 {errors.size && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.size}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* HQ Location */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Headquarters Location
-//                 </label>
-//                 <input
-//                   type="text"
-//                   name="hqLocation"
-//                   value={formData.hqLocation}
-//                   onChange={handleChange}
-//                   placeholder="City, Country"
-//                   className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-//                 />
-//               </div>
-//             </div>
-
-//             {/* Logo Upload */}
-//             <div className="space-y-2">
-//               <label className="block text-sm font-medium text-gray-300">
-//                 Company Logo
-//               </label>
-//               <div className={`border-2 border-dashed rounded-xl p-8 text-center transition-all hover:border-blue-500/50 ${
-//                 formData.logo ? 'border-blue-500/30 bg-blue-500/5' : 'border-gray-700'
-//               }`}>
-//                 <Upload className={`w-12 h-12 mx-auto mb-4 ${
-//                   formData.logo ? 'text-blue-400' : 'text-gray-500'
-//                 }`} />
-//                 <p className="text-gray-400 mb-3">
-//                   {formData.logo ? formData.logo.name : 'Drag & drop or click to upload logo'}
-//                 </p>
-//                 <p className="text-gray-500 text-sm mb-4">PNG, JPG up to 5MB</p>
-//                 <input
-//                   type="file"
-//                   accept="image/*"
-//                   onChange={handleFileUpload}
-//                   className="hidden"
-//                   id="logo-upload"
-//                 />
-//                 <label
-//                   htmlFor="logo-upload"
-//                   className="inline-block px-6 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300 cursor-pointer transition-colors font-medium"
-//                 >
-//                   {formData.logo ? 'Change File' : 'Browse Files'}
-//                 </label>
-//               </div>
-//               {errors.logo && (
-//                 <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                   <AlertCircle className="w-4 h-4" />
-//                   {errors.logo}
-//                 </p>
-//               )}
-//             </div>
-
-//             {/* Description */}
-//             <div className="space-y-2">
-//               <label className="block text-sm font-medium text-gray-300">
-//                 Company Description *
-//               </label>
-//               <div className="relative">
-//                 <FileText className="absolute left-4 top-4 w-4 h-4 text-gray-400" />
-//                 <textarea
-//                   name="description"
-//                   rows="6"
-//                   value={formData.description}
-//                   onChange={handleChange}
-//                   placeholder="Describe your company's mission, culture, values, and what makes you unique..."
-//                   className={`w-full pl-12 pr-4 py-4 rounded-xl bg-gray-800/50 border ${
-//                     errors.description ? 'border-red-500/50' : 'border-gray-700'
-//                   } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                 />
-//               </div>
-//               <div className="flex justify-between items-center mt-2">
-//                 {errors.description && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.description}
-//                   </p>
-//                 )}
-//                 <span className={`text-sm ml-auto ${
-//                   formData.description.length > 450 ? 'text-red-400' : 'text-gray-500'
-//                 }`}>
-//                   {formData.description.length}/500 characters
-//                 </span>
-//               </div>
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Step 3: Subscription Plans */}
-//         {step === 3 && (
-//           <div className="animate-fadeIn">
-//             <div className="mb-8">
-//               <h3 className="text-xl font-bold text-white mb-2">Choose Your Plan</h3>
-//               <p className="text-gray-400">Select the plan that best fits your hiring needs</p>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-//               {plans.map((plan) => (
-//                 <div
-//                   key={plan.id}
-//                   className={`relative rounded-2xl border-2 p-6 cursor-pointer transition-all duration-300 hover:scale-[1.02] ${
-//                     formData.plan === plan.id
-//                       ? 'border-blue-500 bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl shadow-blue-500/20'
-//                       : 'border-gray-700 bg-gray-900/50 hover:border-gray-600'
-//                   } ${plan.highlighted ? 'md:-translate-y-2' : ''}`}
-//                   onClick={() => handleChange({ target: { name: 'plan', value: plan.id } })}
-//                 >
-//                   {plan.highlighted && (
-//                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-1.5 rounded-full text-sm font-medium shadow-lg">
-//                       Most Popular
-//                     </div>
-//                   )}
-
-//                   <div className="text-center mb-6">
-//                     <h4 className="text-xl font-bold text-white mb-3">{plan.name}</h4>
-//                     <div className="flex items-center justify-center gap-1 mb-2">
-//                       <span className="text-3xl font-bold text-white">{plan.price}</span>
-//                       <span className="text-gray-400">{plan.period}</span>
-//                     </div>
-//                     <p className="text-gray-400 text-sm">{plan.description}</p>
-//                   </div>
-
-//                   <ul className="space-y-3 mb-8">
-//                     {plan.features.map((feature, idx) => (
-//                       <li key={idx} className="flex items-center text-gray-300 text-sm">
-//                         <CheckCircle className={`w-4 h-4 mr-3 ${
-//                           formData.plan === plan.id ? 'text-blue-400' : 'text-green-500'
-//                         }`} />
-//                         {feature}
-//                       </li>
-//                     ))}
-//                   </ul>
-
-//                   <div className={`py-3 rounded-xl text-center font-medium transition-all ${
-//                     formData.plan === plan.id
-//                       ? `bg-gradient-to-r ${plan.color} text-white`
-//                       : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-//                   }`}>
-//                     {formData.plan === plan.id ? '✓ Selected' : 'Select Plan'}
-//                   </div>
-//                 </div>
-//               ))}
-//             </div>
-
-//             {/* Admin Approval Note */}
-//             <div className="p-6 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl border border-gray-700">
-//               <div className="flex items-start gap-4">
-//                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-//                   <Shield className="w-6 h-6 text-blue-400" />
-//                 </div>
-//                 <div>
-//                   <h4 className="font-bold text-white mb-2">Admin Approval Required</h4>
-//                   <p className="text-gray-300">
-//                     All companies on ProveIt.io undergo manual verification to ensure platform quality. 
-//                     Your account will be reviewed within 24-48 hours. Once approved, you'll receive an 
-//                     email confirmation and can start posting jobs immediately.
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Step 4: Verification */}
-//         {step === 4 && (
-//           <div className="space-y-6 animate-fadeIn">
-//             <div className="mb-8">
-//               <h3 className="text-xl font-bold text-white mb-2">Verification & Legal</h3>
-//               <p className="text-gray-400">Final steps to complete your registration</p>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//               {/* Tax ID */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Tax ID / Business Registration Number *
-//                 </label>
-//                 <input
-//                   type="text"
-//                   name="taxId"
-//                   value={formData.taxId}
-//                   onChange={handleChange}
-//                   placeholder="For verification purposes only"
-//                   className={`w-full px-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                     errors.taxId ? 'border-red-500/50' : 'border-gray-700'
-//                   } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                 />
-//                 {errors.taxId && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.taxId}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Contact Person */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Primary Contact Person *
-//                 </label>
-//                 <input
-//                   type="text"
-//                   name="contactPerson"
-//                   value={formData.contactPerson}
-//                   onChange={handleChange}
-//                   placeholder="Full name"
-//                   className={`w-full px-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                     errors.contactPerson ? 'border-red-500/50' : 'border-gray-700'
-//                   } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                 />
-//                 {errors.contactPerson && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.contactPerson}
-//                   </p>
-//                 )}
-//               </div>
-
-//               {/* Contact Phone */}
-//               <div className="space-y-2">
-//                 <label className="block text-sm font-medium text-gray-300">
-//                   Contact Phone Number *
-//                 </label>
-//                 <div className="relative">
-//                   <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-//                   <input
-//                     type="tel"
-//                     name="contactPhone"
-//                     value={formData.contactPhone}
-//                     onChange={handleChange}
-//                     placeholder="+1 (555) 123-4567"
-//                     className={`w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800/50 border ${
-//                       errors.contactPhone ? 'border-red-500/50' : 'border-gray-700'
-//                     } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
-//                   />
-//                 </div>
-//                 {errors.contactPhone && (
-//                   <p className="text-sm text-red-400 flex items-center gap-1 mt-1">
-//                     <AlertCircle className="w-4 h-4" />
-//                     {errors.contactPhone}
-//                   </p>
-//                 )}
-//               </div>
-//             </div>
-
-//             {/* Terms & Conditions */}
-//             <div className="p-6 bg-gray-900/30 rounded-2xl border border-gray-700">
-//               <div className="flex items-start gap-4">
-//                 <input
-//                   type="checkbox"
-//                   id="terms"
-//                   name="termsAccepted"
-//                   checked={formData.termsAccepted}
-//                   onChange={handleChange}
-//                   className="mt-1 w-5 h-5 rounded bg-gray-800 border-gray-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-gray-900"
-//                 />
-//                 <div>
-//                   <label htmlFor="terms" className="text-gray-300">
-//                     I agree to the ProveIt.io{' '}
-//                     <a href="#" className="text-blue-400 hover:text-blue-300 font-medium">Terms of Service</a>,{' '}
-//                     <a href="#" className="text-blue-400 hover:text-blue-300 font-medium">Privacy Policy</a>, and understand that:
-//                   </label>
-//                   <ul className="mt-3 space-y-2 text-sm text-gray-400">
-//                     <li className="flex items-start gap-2">
-//                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5"></div>
-//                       <span>Admin approval is required before accessing the platform</span>
-//                     </li>
-//                     <li className="flex items-start gap-2">
-//                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5"></div>
-//                       <span>All job postings are reviewed by ProveIt.io admins</span>
-//                     </li>
-//                     <li className="flex items-start gap-2">
-//                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5"></div>
-//                       <span>Project-based evaluations are mandatory for all candidates</span>
-//                     </li>
-//                     <li className="flex items-start gap-2">
-//                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5"></div>
-//                       <span>Subscription fees are billed monthly and auto-renew</span>
-//                     </li>
-//                   </ul>
-//                 </div>
-//               </div>
-//               {errors.termsAccepted && (
-//                 <p className="text-sm text-red-400 flex items-center gap-1 mt-3">
-//                   <AlertCircle className="w-4 h-4" />
-//                   {errors.termsAccepted}
-//                 </p>
-//               )}
-//             </div>
-//           </div>
-//         )}
-
-//         {/* Navigation Buttons */}
-//         <div className="flex flex-col sm:flex-row justify-between items-center mt-10 pt-8 border-t border-gray-800 gap-4">
-//           <div>
-//             {step > 1 && (
-//               <button
-//                 type="button"
-//                 onClick={handleBack}
-//                 className="px-8 py-3.5 rounded-xl border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white transition-all font-medium flex items-center gap-2"
-//               >
-//                 ← Back
-//               </button>
-//             )}
-//           </div>
-
-//           <div className="flex items-center gap-4">
-//             <span className="text-gray-500 text-sm">
-//               Step {step} of 4
-//             </span>
-
-//             {step < 4 ? (
-//               <button
-//                 type="button"
-//                 onClick={handleNext}
-//                 className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium transition-all shadow-lg shadow-blue-500/20"
-//               >
-//                 Continue
-//               </button>
-//             ) : (
-//               <button
-//                 type="submit"
-//                 disabled={isSubmitting}
-//                 className="px-10 py-3.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-green-500/20 flex items-center gap-3"
-//               >
-//                 {isSubmitting ? (
-//                   <>
-//                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-//                     Processing...
-//                   </>
-//                 ) : (
-//                   <>
-//                     <CheckCircle className="w-5 h-5" />
-//                     Complete Registration
-//                   </>
-//                 )}
-//               </button>
-//             )}
-//           </div>
-//         </div>
-
-//         {/* Login Link */}
-//         <div className="text-center mt-8 pt-6 border-t border-gray-800">
-//           <p className="text-gray-400">
-//             Already have an account?{' '}
-//             <Link to="/company/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
-//               Sign in to your company dashboard
-//             </Link>
-//           </p>
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default CompanyRegisterForm;
-
-// import PlanSelectionModal from "../../../pages/CompanyAuth/PlanSelectionModal";
-// import LoadingOverlay from "../../../pages/CompanyAuth/LoadingOverlay";
-
-import React, { useState } from "react";
-import { CheckCircle } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-
-import LoadingOverlay from "./CompanyAuth/LoadingOverlay";
-import PlanSelectionPage from "./CompanyAuth/PlanSelectionModal";
-
-const INDUSTRIES = [
-  "Technology",
-  "Finance",
-  "Healthcare",
-  "Education",
-  "Manufacturing",
-  "Retail",
-  "Marketing",
-  "Other",
-];
-
-const generateUsername = (name) => {
-  const clean = name.replace(/\s+/g, "").toLowerCase();
-  const digits = Math.floor(1000 + Math.random() * 9000);
-  return `${clean}${digits}`;
-};
-
-const CompanyRegisterForm = () => {
-  const navigate = useNavigate();
-
+const CompanySignup = () => {
   const [step, setStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPlans, setShowPlans] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState(null);
-
-  const [formData, setFormData] = useState({
-    companyName: "",
-    companyUsername: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    hqLocation: "",
-    industry: "",
-    taxId: "",
-    contactPerson: "",
-    contactPhone: "",
-    termsAccepted: false,
+  const totalSteps = 3;
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [data, setData] = useState({
+    companyName: "", website: "", email: "", password: "",
+    taxId: "", pan: "", address: "", teamSize: ""
   });
+  const [particles, setParticles] = useState([]);
 
-  /* ---------------- VALIDATION ---------------- */
-  const validateStep = (stepNumber) => {
-    if (stepNumber === 1) {
-      return (
-        formData.companyName &&
-        formData.hqLocation &&
-        /^\S+@\S+\.\S+$/.test(formData.email) &&
-        formData.password.length >= 8 &&
-        formData.password === formData.confirmPassword
-      );
+  useEffect(() => {
+    setParticles(Array.from({ length: 18 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 4 + 1,
+      speed: Math.random() * 20 + 10,
+    })));
+  }, []);
+
+  const handleChange = e => setData({ ...data, [e.target.name]: e.target.value });
+
+  const validate = () => {
+    const err = {};
+    if (step === 1) {
+      if (!data.companyName) err.companyName = "Required";
+      if (!data.email) err.email = "Required";
+      if (data.password.length < 6) err.password = "Minimum 6 characters";
     }
-
-    if (stepNumber === 2) {
-      return (
-        formData.industry &&
-        formData.taxId &&
-        formData.contactPerson &&
-        formData.contactPhone &&
-        formData.termsAccepted
-      );
+    if (step === 2) {
+      if (!data.taxId) err.taxId = "Required";
+      if (!data.pan) err.pan = "Required";
     }
-
-    return true;
+    setErrors(err);
+    return Object.keys(err).length === 0;
   };
 
-  /* ---------------- HANDLERS ---------------- */
-  const handleNext = () => {
-    if (!validateStep(1)) return;
-    setStep(2);
+  const next = () => validate() && setStep(s => s + 1);
+  const back = () => setStep(s => s - 1);
+
+  const submit = async () => {
+    setLoading(true);
+    await new Promise(r => setTimeout(r, 1500));
+    setLoading(false);
   };
 
-  const handleBack = () => setStep(1);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    if (name === "companyName") {
-      setFormData((p) => ({
-        ...p,
-        companyName: value,
-        companyUsername:
-          p.companyUsername || generateUsername(value),
-      }));
-      return;
-    }
-
-    setFormData((p) => ({
-      ...p,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  /* SUBMIT → LOADER → FULL SCREEN PLAN */
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (!validateStep(2)) return;
-
-    setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setIsSubmitting(false);
-
-    setShowPlans(true);
-  };
-
-  /* PLAN SELECT */
-  const handlePlanSelect = (plan) => {
-    setSelectedPlan(plan);
-    setShowPlans(false);
-  };
-
-  /* FINAL SUBMIT */
-  const handleFinalSubmit = async () => {
-    setIsSubmitting(true);
-
-    const payload = { ...formData, plan: selectedPlan };
-    console.log("FINAL PAYLOAD:", payload);
-
-    await new Promise((r) => setTimeout(r, 1200));
-    setIsSubmitting(false);
-
-    navigate("/company/waiting-approval");
-  };
-
-  /* ================= FULL SCREEN PLAN PAGE ================= */
-  if (showPlans) {
-    return <PlanSelectionPage onSelect={handlePlanSelect} />;
-  }
-
-  /* ================= NORMAL FORM ================= */
   return (
+<<<<<<< HEAD
     <>
       <AnimatePresence>
         {isSubmitting && <LoadingOverlay />}
       </AnimatePresence>
+=======
+    <div className="min-h-screen bg-gradient-to-br  relative overflow-hidden">
+>>>>>>> 2e2ba0d604aecb18c6cf36a9b5bf059a2a1977b3
 
-      <div className="w-full">
-        {/* STEPPER */}
-        <div className="px-4 py-6 border-b border-gray-800">
-          <div className="flex justify-center gap-12">
-            {["Company Info", "Verification"].map((label, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    step > i + 1
-                      ? "bg-green-500"
-                      : step === i + 1
-                      ? "bg-blue-500"
-                      : "bg-gray-800"
-                  }`}
-                >
-                  <CheckCircle className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-sm text-gray-300">{label}</span>
-              </div>
-            ))}
+      {/* Particles */}
+      {particles.map(p => (
+        <div key={p.id} className="absolute rounded-full bg-indigo-500/20"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            animation: `float ${p.speed}s linear infinite`
+          }}
+        />
+      ))}
+
+      <div className="relative z-10 grid lg:grid-cols-2 min-h-screen max-w-7xl mx-auto px-6">
+
+        {/* LEFT */}
+        <div className="flex items-center">
+          <div className="max-w-lg">
+            <BrandLogo />
+            <h1 className="text-4xl font-bold text-slate-800 dark:text-white mt-8 mb-3">
+              Create your company account
+            </h1>
+            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
+              Hire based on real skills — verified, secure, and compliant.
+            </p>
+
+            <div className="space-y-6 bg-white/70 dark:bg-slate-800/20 backdrop-blur-[2px] border-2  dark:border-neutral-50/10 p-8 rounded-2xl border backdrop-blur">
+              <FeatureCard icon="🧪" title="Skill-Based Hiring" desc="Assess real-world project submissions" />
+              <FeatureCard icon="🛡️" title="Verified Companies" desc="Tax & identity validation required" />
+              <FeatureCard icon="📊" title="Hiring Analytics" desc="Track performance & candidate quality" />
+            </div>
           </div>
         </div>
 
-        <form onSubmit={handleRegister} className="p-6 md:p-8">
-          {step === 1 && (
-            <div className="grid md:grid-cols-2 gap-6">
-              <Input label="Company Name *" name="companyName" onChange={handleChange} />
+        {/* RIGHT */}
+        <div className="flex items-center justify-center">
+          <div className="w-full max-w-md bg-white dark:bg-slate-800/20 backdrop-blur-[2px] border-2  dark:border-neutral-50/10 p-8 rounded-2xl shadow-xl ">
+            <ProgressBar step={step} total={totalSteps} />
 
-              <Input
-                label="Company Username"
-                value={formData.companyUsername}
-                disabled
-              />
+            {step === 1 && <StepCompany data={data} onChange={handleChange} errors={errors} />}
+            {step === 2 && <StepVerification data={data} onChange={handleChange} errors={errors} />}
+            {step === 3 && <StepReview data={data} />}
 
-              <Input label="Email *" name="email" onChange={handleChange} />
-              <Input type="password" label="Password *" name="password" onChange={handleChange} />
-              <Input type="password" label="Confirm Password *" name="confirmPassword" onChange={handleChange} />
-              <Input label="HQ Location *" name="hqLocation" onChange={handleChange} />
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Select
-                  label="Industry *"
-                  name="industry"
-                  value={formData.industry}
-                  onChange={handleChange}
-                  options={INDUSTRIES}
-                />
-                <Input label="Tax ID *" name="taxId" onChange={handleChange} />
-                <Input label="Contact Person *" name="contactPerson" onChange={handleChange} />
-                <Input label="Phone *" name="contactPhone" onChange={handleChange} />
-              </div>
-
-              <label className="flex gap-3 text-gray-300">
-                <input type="checkbox" name="termsAccepted" onChange={handleChange} />
-                I agree to terms & admin approval
-              </label>
-
-              {selectedPlan && (
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500">
-                  <p className="text-emerald-400 font-semibold">
-                    Selected Plan: {selectedPlan.name}
-                  </p>
-                </div>
+            <div className="mt-8 flex justify-between">
+              {step > 1 && <button onClick={back} className="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-700">Back</button>}
+              {step < totalSteps && <button onClick={next} className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white">Continue</button>}
+              {step === totalSteps && (
+                <Link to="/signup/companySignup/plan_selection" onClick={submit} disabled={loading} className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                  {loading ? "Submitting..." : "Submit & Verify"}
+                </Link>
               )}
             </div>
-          )}
 
-          <div className="flex justify-between mt-10">
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={handleBack}
-                className="px-8 py-3 border rounded-xl text-gray-300"
-              >
-                Back
-              </button>
-            )}
-
-            {step < 2 ? (
-              <button
-                type="button"
-                disabled={!validateStep(1)}
-                onClick={handleNext}
-                className="px-8 py-3 bg-blue-600 rounded-xl text-white disabled:opacity-50"
-              >
-                Continue
-              </button>
-            ) : !selectedPlan ? (
-              <button
-                type="submit"
-                className="px-8 py-3 bg-green-600 rounded-xl text-white"
-              >
-                Register & Choose Plan
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleFinalSubmit}
-                className="px-8 py-3 bg-emerald-600 rounded-xl text-white"
-              >
-                Final Submit
-              </button>
-            )}
           </div>
-
-          <p className="text-center mt-8 text-gray-400">
-            Already registered?{" "}
-            <Link to="/company/login" className="text-blue-400">
-              Sign in
-            </Link>
-          </p>
-        </form>
+        </div>
       </div>
-    </>
+
+      <style jsx global>{`
+        @keyframes float {
+          0% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
+          100% { transform: translateY(0); }
+        }
+        .animate-slide-in {
+          animation: slideIn 0.5s ease-out;
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.4s ease-in;
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+    </div>
   );
 };
 
+<<<<<<< HEAD
 /* INPUT */
 const Input = ({ label, ...props }) => (
   <div className="space-y-2">
@@ -1121,3 +275,6 @@ const Select = ({ label, options, ...props }) => (
 );
 
 export default CompanyRegisterForm;
+=======
+export default CompanySignup;
+>>>>>>> 2e2ba0d604aecb18c6cf36a9b5bf059a2a1977b3
