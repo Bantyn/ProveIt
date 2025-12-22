@@ -828,7 +828,7 @@
 // import PlanSelectionModal from "../../../pages/CompanyAuth/PlanSelectionModal";
 // import LoadingOverlay from "../../../pages/CompanyAuth/LoadingOverlay";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CheckCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
@@ -860,6 +860,8 @@ const CompanyRegisterForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPlans, setShowPlans] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -875,62 +877,165 @@ const CompanyRegisterForm = () => {
     termsAccepted: false,
   });
 
-  /* ---------------- VALIDATION ---------------- */
-  const validateStep = (stepNumber) => {
-    if (stepNumber === 1) {
-      return (
-        formData.companyName &&
-        formData.hqLocation &&
-        /^\S+@\S+\.\S+$/.test(formData.email) &&
-        formData.password.length >= 8 &&
-        formData.password === formData.confirmPassword
-      );
-    }
+  /* ---------------- VALIDATION FUNCTIONS ---------------- */
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return "Email is required";
+    if (!emailRegex.test(email)) return "Please enter a valid email address";
+    return "";
+  };
 
-    if (stepNumber === 2) {
-      return (
-        formData.industry &&
-        formData.taxId &&
-        formData.contactPerson &&
-        formData.contactPhone &&
-        formData.termsAccepted
-      );
-    }
+  const validatePassword = (password) => {
+    if (!password) return "Password is required";
+    if (password.length < 8) return "Password must be at least 8 characters";
+    return "";
+  };
 
-    return true;
+  const validateStep1 = () => {
+    const newErrors = {};
+    
+    // Company Name
+    if (!formData.companyName.trim()) {
+      newErrors.companyName = "Company name is required";
+    }
+    
+    // HQ Location
+    if (!formData.hqLocation.trim()) {
+      newErrors.hqLocation = "HQ location is required";
+    }
+    
+    // Email
+    const emailError = validateEmail(formData.email);
+    if (emailError) newErrors.email = emailError;
+    
+    // Password
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) newErrors.password = passwordError;
+    
+    // Confirm Password
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+    
+    return newErrors;
+  };
+
+  const validateStep2 = () => {
+    const newErrors = {};
+    
+    if (!formData.industry) {
+      newErrors.industry = "Industry is required";
+    }
+    
+    if (!formData.taxId.trim()) {
+      newErrors.taxId = "Tax ID is required";
+    }
+    
+    if (!formData.contactPerson.trim()) {
+      newErrors.contactPerson = "Contact person is required";
+    }
+    
+    if (!formData.contactPhone.trim()) {
+      newErrors.contactPhone = "Phone number is required";
+    }
+    
+    if (!formData.termsAccepted) {
+      newErrors.termsAccepted = "You must accept the terms and conditions";
+    }
+    
+    return newErrors;
   };
 
   /* ---------------- HANDLERS ---------------- */
   const handleNext = () => {
-    if (!validateStep(1)) return;
-    setStep(2);
+    const step1Errors = validateStep1();
+    setErrors(step1Errors);
+    
+    // Mark all step 1 fields as touched
+    const step1Fields = ['companyName', 'email', 'password', 'confirmPassword', 'hqLocation'];
+    const newTouched = { ...touched };
+    step1Fields.forEach(field => {
+      newTouched[field] = true;
+    });
+    setTouched(newTouched);
+    
+    if (Object.keys(step1Errors).length === 0) {
+      setStep(2);
+    }
   };
 
-  const handleBack = () => setStep(1);
+  const handleBack = () => {
+    setErrors({});
+    setStep(1);
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
     if (name === "companyName") {
-      setFormData((p) => ({
-        ...p,
+      const newUsername = value ? generateUsername(value) : "";
+      setFormData((prev) => ({
+        ...prev,
         companyName: value,
-        companyUsername:
-          p.companyUsername || generateUsername(value),
+        companyUsername: newUsername,
       }));
       return;
     }
 
-    setFormData((p) => ({
-      ...p,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
+
+    // Mark field as touched
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+  };
+
+  const handleBlur = (fieldName) => {
+    setTouched((prev) => ({
+      ...prev,
+      [fieldName]: true,
+    }));
+
+    // Validate individual field on blur
+    if (step === 1) {
+      const step1Errors = validateStep1();
+      setErrors((prev) => ({
+        ...prev,
+        [fieldName]: step1Errors[fieldName],
+      }));
+    }
   };
 
   /* SUBMIT → LOADER → FULL SCREEN PLAN */
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!validateStep(2)) return;
+    
+    const step2Errors = validateStep2();
+    setErrors(step2Errors);
+    
+    // Mark all step 2 fields as touched
+    const step2Fields = ['industry', 'taxId', 'contactPerson', 'contactPhone', 'termsAccepted'];
+    const newTouched = { ...touched };
+    step2Fields.forEach(field => {
+      newTouched[field] = true;
+    });
+    setTouched(newTouched);
+    
+    if (Object.keys(step2Errors).length > 0) return;
 
     setIsSubmitting(true);
     await new Promise((r) => setTimeout(r, 1200));
@@ -996,18 +1101,65 @@ const CompanyRegisterForm = () => {
         <form onSubmit={handleRegister} className="p-6 md:p-8">
           {step === 1 && (
             <div className="grid md:grid-cols-2 gap-6">
-              <Input label="Company Name *" name="companyName" onChange={handleChange} />
+              <Input 
+                label="Company Name *" 
+                name="companyName" 
+                value={formData.companyName}
+                onChange={handleChange}
+                onBlur={() => handleBlur('companyName')}
+                error={touched.companyName && errors.companyName}
+                placeholder="Enter company name"
+              />
 
               <Input
                 label="Company Username"
                 value={formData.companyUsername}
                 disabled
+                placeholder="Auto-generated"
               />
 
-              <Input label="Email *" name="email" onChange={handleChange} />
-              <Input type="password" label="Password *" name="password" onChange={handleChange} />
-              <Input type="password" label="Confirm Password *" name="confirmPassword" onChange={handleChange} />
-              <Input label="HQ Location *" name="hqLocation" onChange={handleChange} />
+              <Input 
+                label="Email *" 
+                name="email" 
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={() => handleBlur('email')}
+                error={touched.email && errors.email}
+                placeholder="company@example.com"
+              />
+              
+              <Input 
+                type="password" 
+                label="Password *" 
+                name="password" 
+                value={formData.password}
+                onChange={handleChange}
+                onBlur={() => handleBlur('password')}
+                error={touched.password && errors.password}
+                placeholder="At least 8 characters"
+              />
+              
+              <Input 
+                type="password" 
+                label="Confirm Password *" 
+                name="confirmPassword" 
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                onBlur={() => handleBlur('confirmPassword')}
+                error={touched.confirmPassword && errors.confirmPassword}
+                placeholder="Confirm your password"
+              />
+              
+              <Input 
+                label="HQ Location *" 
+                name="hqLocation" 
+                value={formData.hqLocation}
+                onChange={handleChange}
+                onBlur={() => handleBlur('hqLocation')}
+                error={touched.hqLocation && errors.hqLocation}
+                placeholder="City, Country"
+              />
             </div>
           )}
 
@@ -1019,17 +1171,64 @@ const CompanyRegisterForm = () => {
                   name="industry"
                   value={formData.industry}
                   onChange={handleChange}
+                  onBlur={() => handleBlur('industry')}
+                  error={touched.industry && errors.industry}
                   options={INDUSTRIES}
                 />
-                <Input label="Tax ID *" name="taxId" onChange={handleChange} />
-                <Input label="Contact Person *" name="contactPerson" onChange={handleChange} />
-                <Input label="Phone *" name="contactPhone" onChange={handleChange} />
+                
+                <Input 
+                  label="Tax ID *" 
+                  name="taxId" 
+                  value={formData.taxId}
+                  onChange={handleChange}
+                  onBlur={() => handleBlur('taxId')}
+                  error={touched.taxId && errors.taxId}
+                  placeholder="Enter tax identification number"
+                />
+                
+                <Input 
+                  label="Contact Person *" 
+                  name="contactPerson" 
+                  value={formData.contactPerson}
+                  onChange={handleChange}
+                  onBlur={() => handleBlur('contactPerson')}
+                  error={touched.contactPerson && errors.contactPerson}
+                  placeholder="Full name"
+                />
+                
+                <Input 
+                  label="Phone *" 
+                  name="contactPhone" 
+                  value={formData.contactPhone}
+                  onChange={handleChange}
+                  onBlur={() => handleBlur('contactPhone')}
+                  error={touched.contactPhone && errors.contactPhone}
+                  placeholder="+1 (555) 123-4567"
+                  type="tel"
+                />
               </div>
 
-              <label className="flex gap-3 text-gray-300">
-                <input type="checkbox" name="termsAccepted" onChange={handleChange} />
-                I agree to terms & admin approval
-              </label>
+              <div className="space-y-2">
+                <label className="flex items-start gap-3 text-gray-300 cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    name="termsAccepted" 
+                    checked={formData.termsAccepted}
+                    onChange={handleChange}
+                    className="mt-1"
+                  />
+                  <span>
+                    I agree to the{" "}
+                    <Link to="/terms" className="text-blue-400 hover:underline">
+                      Terms & Conditions
+                    </Link>{" "}
+                    and understand that my account requires admin approval
+                  </span>
+                </label>
+                {touched.termsAccepted && errors.termsAccepted && (
+                  <p className="text-red-400 text-sm ml-7">{errors.termsAccepted}</p>
+                )}
+              </div>
 
               {selectedPlan && (
                 <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500">
@@ -1046,7 +1245,7 @@ const CompanyRegisterForm = () => {
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-8 py-3 border rounded-xl text-gray-300"
+                className="px-8 py-3 border border-gray-600 rounded-xl text-gray-300 hover:bg-gray-800 transition-colors"
               >
                 Back
               </button>
@@ -1055,16 +1254,16 @@ const CompanyRegisterForm = () => {
             {step < 2 ? (
               <button
                 type="button"
-                disabled={!validateStep(1)}
                 onClick={handleNext}
-                className="px-8 py-3 bg-blue-600 rounded-xl text-white disabled:opacity-50"
+                disabled={Object.keys(validateStep1()).length > 0}
+                className="px-8 py-3 bg-blue-600 rounded-xl text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ml-auto"
               >
                 Continue
               </button>
             ) : !selectedPlan ? (
               <button
                 type="submit"
-                className="px-8 py-3 bg-green-600 rounded-xl text-white"
+                className="px-8 py-3 bg-green-600 rounded-xl text-white hover:bg-green-700 transition-colors ml-auto"
               >
                 Register & Choose Plan
               </button>
@@ -1072,7 +1271,7 @@ const CompanyRegisterForm = () => {
               <button
                 type="button"
                 onClick={handleFinalSubmit}
-                className="px-8 py-3 bg-emerald-600 rounded-xl text-white"
+                className="px-8 py-3 bg-emerald-600 rounded-xl text-white hover:bg-emerald-700 transition-colors ml-auto"
               >
                 Final Submit
               </button>
@@ -1081,7 +1280,7 @@ const CompanyRegisterForm = () => {
 
           <p className="text-center mt-8 text-gray-400">
             Already registered?{" "}
-            <Link to="/company/login" className="text-blue-400">
+            <Link to="/company/login" className="text-blue-400 hover:underline">
               Sign in
             </Link>
           </p>
@@ -1091,24 +1290,38 @@ const CompanyRegisterForm = () => {
   );
 };
 
-/* INPUT */
-const Input = ({ label, ...props }) => (
+/* INPUT COMPONENT */
+const Input = ({ label, error, onBlur, ...props }) => (
   <div className="space-y-2">
     <label className="text-sm text-gray-300">{label}</label>
     <input
       {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white disabled:opacity-70"
+      onBlur={onBlur}
+      className={`w-full px-4 py-3 rounded-xl bg-gray-800/50 border ${
+        error ? "border-red-500" : "border-gray-700"
+      } text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-70 transition-colors`}
     />
+    {error && (
+      <p className="text-red-400 text-xs flex items-center gap-1">
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+        </svg>
+        {error}
+      </p>
+    )}
   </div>
 );
 
-/* SELECT */
-const Select = ({ label, options, ...props }) => (
+/* SELECT COMPONENT */
+const Select = ({ label, options, error, onBlur, ...props }) => (
   <div className="space-y-2">
     <label className="text-sm text-gray-300">{label}</label>
     <select
       {...props}
-      className="w-full px-4 py-3 rounded-xl bg-gray-800/50 border border-gray-700 text-white"
+      onBlur={onBlur}
+      className={`w-full px-4 py-3 rounded-xl bg-gray-800/50 border ${
+        error ? "border-red-500" : "border-gray-700"
+      } text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors`}
     >
       <option value="">Select industry</option>
       {options.map((o) => (
@@ -1117,6 +1330,14 @@ const Select = ({ label, options, ...props }) => (
         </option>
       ))}
     </select>
+    {error && (
+      <p className="text-red-400 text-xs flex items-center gap-1">
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+        </svg>
+        {error}
+      </p>
+    )}
   </div>
 );
 
