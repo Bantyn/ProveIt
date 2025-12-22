@@ -1,6 +1,7 @@
 "use client";
 import { Github, Linkedin, Twitter } from "lucide-react";
 import React, { useRef } from "react";
+import {Particles} from "./Partical";
 import {
   motion,
   useMotionValue,
@@ -39,11 +40,21 @@ export default function Footer() {
   `;
 
   return (
+    <>
+    <Particles
+              className="absolute overflow-hidden h-full w-screen" // make it cover the container
+              quantity={150}               // number of particles
+              size={0.8}                   // particle size
+              color="#990000"          // particle color
+              staticity={100}               // magnetism strength
+              ease={30}                    // movement ease
+            />
     <footer
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className={clsx(" relative bg-background overflow-hidden", "py-50 px-6")}
+      className={clsx(" relative bg-background overflow-hidden", "h-screen flex items-center px-6")}
     >
+       
       {/* Grid base */}
       <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.08]">
         <GridPattern offsetX={offsetX} offsetY={offsetY} />
@@ -112,6 +123,8 @@ export default function Footer() {
         </p>
       </div>
     </footer>
+    </>
+
   );
 }
 

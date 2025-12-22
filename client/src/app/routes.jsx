@@ -6,7 +6,7 @@ import CompanySignin from "../features/auth/signup/company/CompanyAuth/Logn";
 import PlanSelection from "../features/auth/signup/company/PricingSection";
 
 // Pages
-import Home from "../features/pages/home/Home";
+import Home from "../features/pages/Emplyee_UI/dashboard/EmplyeeDashboard";
 import Landing from "../features/pages/landing/Landing";
 
 
@@ -16,7 +16,7 @@ export const routes = [
     element: <Landing />,
   },
   {
-    path: "/home",
+    path: "/client/emplyee_dashboard",
     element: <Home />,
   },
   {
