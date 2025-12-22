@@ -53,7 +53,7 @@ export default function Navbar() {
 
   // CLIENT MENU
   const clientItems = [
-    { name: "Dashboard", url: "/client/dashboard", icon: LayoutDashboard },
+    { name: "Dashboard", url: "/client/emplyee_dashboard", icon: LayoutDashboard },
     { name: "Competitions", url: "/competitions", icon: Bot },
     { name: "Submissions", url: "/submissions", icon: Upload },
     { name: "Messages", url: "/messages", icon: Phone },
@@ -114,7 +114,7 @@ export default function Navbar() {
       transition={{
         duration: 0.35,
         ease: "easeOut",
-        delay: hidden ? 0.8 : 0,
+        delay: hidden ? 1 : 0,
       }}
       className="fixed z-50 left-1/2 -translate-x-1/2 top-4 md:top-0"
     >
@@ -122,7 +122,7 @@ export default function Navbar() {
         layout
         transition={{ type: "spring", stiffness: 260, damping: 28 }}
         className={clsx(
-          "flex items-center gap-2 px-2 py-2 border backdrop-blur-[6px] shadow-xl",
+          "flex items-center justify-center gap-2 px-2 py-2 border backdrop-blur-[6px] shadow-xl",
           "bg-white/10 dark:bg-black/30 border-white/10",
           "rounded-full",
           !scrolled &&

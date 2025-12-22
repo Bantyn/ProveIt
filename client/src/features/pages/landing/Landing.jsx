@@ -6,178 +6,216 @@ import clsx from "clsx";
 import { useRef } from "react";
 import { TestimonialsColumn } from "../../../components/ui/testominals/testimonials-columns-1.jsx";
 import { CheckCircle, Clock } from "lucide-react";
-import {Particles} from "./Partical.jsx";
-import CompitionHelp from "./timeline.jsx"
-
+import { Particles } from "./Partical.jsx";
+import CompitionHelp from "./timeline.jsx";
+import FAQ from "./FAQ_section.jsx";
 // --- default Landing Component ---
 export default function Landing() {
   // ---  icons array ---
- const demoIcons = [
-   {
-     id: 1,
-     icon: IconGoogle,
-     className: "top-[10%] left-[10%] w-10 h-10",
-   },
-   {
-     id: 2,
-     icon: IconApple,
-     className: "top-[20%] right-[8%] w-10 h-10",
-   },
-   {
-     id: 3,
-     icon: IconMicrosoft,
-     className: "top-[80%] left-[10%] w-10 h-10",
-   },
-   {
-     id: 4,
-     icon: IconFigma,
-     className:
-       "bottom-[10%] right-[10%] w-10 h-10",
-   },
-   {
-     id: 5,
-     icon: IconGitHub,
-     className: "top-[5%] left-[30%] w-10 h-10",
-   },
-   {
-     id: 6,
-     icon: IconSlack,
-     className: "top-[5%] right-[30%]  w-10 h-10",
-   },
-   {
-     id: 7,
-     icon: IconVercel,
-     className: "bottom-[8%] left-[25%]  w-10 h-10",
-   },
-   {
-     id: 8,
-     icon: IconStripe,
-     className: "top-[40%] left-[15%] w-10 h-10",
-   },
-   {
-     id: 9,
-     icon: IconDiscord,
-     className: "top-[75%] right-[25%]  w-10 h-10",
-   },
-   {
-     id: 10,
-     icon: IconX,
-     className: "top-[90%] left-[70%]  w-10 h-10",
-   },
-   {
-     id: 11,
-     icon: IconNotion,
-     className: "top-[50%] right-[5%]  w-10 h-10",
-   },
-   {
-     id: 12,
-     icon: IconSpotify,
-     className: "top-[55%] left-[5%]  w-10 h-10",
-   },
-   {
-     id: 13,
-     icon: IconDropbox,
-     className: "top-[5%] left-[55%]  w-10 h-10",
-   },
-   {
-     id: 14,
-     icon: IconTwitch,
-     className: "bottom-[5%] right-[45%]  w-10 h-10",
-   },
-   {
-     id: 15,
-     icon: IconLinear,
-     className: "top-[25%] right-[20%]  w-10 h-10",
-   },
-   {
-     id: 16,
-     icon: IconYouTube,
-     className: "top-[60%] left-[30%]  w-10 h-10",
-   },
- ];
-
+  const demoIcons = [
+    {
+      id: 1,
+      icon: IconGoogle,
+      className: "top-[10%] left-[10%] w-10 h-10",
+    },
+    {
+      id: 2,
+      icon: IconApple,
+      className: "top-[20%] right-[8%] w-10 h-10",
+    },
+    {
+      id: 3,
+      icon: IconMicrosoft,
+      className: "top-[80%] left-[10%] w-10 h-10",
+    },
+    {
+      id: 4,
+      icon: IconFigma,
+      className: "bottom-[10%] right-[10%] w-10 h-10",
+    },
+    {
+      id: 5,
+      icon: IconGitHub,
+      className: "top-[5%] left-[30%] w-10 h-10",
+    },
+    {
+      id: 6,
+      icon: IconSlack,
+      className: "top-[5%] right-[30%]  w-10 h-10",
+    },
+    {
+      id: 7,
+      icon: IconVercel,
+      className: "bottom-[8%] left-[25%]  w-10 h-10",
+    },
+    {
+      id: 8,
+      icon: IconStripe,
+      className: "top-[40%] left-[15%] w-10 h-10",
+    },
+    {
+      id: 9,
+      icon: IconDiscord,
+      className: "top-[75%] right-[25%]  w-10 h-10",
+    },
+    {
+      id: 10,
+      icon: IconX,
+      className: "top-[90%] left-[70%]  w-10 h-10",
+    },
+    {
+      id: 11,
+      icon: IconNotion,
+      className: "top-[50%] right-[5%]  w-10 h-10",
+    },
+    {
+      id: 12,
+      icon: IconSpotify,
+      className: "top-[55%] left-[5%]  w-10 h-10",
+    },
+    {
+      id: 13,
+      icon: IconDropbox,
+      className: "top-[5%] left-[55%]  w-10 h-10",
+    },
+    {
+      id: 14,
+      icon: IconTwitch,
+      className: "bottom-[5%] right-[45%]  w-10 h-10",
+    },
+    {
+      id: 15,
+      icon: IconLinear,
+      className: "top-[25%] right-[20%]  w-10 h-10",
+    },
+    {
+      id: 16,
+      icon: IconYouTube,
+      className: "top-[60%] left-[30%]  w-10 h-10",
+    },
+  ];
   // Compition Help  Data
-const timelineData = [
-  {
-    title: "Step 1",
-    ClientSignup: "/signup/clientSignup",
-    CompanySignup: "/signup/companySignup",
-    content: (
-      <p className="text-neutral-700 dark:text-neutral-300">
-        Create your ProveIt.io account using email or social login to get
-        started with competitions.
-      </p>
-    ),
-    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fee19917cc8400fe361d_HackerRank%20Community%20Video-transcode.mp4",
-  },
-  {
-    title: "Step 2",
-    content: (
-      <p className="text-neutral-700 dark:text-neutral-300">
-        Complete your profile with accurate details so companies can verify
-        your submissions easily.
-      </p>
-    ),
-    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F67abf3b87b35de0f7a554086_engageloop%20%281%29-transcode.mp4",
-  },
-  {
-    title: "Step 3",
-    content: (
-      <p className="text-neutral-700 dark:text-neutral-300">
-        Browse active competitions and choose the one that matches your
-        skills and interests.
-      </p>
-    ),
-    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fef1ba10dbc08fa26cee_HackerRank%20Screen%20Transcode-transcode.mp4",
-  },
-  {
-    title: "Step 4",
-    join: "/signup/clientSignup",
-    rules: "/client/rules",
-    content: (
-      <p className="text-neutral-700 dark:text-neutral-300">
-        Read the competition rules, deadlines, and evaluation criteria before
-        joining.
-      </p>
-    ),
-    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fef60ab73dfc01af6953_HackerRank%20Interview%20Transcode-transcode.mp4",
-  },
-  {
-    title: "Step 5",
-    content: (
-      <p className="text-neutral-700 dark:text-neutral-300">
-        Submit your solution or project within the given time using the
-        provided submission guidelines.
-      </p>
-    ),
-    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741feface5fde257eba2e92_HackerRank%20Skillup%20Transcode-transcode.mp4",
-  },
-  {
-    title: "Step 6",
-    content: (
-      <p className="text-neutral-700 dark:text-neutral-300">
-        Track your progress, results, and feedback directly from your
-        dashboard after submission.
-      </p>
-    ),
-    video: "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F67abf3b87b35de0f7a554086_engageloop%20%281%29-transcode.mp4",
-  },
-];
+  const timelineData = [
+    {
+      title: "Step 1",
+      ClientSignup: "/signup/clientSignup",
+      CompanySignup: "/signup/companySignup",
+      content: (
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Create your ProveIt.io account using email or social login to get
+          started with competitions.
+        </p>
+      ),
+      video:
+        "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fee19917cc8400fe361d_HackerRank%20Community%20Video-transcode.mp4",
+    },
+    {
+      title: "Step 2",
+      content: (
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Complete your profile with accurate details so companies can verify
+          your submissions easily.
+        </p>
+      ),
+      video:
+        "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F67abf3b87b35de0f7a554086_engageloop%20%281%29-transcode.mp4",
+    },
+    {
+      title: "Step 3",
+      content: (
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Browse active competitions and choose the one that matches your skills
+          and interests.
+        </p>
+      ),
+      video:
+        "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fef1ba10dbc08fa26cee_HackerRank%20Screen%20Transcode-transcode.mp4",
+    },
+    {
+      title: "Step 4",
+      join: "/signup/clientSignup",
+      rules: "/client/rules",
+      content: (
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Read the competition rules, deadlines, and evaluation criteria before
+          joining.
+        </p>
+      ),
+      video:
+        "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741fef60ab73dfc01af6953_HackerRank%20Interview%20Transcode-transcode.mp4",
+    },
+    {
+      title: "Step 5",
+      content: (
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Submit your solution or project within the given time using the
+          provided submission guidelines.
+        </p>
+      ),
+      video:
+        "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F6741feface5fde257eba2e92_HackerRank%20Skillup%20Transcode-transcode.mp4",
+    },
+    {
+      title: "Step 6",
+      content: (
+        <p className="text-neutral-700 dark:text-neutral-300">
+          Track your progress, results, and feedback directly from your
+          dashboard after submission.
+        </p>
+      ),
+      video:
+        "https://cdn.prod.website-files.com/66b6d7fd4d3e9cef94717176%2F67abf3b87b35de0f7a554086_engageloop%20%281%29-transcode.mp4",
+    },
+  ];
+
+  const categories = {
+    "web-dev": "Web Development",
+    "mobile-dev": "Mobile Development",
+    "ui-ux": "UI / UX Design",
+    copywriting: "Copywriting",
+  };
+
+  const faqData = {
+    "web-dev": [
+      {
+        question: "What is web development?",
+        answer:
+          "Web development is the process of building and maintaining websites using front-end and back-end technologies.",
+      },
+      {
+        question: "What languages are required?",
+        answer:
+          "HTML, CSS, JavaScript for frontend and Node.js, Python, PHP, or Java for backend.",
+      },
+    ],
+    "mobile-dev": [
+      {
+        question: "What is mobile development?",
+        answer:
+          "Mobile development focuses on building applications for Android and iOS devices.",
+      },
+    ],
+    "ui-ux": [
+      {
+        question: "What is UI/UX?",
+        answer:
+          "UI focuses on visuals, UX focuses on user experience and usability.",
+      },
+    ],
+    copywriting: [
+      {
+        question: "What is copywriting?",
+        answer:
+          "Copywriting is writing persuasive text for marketing and branding purposes.",
+      },
+    ],
+  };
+
   return (
     <>
       <section>
         {/* // Hero Section */}
-        
-        {/* <Particles
-        className="absolute h-full" // make it cover the container
-        quantity={150}               // number of particles
-        size={0.8}                   // particle size
-        color="#fff010"              // particle color
-        staticity={80}               // magnetism strength
-        ease={30}                    // movement ease
-      /> */}
-        
-        
+
         <FloatingIconsHero
           title="Skill-Verified Hiring Platform"
           subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
@@ -190,34 +228,36 @@ const timelineData = [
       </section>
 
       
+      
+
       {/* // second section */}
       <section className="min-h-screen">
-        
         {/* Second Sub Title */}
         <WordFadeIn
           className="md:mt-60 mt-50 mb-30 md:tracking-widest md:text-5xl text-8xl font-bold md:font-semibold  text-black dark:text-white/80 "
           text="Show Your Skills and Get Hired"
           delay={0.06}
         ></WordFadeIn>
-          
 
-          {/* Hired Employees */}
-        <HiredEmployeesTimeline
+        {/* Hired Employees */}
+        {/* <HiredEmployeesTimeline
           title="Hired Employees This Week"
           employees={employees}
-        />
+        /> */}
 
-
-         {/* Compition Help Section */}
-        <CompitionHelp data={timelineData}></CompitionHelp>
-
-
+        {/* Compition Help Section */}
+        {/* <CompitionHelp data={timelineData}></CompitionHelp> */}
 
         {/* // Testimonials */}
         <Testimonials />
 
-
-
+        {/* FAQ Section */}
+        <FAQ
+          title="Frequently Asked Questions"
+          subtitle="Let's answer some questions"
+          categories={categories}
+          faqData={faqData}
+        />
       </section>
     </>
   );
@@ -231,7 +271,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 300, damping: 20 });
   const springY = useSpring(y, { stiffness: 300, damping: 20 });
- 
+
   React.useEffect(() => {
     const handleMouseMove = () => {
       if (!ref.current) return;
@@ -294,7 +334,20 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
 
 // --- Main Floating Icons Hero Component ---
 export const FloatingIconsHero = React.forwardRef(
-  ({ className, title, subtitle, ctaText, ctaHref,ctaText2, ctaHref2, icons, ...props }, ref) => {
+  (
+    {
+      className,
+      title,
+      subtitle,
+      ctaText,
+      ctaHref,
+      ctaText2,
+      ctaHref2,
+      icons,
+      ...props
+    },
+    ref
+  ) => {
     const mouseX = React.useRef(0);
     const mouseY = React.useRef(0);
 
@@ -352,8 +405,6 @@ export const FloatingIconsHero = React.forwardRef(
                 ctaText={ctaText2}
                 className="bg-gradient-to-l from-blue-500 to-violet-400 hover:to-violet-400  hover:from-blue-500   rounded-4xl"
               ></UltimateGlassCTA>
-
-             
             </div>
           </div>
         </div>
@@ -597,7 +648,7 @@ const IconYouTube = (props) => (
 );
 
 // ------------------- Button -------------------
-export function UltimateGlassCTA({ ctaText, ctaHref,className }) {
+export function UltimateGlassCTA({ ctaText, ctaHref, className }) {
   const ref = useRef(null);
 
   // 🎯 Magnetic cursor
@@ -627,7 +678,7 @@ export function UltimateGlassCTA({ ctaText, ctaHref,className }) {
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
       whileTap={{ scale: 0.92 }}
-      className={clsx("relative group inline-flex",className)}
+      className={clsx("relative group inline-flex", className)}
     >
       <span
         className="absolute inset-0 rounded-3xl blur-2xl opacity-60
