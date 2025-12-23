@@ -26,15 +26,15 @@ const Home = () => {
         <div className="relative min-h-screen pt-20 pb-20 overflow-hidden">
             {/* Background Gradients */}
             <div className="fixed inset-0 pointer-events-none z-[-1]">
-                <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-secondary/20 rounded-full blur-[100px]" />
+                <div className="absolute top-[-10%] left-[-10%] bg-primary/20 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[10%] right-[-5%]  bg-secondary/20 rounded-full blur-[100px]" />
             </div>
 
             {/* LightRays Effect */}
             <div className="absolute inset-0 pointer-events-none z-[1]">
                 <LightRays
                     raysOrigin="top-center"
-                    raysColor="#3b82f6"
+                    raysColor="#3b82g9"
                     raysSpeed={1.2}
                     lightSpread={0.6}
                     rayLength={1.5}
@@ -54,12 +54,14 @@ const Home = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-primary/30 text-primary-hover text-sm font-medium mb-8">
+                    <div className="bg-white/90 inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-primary/30 text-primary-hover text-sm font-medium mb-8">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                         </span>
+                        {/* <h2 className='text-white'> */}
                         AI-Powered Skill Assessment
+                        {/* </h2> */}
                     </div>
                 </motion.div>
 
@@ -67,7 +69,7 @@ const Home = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-5xl md:text-7xl font-bold mb-6 tracking-tight"
+                    className="text-5xl md:text-7xl font-bold mb-6 tracking-tight bg-gradient-to-r from-red-600 to-blue-600 bg-clip-text text-transparent"
                 >
                     Connecting Developers<br />
                     <span className="gradient-text">with Opportunities.</span>
