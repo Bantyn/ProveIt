@@ -1,6 +1,6 @@
 // Authanication
 import Login from "../features/auth/login/Login";
-import ClientSignup from "../features/auth/signup/client/ClientSignup";
+//import ClientSignup from "../features/auth/signup/client/ClientSignup";
 import CompanySignup from "../features/auth/signup/company/CompanySignup";
 import CompanySignin from "../features/auth/signup/company/CompanyAuth/Logn";
 import PlanSelection from "../features/auth/signup/company/PricingSection";
@@ -25,10 +25,10 @@ export const routes = [
     path: "/masterLogin",
     element: <Login />,
   },
-  {
-    path: "/signup/clientSignup",
-    element: <ClientSignup />,
-  },
+  // {
+  //   path: "/signup/clientSignup",
+  //   element: <ClientSignup />,
+  // },
   {
     path: "/signup/companySignup",
     element: <CompanySignup />,
