@@ -1,36 +1,40 @@
-
-import ErrorBoundary from './ErrorBoundary.jsx'
+import ErrorBoundary from './ErrorBoundary.jsx';
 import { routes } from "./routes.jsx";
-// import { ThemeProvider } from "next-themes";
-import { useRoutes } from "react-router-dom";
-import '../styles/App.css'
-import Footer from '../components/ui/footer/Footer.jsx'
-import Navbar from '../components/ui/navbar/Navbar.jsx';
+import { useRoutes, useLocation } from "react-router-dom";
+import '../styles/App.css';
 
 export default function App() {
   const element = useRoutes(routes);
+  const location = useLocation();
+  const hideHeaderFooterPaths = ["/signup/companySignup", "/signin/companySignin","/signup/companySignup/plan_selection","/masterLogin"];
+
+  const showHeaderFooter = !hideHeaderFooterPaths.includes(location.pathname);
+
   return (
     <>
-    {/* <ThemeProvider> */}
-     <ErrorBoundary>
+      <ErrorBoundary>
 
-      <header className=''>
-        <Navbar></Navbar>
-      </header>
+        {showHeaderFooter && (
+          <header>
+            <h1 className="dark:text-white text-center py-5 bg-white dark:bg-black border-b border-black/10 fixed z-50 w-full top-0">
+              ProveIt header
+            </h1>
+          </header>
+        )}
 
-      <main className='pt-24 md:pt-28 min-h-screen'>
-      {element}
-      </main>
-      
-      
-      <footer className='mt-24 border-t-1 border-gray-500/20  transition-all duration-200 dark:border-amber-50/10'>
-          <Footer></Footer>
-      </footer> 
+        <main className=''>
+          {element}
+        </main>
 
-    </ErrorBoundary>
-    {/* </ThemeProvider> */}
+        {showHeaderFooter && (
+          <footer className='mt-50'>
+            <h1 className="dark:text-white text-center py-5 bg-white dark:bg-black border-t border-black/10 h-50 pt-10">
+              ProveIt footer
+            </h1>
+          </footer>
+        )}
+
+      </ErrorBoundary>
     </>
-  )
+  );
 }
-
-
