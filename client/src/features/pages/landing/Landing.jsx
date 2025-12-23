@@ -10,6 +10,64 @@ import { Particles } from "./Partical.jsx";
 import CompitionHelp from "./timeline.jsx";
 import FAQ from "./FAQ_section.jsx";
 // --- default Landing Component ---
+const testimonials = [
+  {
+    text: "This Web3-powered platform transformed the way our organization operates. From smart automation to real-time finance tracking, everything feels futuristic and incredibly efficient.",
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
+    name: "Briana Patton",
+    role: "Operations Manager",
+  },
+  {
+    text: "The AI-driven insights are on another level. Integrating the MERN stack with Gemini AI gives us unmatched speed, reliability, and automation across our workflows.",
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
+    name: "Bilal Ahmed",
+    role: "IT Manager",
+  },
+  {
+    text: "Their support team is outstanding. From onboarding to optimization, they helped us unlock the full power of AI automation in our operations.",
+    image: "https://randomuser.me/api/portraits/women/3.jpg",
+    name: "Saman Malik",
+    role: "Customer Support Lead",
+  },
+  {
+    text: "The seamless Web3 integration and AI-powered modules drastically improved our data security, efficiency, and decision-making. Truly next-gen technology.",
+    image: "https://randomuser.me/api/portraits/men/4.jpg",
+    name: "Omar Raza",
+    role: "CEO",
+  },
+  {
+    text: "With intelligent dashboards and real-time analytics, our team works faster and smarter. This solution boosted our productivity like never before.",
+    image: "https://randomuser.me/api/portraits/women/5.jpg",
+    name: "Zainab Hussain",
+    role: "Project Manager",
+  },
+  {
+    text: "Implementation was incredibly smooth. The platform is built with clean UI, powerful features, and outstanding AI capabilities. Highly recommended!",
+    image: "https://randomuser.me/api/portraits/women/6.jpg",
+    name: "Aliza Khan",
+    role: "Business Analyst",
+  },
+  {
+    text: "Our marketing operations improved instantly. The AI workflows automate repetitive tasks and help us make data-driven decisions effortlessly.",
+    image: "https://randomuser.me/api/portraits/men/7.jpg",
+    name: "Farhan Siddiqui",
+    role: "Marketing Director",
+  },
+  {
+    text: "They understood our requirements perfectly and delivered a high-performance platform that blends AI, security, and Web3 capabilities flawlessly.",
+    image: "https://randomuser.me/api/portraits/women/8.jpg",
+    name: "Sana Sheikh",
+    role: "Sales Manager",
+  },
+  {
+    text: "Our online performance doubled after switching. With smart automation and seamless AI tools, our conversions and workflow efficiency skyrocketed.",
+    image: "https://randomuser.me/api/portraits/men/9.jpg",
+    name: "Hassan Ali",
+    role: "E-commerce Manager",
+  },
+];
+
+
 export default function Landing() {
   // ---  icons array ---
   const demoIcons = [
@@ -94,6 +152,7 @@ export default function Landing() {
       className: "top-[60%] left-[30%]  w-10 h-10",
     },
   ];
+
   // Compition Help  Data
   const timelineData = [
     {
@@ -211,11 +270,39 @@ export default function Landing() {
     ],
   };
 
+  // Trustade Logo 
+  const logos = [
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Canva-1.svg", w: 91 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Ramp-1.svg", w: 100 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/SoFi-1.svg", w: 91 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/10/logo1.svg", w: 81 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/10/Hubspot2.svg", w: 100 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Instacart1.svg", w: 126 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/motive-logo.svg", w: 96 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Toast-1.svg", w: 92 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Zapier.svg", w: 94 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Frame.svg", w: 129 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Attentive-1.svg", w: 112 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Abnormal-1.svg", w: 107 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Justworks-1.svg", w: 116 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/CharlieHealth-1.svg", w: 140 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Navan-1.svg", w: 89 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Talentful-1.svg", w: 114 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Lucid-1.svg", w: 132 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Groq-1.svg", w: 68 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Vercel-1.svg", w: 105 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Onetrust1-1.svg", w: 114 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Vector1.svg", w: 118 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Webflow.svg", w: 126 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Klaviyo-1.svg", w: 115 },
+    { src: "https://brighthire.com/wp-content/uploads/2025/09/Mr-Beast-Logo.svg", w: 93 },
+  ];
+  
   return (
     <>
+      {/* // First section */}
       <section>
         {/* // Hero Section */}
-
         <FloatingIconsHero
           title="Skill-Verified Hiring Platform"
           subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
@@ -227,18 +314,198 @@ export default function Landing() {
         />
       </section>
 
-      
-      
-
-      {/* // second section */}
+      {/* // Delivering immediate impact... Second section */}
       <section className="min-h-screen">
+        {/* title */}
+        <WordFadeIn
+          className="md:mt-60 mt-60  md:text-5xl text-3xl font-bold md:font-bold mx-auto md:w-300  text-black dark:text-white/80 "
+          text="Delivering immediate impact for forward-thinking talent acquisition teams."
+          delay={0.06}
+        ></WordFadeIn>
+        {/* sub title */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+          className="text-center text-xl -mt-10 text-gray-500"
+        >
+          *Based on a real study across 25,000+ candidates on the impact of
+          BrightHire.
+        </motion.p>
+
+        <div className="flex justify-center gap-40 mt-30 w-full">
+          {/* card 1 */}
+          <motion.div
+            initial={{ opacity: 0, x: -90 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: 0.6 }}
+            className=" flex flex-col hover:-translate-y-3 hover:rotate-3 transition-all duration-200 justify-center items-center h-60 w-70  rounded-[3rem] border dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
+          >
+            <h1
+              className=" text-6xl font-bold bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              27%
+            </h1>
+            <p className="text-xl mt-5 w-[80%] mx-auto text-center font-bold text-gray-500">
+              fewer interviews per hire
+            </p>
+          </motion.div>
+          {/* card 2 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3, delay: 0.4 }}
+            className="  flex flex-col justify-center hover:-translate-y-3 hover:scale-105 transition-all duration-200 items-center h-60 w-70  rounded-[3rem] border border-gray-200 dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
+          >
+            <h1
+              className=" text-6xl font-bold 
+  bg-gradient-to-r from-violet-600 to-blue-600 
+  bg-clip-text text-transparent
+  cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              28%
+            </h1>
+            <p className="text-xl mt-5 w-[80%] mx-auto text-center font-bold text-gray-500">
+              increase in pipeline efficiency
+            </p>
+          </motion.div>
+          {/* card 3 */}
+          <motion.div
+            initial={{ opacity: 0, x: 90 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className=" flex flex-col hover:-translate-y-3 hover:-rotate-3 transition-all duration-200 justify-center items-center h-60 w-70  rounded-[3rem] border dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
+          >
+            <h1
+              className=" text-6xl font-bold 
+  bg-gradient-to-r from-violet-600 to-blue-600 
+  bg-clip-text text-transparent
+  cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              19%
+            </h1>
+            <p className="text-xl mt-5 w-[80%] mx-auto text-center font-bold text-gray-500">
+              reduction in candidate drop offs
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* // Third section */}
+      <section className="min-h-screen -mt-50">
         {/* Second Sub Title */}
         <WordFadeIn
-          className="md:mt-60 mt-50 mb-30 md:tracking-widest md:text-5xl text-8xl font-bold md:font-semibold  text-black dark:text-white/80 "
-          text="Show Your Skills and Get Hired"
+          className="mb-30 md:text-5xl text-3xl font-bold md:font-semibold mx-auto md:w-300  text-black dark:text-white/80 "
+          text="Build exceptional teams with an end-to-end skills-based hiring platform."
           delay={0.06}
         ></WordFadeIn>
 
+        <IntroductionWithImages
+          title="Easily Scope Skills-Based Roles"
+          desc="Quickly scope new roles, write inclusive job descriptions, and deliver structured interview plans with ease — all tailored to company standards. Save time and ensure consistency by relying on our powerful AI to help you create interview plans focused on the skills that matter."
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/image1.png"
+        ></IntroductionWithImages>
+        {/* Reverse Card  */}
+        <IntroductionWithImages
+          title="Run Skills-Based Interviews"
+          desc="Conduct interviews that zero in on the skills that matter most, with your AI copilot guiding you through the interview questions and automatically capturing notes so you can stay focused on the conversation"
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
+          className="flex md:flex-row-reverse mt-20"
+        ></IntroductionWithImages>
+
+        <IntroductionWithImages
+          title="Make Skills-Based Hiring Decisions"
+          desc="Automatically map interview discussions to key job-related skills, enabling your team to make smarter, evidence-based hiring decisions. Use skills-based candidate debriefs or our powerful AI chatbot to quickly review critical skills discussed during interviews and get instant, objective answers, complete with direct references to the original conversations."
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/image3.png"
+        ></IntroductionWithImages>
+        {/* Reverse Card  */}
+        <IntroductionWithImages
+          title="Analyze & Improve Skills-Based Interviews"
+          desc="Ensure your organization is assessing critical skills at scale with unprecedented visibility. For the first time, gain insights into the quality of your interviews and confidently track whether key skills are being evaluated consistently across your hiring teams. Over time, evaluate what skills correlate to successful hires to continuously improve quality."
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
+          className="flex md:flex-row-reverse mt-20"
+        ></IntroductionWithImages>
+      </section>
+
+      {/* //Companys Fourth section */}
+      <section className="w-full py-20 relative">
+        {/* Soft background glow */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-1/3 left-1/2 w-200 h-200 bg-violet-500/20 blur-[5rem] rounded-full" />
+          <div className="absolute top-1/4 right-1/3 w-200 h-200 bg-blue-500/20 blur-[5rem] rounded-full" />
+
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 mt-20">
+          <h2 className="text-center text-lg uppercase  tracking-[0.25em] text-gray-500 dark:text-gray-400 mb-28">
+            Trusted by leading teams worldwide
+          </h2>
+
+          <ul
+            className="
+              grid grid-cols-2
+              sm:grid-cols-3
+              md:grid-cols-4
+              lg:grid-cols-6
+              gap-x-8 gap-y-12
+              items-center
+            "
+          >
+            {logos.map((logo, i) => (
+              <li key={i} className="flex justify-center">
+                <div
+                  className="
+                    group relative
+                    flex items-center justify-center
+                    w-full max-w-[160px] h-30
+                    rounded-2xl
+                    bg-white/5 dark:bg-neutral-100/10
+                    backdrop-blur-md
+                    border border-white/10
+                    shadow-lg
+                    transition-all duration-300
+                    hover:scale-110 hover:shadow-violet-500/20
+                  "
+                >
+                  {/* Gradient glow */}
+                  <div
+                    className="
+                      absolute inset-0 rounded-2xl opacity-0
+                      bg-gradient-to-r from-violet-400/30 to-blue-400/30
+                      blur-lg
+                      group-hover:opacity-100
+                      transition
+                    "
+                  />
+
+                  <img
+                    src={logo.src}
+                    alt="Company logo"
+                    style={{ maxWidth: logo.w }}
+                    className="
+                      relative z-10
+                      max-h-8 object-contain
+                      opacity-70 grayscale
+                      group-hover:opacity-100 group-hover:grayscale-0
+                      transition duration-300
+                    "
+                    loading="lazy"
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+
+      {/* // Fifth section */}
+      <section>
+        {/*  */}
         {/* Hired Employees */}
         {/* <HiredEmployeesTimeline
           title="Hired Employees This Week"
@@ -269,8 +536,8 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 20 });
-  const springY = useSpring(y, { stiffness: 300, damping: 20 });
+  const springX = useSpring(x, { stiffness: 500, damping: 20 });
+  const springY = useSpring(y, { stiffness: 500, damping: 20 });
 
   React.useEffect(() => {
     const handleMouseMove = () => {
@@ -303,7 +570,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
       ref={ref}
       key={iconData.id}
       style={{ x: springX, y: springY }}
-      initial={{ opacity: 0, scale: 0.5 }}
+      initial={{ opacity: 0, scale: 0.1 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
         delay: index * 0.08,
@@ -320,7 +587,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
           rotate: [0, 5, 0, -5, 0],
         }}
         transition={{
-          duration: 5 + Math.random() * 5,
+          duration: 2 + Math.random() * 1,
           repeat: Infinity,
           repeatType: "mirror",
           ease: "easeInOut",
@@ -782,62 +1049,7 @@ export function WordFadeIn({ text, className = "", delay = 0.15, variants }) {
 // Testimonial Slider
 
 // Testimonials Datas fetching Reviews API in Future
-const testimonials = [
-  {
-    text: "This Web3-powered platform transformed the way our organization operates. From smart automation to real-time finance tracking, everything feels futuristic and incredibly efficient.",
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-    name: "Briana Patton",
-    role: "Operations Manager",
-  },
-  {
-    text: "The AI-driven insights are on another level. Integrating the MERN stack with Gemini AI gives us unmatched speed, reliability, and automation across our workflows.",
-    image: "https://randomuser.me/api/portraits/men/2.jpg",
-    name: "Bilal Ahmed",
-    role: "IT Manager",
-  },
-  {
-    text: "Their support team is outstanding. From onboarding to optimization, they helped us unlock the full power of AI automation in our operations.",
-    image: "https://randomuser.me/api/portraits/women/3.jpg",
-    name: "Saman Malik",
-    role: "Customer Support Lead",
-  },
-  {
-    text: "The seamless Web3 integration and AI-powered modules drastically improved our data security, efficiency, and decision-making. Truly next-gen technology.",
-    image: "https://randomuser.me/api/portraits/men/4.jpg",
-    name: "Omar Raza",
-    role: "CEO",
-  },
-  {
-    text: "With intelligent dashboards and real-time analytics, our team works faster and smarter. This solution boosted our productivity like never before.",
-    image: "https://randomuser.me/api/portraits/women/5.jpg",
-    name: "Zainab Hussain",
-    role: "Project Manager",
-  },
-  {
-    text: "Implementation was incredibly smooth. The platform is built with clean UI, powerful features, and outstanding AI capabilities. Highly recommended!",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
-    name: "Aliza Khan",
-    role: "Business Analyst",
-  },
-  {
-    text: "Our marketing operations improved instantly. The AI workflows automate repetitive tasks and help us make data-driven decisions effortlessly.",
-    image: "https://randomuser.me/api/portraits/men/7.jpg",
-    name: "Farhan Siddiqui",
-    role: "Marketing Director",
-  },
-  {
-    text: "They understood our requirements perfectly and delivered a high-performance platform that blends AI, security, and Web3 capabilities flawlessly.",
-    image: "https://randomuser.me/api/portraits/women/8.jpg",
-    name: "Sana Sheikh",
-    role: "Sales Manager",
-  },
-  {
-    text: "Our online performance doubled after switching. With smart automation and seamless AI tools, our conversions and workflow efficiency skyrocketed.",
-    image: "https://randomuser.me/api/portraits/men/9.jpg",
-    name: "Hassan Ali",
-    role: "E-commerce Manager",
-  },
-];
+
 
 // Splitting Testimonials into 3 Columns
 const firstColumn = testimonials.slice(0, 3);
@@ -847,7 +1059,7 @@ const thirdColumn = testimonials.slice(6, 9);
 const Testimonials = () => {
   return (
     <>
-      <section className="bg-background my-20 relative  bg-white/90 dark:bg-black text-black dark:text-white transition-all duration-500">
+      <section className="bg-background relative  bg-white/90 dark:bg-transparent text-black dark:text-white transition-all duration-500">
         <div className="container z-10 mx-auto">
           <motion.div
             initial={{ opacity: 0.0, y: 40 }}
@@ -1030,4 +1242,52 @@ function StatusBadge({ status }) {
       {isCompleted ? "Completed" : "Onboarding"}
     </div>
   );
+}
+
+// --------------------------------------------------------------------------------------------------------
+export function IntroductionWithImages({title,desc,img_url,className}){
+
+  var img_class = "" 
+  if(className?.includes("md:flex-row-reverse")){
+    img_class = "rounded-br-[5rem] rounded-tr-[5rem]"
+  }
+  
+  return(<>
+      <div className="card overflow-hidden">
+        <div className="w-full px-6">
+            <div className={clsx("mx-auto flex flex-col md:flex-row grid-cols-1 items-center gap-12 md:grid-cols-2",className)} >
+              {/* Text Section */}
+              <motion.div initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+
+                className="space-y-4 flex flex-col md:pl-30 text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl md:w-200 mx-auto w-100 font-bold  text-gray-900 dark:text-white sm:text-4xl lg:text-5xl">
+                  {title}
+                </h1>
+
+                <p className="text-xl md:w-200 mx-auto w-100 bg-neutral-100 dark:bg-neutral-900 hover:rotate-1 duration-400 hover:scale-101 transition-all p-5 rounded-4xl  text-gray-900 dark:text-white">
+                  {desc}
+                </p>
+              </motion.div>
+
+              {/* Image Section */}
+              <motion.div initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5,delay:0.5 }}
+                className={clsx("flex md:w-full rounded-br-[5rem] rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-[5rem] md:justify-center bg-blue-50",img_class)}>
+                <img
+                  src={img_url}
+                  alt="Introduction"
+                  className="object-contain h-100"
+                />
+              </motion.div>
+
+            </div>
+          </div>
+
+      </div>
+  </>)
 }

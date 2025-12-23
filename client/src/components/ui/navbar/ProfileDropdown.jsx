@@ -1,13 +1,29 @@
-import { User, Settings, LogOut } from "lucide-react";
+import { User, Settings, LogOut, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import Dropdown from "./Dropdown";
 
 export default function ProfileDropdown() {
+  
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/login";
   };
 
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const name = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
+  const role = localStorage.getItem("role") || "employee";
+
+  const profilePath =
+    role === "company"
+      ? "/company/companyProfile"
+      : "/employee/employeeProfile";
+
+  const subscriptionPath =
+    role === "company"
+      ? "/company/subscription"
+      : "/employee/subscription";
   return (
     <Dropdown
       trigger={
@@ -26,7 +42,8 @@ export default function ProfileDropdown() {
 
       {/* Items */}
       <div className="py-1">
-        <Item to="/profile" label="Profile" icon={User} />
+         <Item to={profilePath} label="Profile" icon={User} />
+        <Item to={subscriptionPath} label="Subscription" icon={CreditCard} />
         <Item to="/settings" label="Settings" icon={Settings} />
 
         <button

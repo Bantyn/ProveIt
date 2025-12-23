@@ -2,7 +2,11 @@
 import { Github, Linkedin, Twitter } from "lucide-react";
 import React, { useRef } from "react";
 import { Particles } from "./Partical";
+<<<<<<< HEAD
 import SocialIcons from "./SocialIcons";
+=======
+import SocialIcons from "./SocialIcons.jsx";
+>>>>>>> banty
 import {
   motion,
   useMotionValue,

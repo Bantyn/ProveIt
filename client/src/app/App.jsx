@@ -22,9 +22,20 @@ export default function App() {
           </header>
         )}
 
+<<<<<<< HEAD
         <main className=''>
           {element}
         </main>
+=======
+      <main className='pt-24 min-h-screen'>
+      {element}
+      </main>
+      
+      
+      <footer className='mt-24 border-t-1 border-gray-500/20  transition-all duration-200 dark:border-amber-50/10'>
+          <Footer></Footer>
+      </footer>
+>>>>>>> banty
 
         {showHeaderFooter && (
           <footer className='mt-50'>
