@@ -4,6 +4,7 @@ import Login from "../features/auth/login/Login";
 import CompanySignup from "../features/auth/signup/company/CompanySignup";
 import CompanySignin from "../features/auth/signup/company/CompanyAuth/Logn";
 import PlanSelection from "../features/auth/signup/company/PricingSection";
+import ContactPage from "../features/pages/Contact/Contact";
 
 // import register from "../features/pages/CompanyAuth/Register"
 
@@ -37,6 +38,10 @@ export const routes = [
   {
     path: "/signup/companySignin",
     element: <CompanySignin />,
+  },
+  {
+    path: "/contact",
+    element: <ContactPage />,
   },
 
    {
