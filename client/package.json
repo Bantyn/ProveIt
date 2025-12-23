@@ -27,10 +27,6 @@
     "react-hot-toast": "^2.6.0",
     "react-icon-cloud": "^4.1.7",
     "react-router-dom": "^7.11.0",
-<<<<<<< HEAD
-    "react-toastify": "^11.0.5",
-=======
->>>>>>> kishan
     "tailwindcss": "^4.1.18",
     "yup": "^1.7.1"
   },
