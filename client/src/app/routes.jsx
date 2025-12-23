@@ -8,8 +8,6 @@ import PlanSelection from "../features/auth/signup/company/PricingSection";
 // Pages
 import Home from "../features/pages/Emplyee_UI/dashboard/EmplyeeDashboard";
 import Landing from "../features/pages/landing/Landing";
-import About from "../features/pages/about/About";
-
 
 export const routes = [
    {
@@ -20,10 +18,7 @@ export const routes = [
     path: "/client/emplyee_dashboard",
     element: <Home />,
   },
-  {
-    path: "/about",
-    element: <About />,
-  },
+  
   {
     path: "/login",
     element: <Login />,
