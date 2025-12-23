@@ -2,15 +2,11 @@
 import Login from "../features/auth/login/Login";
 //import ClientSignup from "../features/auth/signup/client/ClientSignup";
 import CompanySignup from "../features/auth/signup/company/CompanySignup";
-<<<<<<< HEAD
 import CompanySignin from "../features/auth/signup/company/CompanyAuth/Logn";
 import PlanSelection from "../features/auth/signup/company/PricingSection";
 import ContactPage from "../features/pages/Contact/Contact";
 
 // import register from "../features/pages/CompanyAuth/Register"
-=======
-import EmployeeProfile from "../features/pages/Emplyee_UI/profile/Profile";
->>>>>>> banty
 
 // Pages
 import Home from "../features/pages/Emplyee_UI/dashboard/EmplyeeDashboard";
@@ -38,7 +34,6 @@ export const routes = [
     path: "/signup/companySignup",
     element: <CompanySignup />,
   },
-<<<<<<< HEAD
 
   {
     path: "/signin/companySignin",
@@ -53,10 +48,4 @@ export const routes = [
     path: "/signup/companySignup/plan_selection",
     element: <PlanSelection />,
   }
-=======
-  {
-    path: "/employee/employeeProfile",
-    element: <EmployeeProfile />,
-  },
->>>>>>> banty
 ];
