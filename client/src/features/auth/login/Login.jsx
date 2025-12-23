@@ -3,7 +3,7 @@ import { Eye, EyeOff, Github, Mail, Lock, ArrowRight, Sparkles, Moon, Sun } from
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
-import { motion, AnimatePresence } from "framgit brer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import LightRays from '../../components/LightRays';
 
@@ -17,17 +17,13 @@ const BrandBadge = ({ isDark }) => (
     initial={{ scale: 0.8, opacity: 0 }}
     animate={{ scale: 1, opacity: 1 }}
     transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-    className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs shadow-lg backdrop-blur-xl ${
+    className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs shadow-sm ${
       isDark
-        ? "border-black/30 bg-gradient-to-r from-purple-500/20 to-violet-500/20 text-purple-200 shadow-purple-500/20"
-        : "border-purple-400/40 bg-gradient-to-r from-purple-100/60 to-violet-100/60 text-purple-700 shadow-purple-400/30"
+        ? "border-purple-500/30 bg-purple-900/20 text-purple-300"
+        : "border-purple-300 bg-purple-50 text-purple-700"
     }`}
   >
-    <motion.span
-      animate={{ scale: [1, 1.2, 1] }}
-      transition={{ repeat: Infinity, duration: 2 }}
-      className={`h-2 w-2 rounded-full ${isDark ? "bg-purple-400" : "bg-purple-600"}`}
-    />
+    <span className={`h-2 w-2 rounded-full ${isDark ? "bg-purple-400" : "bg-purple-600"}`} />
     <Sparkles className="w-3 h-3" />
     Skill-verified hiring platform
   </motion.div>
@@ -48,20 +44,17 @@ const GoogleIcon = () => (
 
 const GlassInputWrapper = ({ children, error, focused, icon: Icon, isDark }) => (
   <div
-    className={`rounded-2xl border backdrop-blur-sm transition-all duration-500 relative overflow-hidden group
+    className={`rounded-xl border transition-all duration-300 relative overflow-hidden
       ${error
-        ? "border-red-500/60 bg-red-500/10 shadow-lg shadow-red-500/20"
+        ? "border-red-500/60 bg-red-500/5"
         : focused
         ? isDark
-          ? "border-purple-400/80 bg-gradient-to-br from-purple-500/20 to-violet-500/20 shadow-2xl shadow-purple-500/40 scale-[1.02]"
-          : "border-purple-500/80 bg-gradient-to-br from-purple-100/60 to-violet-100/60 shadow-2xl shadow-purple-400/40 scale-[1.02]"
+          ? "border-purple-500 bg-purple-900/10 shadow-lg shadow-purple-500/10"
+          : "border-purple-500 bg-purple-50 shadow-lg shadow-purple-500/10"
         : isDark
-        ? "border-white/10 bg-white/5 hover:border-purple-400/50 hover:shadow-xl hover:shadow-purple-500/20 hover:bg-white/10"
-        : "border-gray-300/40 bg-white/40 hover:border-purple-400/60 hover:shadow-xl hover:shadow-purple-400/30 hover:bg-purple-50/50"
-      }
-      before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:to-transparent
-      before:translate-x-[-200%] group-hover:before:translate-x-[200%] before:transition-transform before:duration-1000
-      ${isDark ? "before:via-white/20" : "before:via-purple-400/30"}`}
+        ? "border-purple-900/30 bg-purple-900/5 hover:border-purple-700/50"
+        : "border-purple-200 bg-white hover:border-purple-300"
+      }`}
   >
     <motion.div
       animate={{
@@ -77,24 +70,9 @@ const GlassInputWrapper = ({ children, error, focused, icon: Icon, isDark }) => 
           ? "text-red-400" 
           : focused 
           ? isDark ? "text-purple-400" : "text-purple-600"
-          : isDark ? "text-gray-400" : "text-gray-600"
+          : isDark ? "text-gray-500" : "text-gray-400"
       }`} />
     </motion.div>
-    
-    {/* Animated border gradient */}
-    {focused && (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute inset-0 rounded-2xl"
-        style={{
-          background: isDark 
-            ? "linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent)"
-            : "linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.4), transparent)",
-          backgroundSize: "200% 100%",
-        }}
-      />
-    )}
     
     {children}
   </div>
@@ -187,60 +165,30 @@ export const SignInPage = ({
     <div className={`min-h-screen w-full flex relative overflow-hidden transition-colors duration-500 ${
       isDark ? "text-white" : "text-gray-900"
     }`}>
-      {/* Animated Background */}
+      {/* Simple Background - No animations */}
       <div className={`absolute inset-0 transition-all duration-700 ${
         isDark 
-          ? "bg-gradient-to-br from-black via-black/80 to-black"
-          : "bg-gradient-to-br from-gray-50 via-purple-50 to-gray-50"
+          ? "bg-black"
+          : "bg-white"
       }`}>
-        <motion.div
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className={`absolute inset-0 ${isDark ? "opacity-30" : "opacity-20"}`}
-          style={{
-            backgroundImage: isDark
-              ? "radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.3) 0%, transparent 50%)"
-              : "radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.2) 0%, transparent 50%)",
-            backgroundSize: "200% 200%",
-          }}
-        />
       </div>
 
-      {/* Floating Orbs */}
-      <motion.div
-        animate={{
-          x: [0, 100, 0],
-          y: [0, -100, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute top-20 left-20 w-96 h-96 rounded-full blur-3xl ${
-          isDark ? "bg-purple-500/20" : "bg-purple-300/30"
-        }`}
-      />
-      <motion.div
-        animate={{
-          x: [0, -100, 0],
-          y: [0, 100, 0],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        className={`absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl ${
-          isDark ? "bg-violet-500/20" : "bg-violet-300/30"
-        }`}
-      />
+      {/* Subtle static gradient overlay */}
+      <div className={`absolute inset-0 ${
+        isDark 
+          ? "bg-gradient-to-br from-purple-900/10 via-transparent to-purple-900/10"
+          : "bg-gradient-to-br from-purple-50/50 via-transparent to-purple-50/50"
+      }`} />
 
       {/* Theme Toggle Button */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleTheme}
-        className={`fixed top-6 right-6 z-50 p-3 rounded-full backdrop-blur-xl shadow-2xl transition-all ${
+        className={`fixed top-6 right-6 z-50 p-3 rounded-xl shadow-lg transition-all ${
           isDark
-            ? "bg-white/10 border border-white/20 text-purple-300 hover:bg-white/20 shadow-purple-500/30"
-            : "bg-purple-100/80 border border-purple-200 text-purple-700 hover:bg-purple-200/80 shadow-purple-400/40"
+            ? "bg-purple-900/30 border border-purple-500/20 text-purple-400 hover:bg-purple-900/50"
+            : "bg-white border border-purple-200 text-purple-600 hover:bg-purple-50"
         }`}
       >
         <AnimatePresence mode="wait">
@@ -285,25 +233,11 @@ export const SignInPage = ({
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full max-w-md"
         >
-          <div className={`rounded-3xl border backdrop-blur-2xl shadow-2xl p-10 space-y-6 relative overflow-hidden ${
+          <div className={`rounded-2xl border shadow-xl p-10 space-y-6 relative overflow-hidden ${
             isDark
-              ? "border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-black/50"
-              : "border-purple-200/50 bg-gradient-to-b from-white/80 to-white/60 shadow-purple-300/40"
+              ? "border-purple-900/30 bg-black"
+              : "border-purple-200 bg-white"
           }`}>
-            {/* Shimmer effect on card */}
-            <motion.div
-              animate={{
-                backgroundPosition: ["0% 0%", "100% 100%"],
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: isDark
-                  ? "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)"
-                  : "linear-gradient(45deg, transparent 30%, rgba(168, 85, 247,0.4) 50%, transparent 70%)",
-                backgroundSize: "200% 200%",
-              }}
-            />
 
             <div className="relative z-10 space-y-6">
               <BrandBadge isDark={isDark} />
@@ -315,11 +249,11 @@ export const SignInPage = ({
               >
                 <h1 className={`text-5xl font-bold tracking-tight leading-tight ${
                   isDark 
-                    ? "bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent"
+                    ? "text-white"
                     : "text-gray-900"
                 }`}>
                   Welcome to <br />
-                  <span className="bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
+                  <span className="text-purple-600">
                     ProveIt
                   </span>
                 </h1>
@@ -500,19 +434,16 @@ export const SignInPage = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.8 }}
                   whileHover={{ 
-                    scale: 1.02, 
-                    boxShadow: isDark 
-                      ? "0 20px 40px rgba(168, 85, 247, 0.4)" 
-                      : "0 20px 40px rgba(168, 85, 247, 0.3)"
+                    scale: 1.02
                   }}
                   whileTap={{ scale: 0.98 }}
                   type="button"
                   onClick={handleSubmit}
                   disabled={formik.isSubmitting}
-                  className={`w-full rounded-2xl py-4 font-semibold tracking-wide text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group ${
+                  className={`w-full rounded-xl py-4 font-semibold tracking-wide text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group ${
                     isDark
-                      ? "bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 hover:from-purple-500 hover:via-violet-500 hover:to-purple-500 shadow-2xl shadow-purple-600/50"
-                      : "bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 hover:from-purple-700 hover:via-violet-700 hover:to-purple-700 shadow-2xl shadow-purple-500/40"
+                      ? "bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-600/20"
+                      : "bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/20"
                   }`}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
@@ -532,11 +463,6 @@ export const SignInPage = ({
                       </>
                     )}
                   </span>
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
-                    animate={{ x: ["-100%", "100%"] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  />
                 </motion.button>
               </div>
 
@@ -571,10 +497,10 @@ export const SignInPage = ({
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={onGoogleSignIn}
-                  className={`w-full flex items-center justify-center gap-3 rounded-xl py-4 border backdrop-blur-xl group transition-all shadow-lg ${
+                  className={`w-full flex items-center justify-center gap-3 rounded-xl py-4 border group transition-all shadow-sm ${
                     isDark
-                      ? "bg-white/10 border-white/20 hover:bg-white/15 hover:border-purple-400/50 hover:shadow-purple-500/20"
-                      : "bg-white/80 border-gray-300 hover:bg-white hover:border-purple-400/60 hover:shadow-purple-400/30"
+                      ? "bg-purple-900/10 border-purple-700/30 hover:bg-purple-900/20 hover:border-purple-600/50"
+                      : "bg-white border-purple-200 hover:bg-purple-50 hover:border-purple-300"
                   }`}
                 >
                   <GoogleIcon />
@@ -585,10 +511,10 @@ export const SignInPage = ({
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={onGithubSignIn}
-                  className={`w-full flex items-center justify-center gap-3 rounded-xl py-4 border backdrop-blur-xl group transition-all shadow-lg ${
+                  className={`w-full flex items-center justify-center gap-3 rounded-xl py-4 border group transition-all shadow-sm ${
                     isDark
-                      ? "bg-gradient-to-r from-gray-800 to-gray-900 border-white/20 hover:from-gray-700 hover:to-gray-800 hover:border-purple-400/50 hover:shadow-purple-500/20"
-                      : "bg-gradient-to-r from-gray-800 to-gray-900 border-gray-800 hover:from-gray-700 hover:to-gray-800 hover:border-purple-500/50 hover:shadow-purple-400/30 text-white"
+                      ? "bg-gray-900 border-purple-700/30 hover:bg-gray-800 hover:border-purple-600/50"
+                      : "bg-gray-900 border-gray-800 hover:bg-gray-800 hover:border-purple-500/50 text-white"
                   }`}
                 >
                   <Github className="w-5 h-5" />
