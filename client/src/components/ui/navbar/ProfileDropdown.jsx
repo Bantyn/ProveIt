@@ -8,12 +8,17 @@ export default function ProfileDropdown() {
     localStorage.removeItem("token");
     window.location.href = "/login";
   };
-  const role = localStorage.getItem("role") || "company";
+
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const name = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
+  const role = localStorage.getItem("role") || "employee";
 
   const profilePath =
     role === "company"
-      ? "/company/company_profile"
-      : "/employee/employee_profile";
+      ? "/company/companyProfile"
+      : "/employee/employeeProfile";
 
   const subscriptionPath =
     role === "company"

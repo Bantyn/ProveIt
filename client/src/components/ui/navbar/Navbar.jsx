@@ -38,8 +38,7 @@ export default function Navbar() {
   /* AUTH STATE */
   /* ------------------------------------------------------------------ */
   const isLoggedIn = Boolean(localStorage.getItem("token")) || true;
-  const role = localStorage.getItem("role"); // "company" | "client"
-
+  const role = localStorage.getItem("role");
 
   /* ------------------------------------------------------------------ */
   /* MENU CONFIG */
