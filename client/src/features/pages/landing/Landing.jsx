@@ -4,18 +4,12 @@ import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
 import { useRef } from "react";
-<<<<<<< HEAD
 import { TestimonialsColumn } from "../../../components/ui/testominals/testimonials-columns-1.jsx";
 import { CheckCircle, Clock } from "lucide-react";
 import { Particles } from "./Partical.jsx";
 import CompitionHelp from "./timeline.jsx";
 import FAQ from "./FAQ_section.jsx";
 // --- default Landing Component ---
-=======
-import Navbar from '../../components/Navbar'
-
-// --- Demo Landing Component ---
->>>>>>> bf292ce14d9fcff35b80b3af4f3421dea5cd1366
 export default function Landing() {
   // ---  icons array ---
   const demoIcons = [
