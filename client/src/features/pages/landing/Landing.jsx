@@ -227,18 +227,50 @@ export default function Landing() {
         />
       </section>
 
-      
-      
-
       {/* // second section */}
       <section className="min-h-screen">
         {/* Second Sub Title */}
         <WordFadeIn
-          className="md:mt-60 mt-50 mb-30 md:tracking-widest md:text-5xl text-8xl font-bold md:font-semibold  text-black dark:text-white/80 "
-          text="Show Your Skills and Get Hired"
+          className="md:mt-60 mt-50 mb-30   md:text-5xl text-3xl font-bold md:font-semibold mx-auto md:w-300  text-black dark:text-white/80 "
+          text="Build exceptional teams with an end-to-end skills-based hiring platform."
           delay={0.06}
         ></WordFadeIn>
 
+        <IntroductionWithImages
+          title="Easily Scope Skills-Based Roles"
+          desc="Quickly scope new roles, write inclusive job descriptions, and deliver structured interview plans with ease — all tailored to company standards. Save time and ensure consistency by relying on our powerful AI to help you create interview plans focused on the skills that matter."
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/image1.png"
+
+        ></IntroductionWithImages>
+               {/* Reverse Card  */}
+        <IntroductionWithImages
+          title="Run Skills-Based Interviews"
+          desc="Conduct interviews that zero in on the skills that matter most, with your AI copilot guiding you through the interview questions and automatically capturing notes so you can stay focused on the conversation"
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
+          className="flex md:flex-row-reverse mt-20"
+        ></IntroductionWithImages>
+
+        <IntroductionWithImages
+          title="Make Skills-Based Hiring Decisions"
+          desc="Automatically map interview discussions to key job-related skills, enabling your team to make smarter, evidence-based hiring decisions. Use skills-based candidate debriefs or our powerful AI chatbot to quickly review critical skills discussed during interviews and get instant, objective answers, complete with direct references to the original conversations."
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/image3.png"
+
+        ></IntroductionWithImages>
+        {/* Reverse Card  */}
+        <IntroductionWithImages
+          title="Analyze & Improve Skills-Based Interviews"
+          desc="Ensure your organization is assessing critical skills at scale with unprecedented visibility. For the first time, gain insights into the quality of your interviews and confidently track whether key skills are being evaluated consistently across your hiring teams. Over time, evaluate what skills correlate to successful hires to continuously improve quality."
+          img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
+          className="flex md:flex-row-reverse mt-20"
+        ></IntroductionWithImages>
+
+
+        </section>
+
+
+
+        <section>
+        {/*  */}
         {/* Hired Employees */}
         {/* <HiredEmployeesTimeline
           title="Hired Employees This Week"
@@ -1030,4 +1062,52 @@ function StatusBadge({ status }) {
       {isCompleted ? "Completed" : "Onboarding"}
     </div>
   );
+}
+
+// --------------------------------------------------------------------------------------------------------
+export function IntroductionWithImages({title,desc,img_url,className}){
+
+  var img_class = "" 
+  if(className?.includes("md:flex-row-reverse")){
+    img_class = "rounded-br-[5rem] rounded-tr-[5rem]"
+  }
+  
+  return(<>
+      <div className="card overflow-hidden">
+        <div className="w-full px-6">
+            <div className={clsx("mx-auto flex flex-col md:flex-row grid-cols-1 items-center gap-12 md:grid-cols-2",className)} >
+              {/* Text Section */}
+              <motion.div initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+
+                className="space-y-4 flex flex-col md:pl-30 text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl md:w-200 mx-auto w-100 font-bold  text-gray-900 dark:text-white sm:text-4xl lg:text-5xl">
+                  {title}
+                </h1>
+
+                <p className="text-xl md:w-200 mx-auto w-100 bg-neutral-100 hover:rotate-1 duration-400 hover:scale-101 transition-all p-5 rounded-4xl  text-gray-900 dark:text-white">
+                  {desc}
+                </p>
+              </motion.div>
+
+              {/* Image Section */}
+              <motion.div initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5,delay:0.5 }}
+                className={clsx("flex md:w-full rounded-br-[5rem] rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-[5rem] md:justify-center bg-blue-50",img_class)}>
+                <img
+                  src={img_url}
+                  alt="Introduction"
+                  className="object-contain h-100"
+                />
+              </motion.div>
+
+            </div>
+          </div>
+
+      </div>
+  </>)
 }

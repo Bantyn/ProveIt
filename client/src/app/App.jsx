@@ -18,7 +18,7 @@ export default function App() {
         <Navbar></Navbar>
       </header>
 
-      <main className='pt-24 md:pt-28 min-h-screen'>
+      <main className='pt-24 min-h-screen'>
       {element}
       </main>
       

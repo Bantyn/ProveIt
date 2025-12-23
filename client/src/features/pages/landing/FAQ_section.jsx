@@ -51,7 +51,7 @@ const FAQHeader = ({ title, subtitle }) => (
 
     <h2 className="text-4xl md:text-5xl font-bold">{title}</h2>
 
-    <span className="absolute -top-[300px] left-1/2 -translate-x-1/2 h-[450px] w-[550px] rounded-full bg-gradient-to-r from-indigo-500/10 to-rose-500/5 blur-3xl" />
+    <span className="absolute -top-[300px] left-1/2 -translate-x-1/2 h-[450px] md:w-[550px] rounded-full bg-gradient-to-r from-indigo-500/10 to-rose-500/5 blur-3xl" />
   </div>
 );
 
