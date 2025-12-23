@@ -45,7 +45,7 @@ export default function Footer() {
               className="absolute overflow-hidden h-full w-screen" // make it cover the container
               quantity={150}               // number of particles
               size={0.8}                   // particle size
-              color="#990000"          // particle color
+              color="#ff66ff"          // particle color
               staticity={100}               // magnetism strength
               ease={30}                    // movement ease
             />
