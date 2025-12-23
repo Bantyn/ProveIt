@@ -1,5 +1,5 @@
 // Authanication
-import Login from "../features/auth/login/Login";
+import Login from "../features/auth/login/Login.jsx";
 import ClientSignup from "../features/auth/signup/client/ClientSignup";
 import CompanySignup from "../features/auth/signup/company/CompanySignup";
 import CompanySignin from "../features/auth/signup/company/CompanyAuth/Logn";
@@ -8,6 +8,7 @@ import PlanSelection from "../features/auth/signup/company/PricingSection";
 // Pages
 import Home from "../features/pages/Emplyee_UI/dashboard/EmplyeeDashboard";
 import Landing from "../features/pages/landing/Landing";
+import About from "../features/pages/about/About";
 
 
 export const routes = [
@@ -20,7 +21,11 @@ export const routes = [
     element: <Home />,
   },
   {
-    path: "/masterLogin",
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {
