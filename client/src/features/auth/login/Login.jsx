@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
-import LightRays from '../../components/LightRays';
+// import LightRays from '../../components/LightRays';
 
 import "react-toastify/dist/ReactToastify.css";
 import "aos/dist/aos.css";
