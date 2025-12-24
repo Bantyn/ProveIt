@@ -4,6 +4,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import ProfileHero from "./ProfileHero";
 import ProfileSmoothTabs from "./ProfileSmoothTabs";
+import LightRays from "./LightRays";
 /* -------------------------------------------
    User Data
 ------------------------------------------- */
@@ -27,8 +28,11 @@ const currentUser = {
   subscriptionPlan: "premium",
   hasPriorityAccess: true,
 };
-
 const viewerRole = "employee"; // <-- change to "user" to allow form editing
+
+
+
+
 
 export default function Profile() {
   const [user, setUser] = useState(currentUser);
@@ -39,6 +43,23 @@ export default function Profile() {
 
   return (
     <main className="min-h-screen w-full bg-background">
+
+      {/* LightRays Effect */}
+            {/* <div className="absolute inset-0 pointer-events-none z-[1] md:inline hidden">
+                <LightRays
+                    raysOrigin="top-center"
+                    raysColor=""
+                    raysSpeed={0.2}
+                    lightSpread={1.1}
+                    rayLength={1.5}
+                    followMouse={true}
+                    mouseInfluence={0.15}
+                    noiseAmount={0.1}
+                    distortion={0.03}
+                    fadeDistance={0.1}
+                    saturation={0.1}
+                />
+            </div> */}
       <div className=" mx-auto space-y-10">
         {/* ================= HERO ================= */}
         <ProfileHero isVerified={user.isVerified} />
@@ -199,6 +220,10 @@ export default function Profile() {
     </main>
   );
 }
+
+
+
+
 
 /* ================= REUSABLE ================= */
 
