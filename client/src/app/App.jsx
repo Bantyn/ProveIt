@@ -10,7 +10,7 @@ import Navbar from '../components/ui/navbar/Navbar.jsx';
 export default function App() {
   const element = useRoutes(routes);
   const location = useLocation();
-  const hideHeaderFooterPaths = ["/signup/companySignup", "/signin/companySignin","/signup/companySignup/plan_selection","/masterLogin"];
+  const hideHeaderFooterPaths = ["/signup/companySignup", "/signin/companySignin","/signup/companySignup/plan_selection","/masterLogin","/signup/clientSignup"];
 
   const showHeaderFooter = !hideHeaderFooterPaths.includes(location.pathname);
   return (

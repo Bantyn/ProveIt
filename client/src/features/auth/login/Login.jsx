@@ -1,27 +1,15 @@
-import React from 'react'
-import Loader from '../../../components/ui/loader/ScreenLoader'
-export default function Login() {
-  
-   const [loading, setLoading] = React.useState(true);
-  const [fadeOut, setFadeOut] = React.useState(false);
+import React, { useEffect, useState } from "react";
+import { Eye, EyeOff, Github, Mail, Lock, ArrowRight, Sparkles, Moon, Sun } from "lucide-react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { toast, ToastContainer } from "react-toastify";
+import { motion, AnimatePresence } from "framer-motion";
+import AOS from "aos";
+import "react-toastify/dist/ReactToastify.css";
+import "aos/dist/aos.css";
 
-  React.useEffect(() => {
-    // Start fade out
-    const fadeTimer = setTimeout(() => {
-      setFadeOut(true);
-    }, 800); // when fade starts
+/* ----------------Brand Badge ---------------- */
 
-    // Remove loader after animation
-    const removeTimer = setTimeout(() => {
-      setLoading(false);
-    }, 1200); // must be fade duration + buffer
-
-<<<<<<< HEAD
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
-    };
-=======
 const BrandBadge = ({ isDark }) => (
   <motion.div
     initial={{ scale: 0.8, opacity: 0 }}
@@ -129,16 +117,49 @@ export const SignInPage = ({
       once: true,
       offset: 50,
     });
->>>>>>> yashank
   }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
+    validationSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        setSubmitting(true);
+        await new Promise((res) => setTimeout(res, 1500));
+        toast.success("🎉 Login successful! Welcome back!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        console.log("LOGIN DATA:", values);
+      } catch {
+        toast.error("❌ Invalid credentials. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.handleSubmit();
+  };
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
+
   return (
-<<<<<<< HEAD
-    <div className="relative min-h-screen">
-      {loading && (
-        <div
-          className={`transition-opacity duration-500 ease-out ${
-            fadeOut ? "opacity-0" : "opacity-100"
-=======
     <div className={`min-h-screen w-full flex relative overflow-hidden transition-colors duration-500 ${
       isDark ? "text-white" : "text-gray-900"
     }`}>
@@ -558,18 +579,53 @@ export const SignInPage = ({
             isDark
               ? "bg-white/10 border-white/20"
               : "bg-white/80 border-purple-200/50"
->>>>>>> yashank
           }`}
         >
-          <Loader maxHeight={150} />
-        </div>
-      )}
-
-      {!loading && (
-        <div className="animate-fadeIn">
-          {/* Your Login Page Content */}
-        </div>
-      )}
-    </div>
-  )
-}
+          <div className="flex items-start gap-4">
+            <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
+              isDark
+                ? "bg-gradient-to-br from-purple-400 to-violet-500"
+                : "bg-gradient-to-br from-purple-500 to-violet-600"
+            }`}>
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <p className={`text-sm leading-relaxed mb-2 ${
+                isDark ? "text-white" : "text-gray-800"
+              }`}>
+                "ProveIt revolutionized how I showcase my skills. Got hired within 2 weeks!"
+              </p>
+              <p className={`text-xs font-medium ${
+                isDark ? "text-gray-300" : "text-gray-600"
+              }`}>
+                Sarah Chen — Senior Developer at TechCorp
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </section>
+  )}
+</div>
+);
+};
+/* ---------------- DEMO ---------------- */
+const LoginPage = () => (
+<SignInPage
+heroImageSrc="https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=2160&q=80"
+onGoogleSignIn={() => toast.info("🚀 Google login integration coming soon!", {
+icon: "🔐",
+})}
+onGithubSignIn={() => toast.info("🚀 GitHub OAuth integration coming soon!", {
+icon: "💻",
+})}
+onResetPassword={() => toast.info("📧 Password reset flow coming soon!", {
+icon: "🔑",
+})}
+onCreateAccount={() => toast.info("✨ Redirecting to registration...", {
+icon: "🎉",
+})}
+defaultTheme="dark"
+/>
+);
+export default LoginPage;
