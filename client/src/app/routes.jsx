@@ -26,10 +26,10 @@ export const routes = [
     path: "/masterLogin",
     element: <Login />,
   },
-  {
-    path: "/signup/EmployeeSignup",
-    element: <ClientSignup />,
-  },
+  // {
+  //   path: "/signup/EmployeeSignup",
+  //   element: <ClientSignup />,
+  // },
   {
     path: "/signup/companySignup",
     element: <CompanySignup />,
