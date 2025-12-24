@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
 import Dropdown from "./Dropdown.jsx";
@@ -13,7 +13,7 @@ import ActionSearchBar from "./ActionSearchBar";
 import {
   Home,
   Info,
-  Phone,
+  MessageCircle,
   Upload,
   LogIn,
   UserPlus,
@@ -21,11 +21,14 @@ import {
   Bot,
   BarChart2,
   LayoutDashboard,
+  Building2
+  
 } from "lucide-react";
 
 export default function Navbar() {
   const location = useLocation();
   const lastScroll = useRef(0);
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("");
   const [scrolled, setScrolled] = useState(false);
@@ -35,8 +38,7 @@ export default function Navbar() {
   /* AUTH STATE */
   /* ------------------------------------------------------------------ */
   const isLoggedIn = Boolean(localStorage.getItem("token")) || true;
-  const role = localStorage.getItem("role") || "client"; // "company" | "client"
-
+  const role = localStorage.getItem("role");
 
   /* ------------------------------------------------------------------ */
   /* MENU CONFIG */
@@ -48,7 +50,7 @@ export default function Navbar() {
     { name: "Post Competition", url: "/company/post", icon: Upload },
     { name: "Competitions", url: "/company/competitions", icon: Bot },
     { name: "Analytics", url: "/company/analytics", icon: BarChart2 },
-    { name: "Messages", url: "/company/messages", icon: Phone },
+    { name: "Messages", url: "/company/messages", icon:  MessageCircle },
   ];
 
   // CLIENT MENU
@@ -56,13 +58,14 @@ export default function Navbar() {
     { name: "Dashboard", url: "/client/emplyee_dashboard", icon: LayoutDashboard },
     { name: "Competitions", url: "/competitions", icon: Bot },
     { name: "Submissions", url: "/submissions", icon: Upload },
-    { name: "Messages", url: "/messages", icon: Phone },
+    { name: "Messages", url: "/messages", icon:  MessageCircle },
   ];
 
   // GUEST MENU
   const guestItems = [
+    { name: "Companies", url: "/companies", icon: Building2 },
     { name: "About", url: "/about", icon: Info },
-    { name: "Contact", url: "/contact", icon: Phone },
+    { name: "Contact", url: "/contact", icon: MessageCircle },
     { name: "Login", url: "/login", icon: LogIn },
   ];
 
@@ -107,6 +110,18 @@ export default function Navbar() {
   /* ------------------------------------------------------------------ */
   /* RENDER */
   /* ------------------------------------------------------------------ */
+
+
+const handleLogoClick = () => {
+  if (!isLoggedIn) {
+    navigate("/");
+  } else if (role === "company") {
+    navigate("/company/emplyee_dashboard");
+  } else {
+    navigate("/client/emplyee_dashboard");
+  }
+};
+
   return (
     <motion.div
       initial={false}
@@ -131,14 +146,15 @@ export default function Navbar() {
         )}
       >
         {/* LOGO */}
-        <Link
-          to="/"
-          className="hidden md:block px-4 text-lg font-extrabold 
-          bg-gradient-to-r from-violet-400 to-blue-400 
-          bg-clip-text text-transparent"
-        >
-          ProveIt.io
-        </Link>
+        <button
+  onClick={handleLogoClick}
+  className="hidden md:block px-4 text-lg font-extrabold 
+  bg-gradient-to-r from-violet-400 to-blue-400 
+  bg-clip-text text-transparent
+  cursor-pointer hover:scale-105 transition-transform duration-300"
+>
+  ProveIt.io
+</button>
 
         {/* NAV ITEMS */}
         {items.map((item) => {

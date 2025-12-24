@@ -79,10 +79,10 @@ const AnimatedTitle = ({ title1, title2 }) => {
   return (
     <div className="text-center">
       <motion.div initial="hidden" animate="visible" custom={1} variants={fadeUp}>
-        <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-6xl md:text-8xl">
+        <h1 className="mb-6 text-6xl font-bold tracking-tight sm:text-7xl md:text-9xl">
           <span className="bg-gradient-to-b from-black to-black/80 
                            dark:from-white dark:to-white/80 
-                           bg-clip-text text-transparent">
+                           bg-clip-text text-transparent ">
             {title1}
           </span>
           <br />
@@ -104,7 +104,7 @@ const AnimatedTitle = ({ title1, title2 }) => {
                    text-black/40 dark:text-white/40
                    sm:text-lg md:text-xl"
       >
-        Employee Dashboard built with Tailwind & Motion.
+        "Where technology meets exceptional client experience."
       </motion.p>
     </div>
   );
@@ -115,7 +115,7 @@ const AnimatedTitle = ({ title1, title2 }) => {
 ---------------------------------------- */
 export default function EmployeeDashboard() {
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden 
+    <div className="relative flex pb-50 md:pb-40 min-h-screen items-center justify-center  
                     bg-white dark:bg-black 
                     transition-colors duration-500">
 
@@ -171,16 +171,18 @@ export default function EmployeeDashboard() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6">
         <AnimatedTitle
-          title1="Welcome to"
-          title2="Employee Dashboard"
+         title1="Welcome to"
+         title2="Your Digital Experience"
         />
+        
       </div>
-
       {/* Fade overlay */}
       <div className="pointer-events-none absolute inset-0 
                       bg-gradient-to-t 
                       from-white via-transparent to-white/80
                       dark:from-black dark:via-transparent dark:to-black/80" />
+
+       
     </div>
   );
 }
