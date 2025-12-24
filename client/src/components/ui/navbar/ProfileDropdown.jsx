@@ -11,8 +11,8 @@ export default function ProfileDropdown() {
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  const name = localStorage.getItem("name");
-  const email = localStorage.getItem("email");
+  const name = localStorage.getItem("name") ;
+  const email = localStorage.getItem("email") || "banty123@gmail.com";
   const role = localStorage.getItem("role") || "employee";
 
   const profilePath =
@@ -37,7 +37,7 @@ export default function ProfileDropdown() {
         <p className="text-sm font-semibold text-black dark:text-white">
           My Account
         </p>
-        <p className="text-xs opacity-60">user@email.com</p>
+        <p className="text-xs opacity-60">{email}</p>
       </div>
 
       {/* Items */}

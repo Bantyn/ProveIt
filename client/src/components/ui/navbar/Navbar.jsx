@@ -129,7 +129,7 @@ const handleLogoClick = () => {
       transition={{
         duration: 0.35,
         ease: "easeOut",
-        delay: hidden ? 1 : 0,
+        delay: hidden ? 2 : 0,
       }}
       className="fixed z-50 left-1/2 -translate-x-1/2 top-4 md:top-0"
     >

@@ -3,17 +3,18 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { Clock, Zap } from "lucide-react";
+import { Clock, Zap, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "./Card.jsx";
-
 export default function ProfileHero({
   name = "Banty Patel",
   role = "Creative Web Developer",
   email = "banty@example.com",
-  avatarSrc = "/images/profile.jpg",
+  // profile_img = false,
+  avatarSrc = "./profile.jpg",
   statusText = "Available for Projects",
   statusColor = "bg-emerald-500",
   glowText = "Building Experiences, Not Just Websites",
+  isVerified,
   className,
 }) {
   const [copied, setCopied] = useState(false);
@@ -34,7 +35,12 @@ export default function ProfileHero({
   };
 
   return (
-    <section className="relative w-full py-24">
+    <section className="relative w-full">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 md:-mt-50 -mt-100">
+          <div className="absolute top-1/3 left-1/2 w-200 h-200 bg-violet-500/30 blur-3xl rounded-full" />
+          <div className="absolute top-1/4 right-1/3 w-200 h-200 bg-blue-500/30 blur-3xl rounded-full" />
+        </div>
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -42,9 +48,9 @@ export default function ProfileHero({
         className={clsx("relative mx-auto max-w-3xl", className)}
       >
         {/* Glow */}
-        <div className="pointer-events-none absolute inset-x-0 -bottom-12 top-[70%] rounded-[30px]
-                        bg-violet-500/90 blur-xl
-                        shadow-[0_40px_100px_-20px_rgba(139,92,246,0.9)] z-0" />
+        <div className="pointer-events-none absolute inset-x-0 -bottom-12 top-[70%] rounded-[80px]
+                        bg-violet-500/50 md:bg-violet-500/60 blur-xl
+                         z-0" />
 
         {/* Glow text */}
         <div className="absolute inset-x-0 -bottom-14 z-0">
@@ -57,14 +63,14 @@ export default function ProfileHero({
         {/* Card */}
         <Card
           className="
-            relative z-10  border overflow-visible
-            dark:bg-neutral-900 backdrop-blur-sm bg-violet-200/50
+            relative z-10 w-[90%] mx-auto md:w-full  border overflow-visible
+            dark:bg-neutral-900/70 backdrop-blur-sm bg-violet-200/50
             dark:text-white hover:scale-101 hover:-translate-y-1 border-violet-500/5 hover:border-violet-500/10 transition-all duration-400
           "
         >
-          <CardContent className="p-8 sm:p-10">
+          <CardContent className="p-5 ">
             {/* Status */}
-            <div className="mb-8 flex items-center justify-between text-sm text-neutral-400">
+            <div className="my-8 md:px-10 md:my-10 flex items-center justify-between text-sm text-neutral-400">
               <div className="flex items-center gap-2">
                 <span
                   className={clsx(
@@ -95,11 +101,13 @@ export default function ProfileHero({
                 <h2 className="text-2xl sm:text-3xl font-semibold">
                   {name}
                 </h2>
-                <p className="mt-1 text-sm text-neutral-400">
+                <p className="text-md text-neutral-400">
+                  {email}
+                </p>
+                <p className="mt-3 text-sm text-neutral-400">
                   {role}
                 </p>
-              </div>
-            </div>
+              </div>{isVerified && ( <CheckCircle className="w-7 h-full text-blue-500" />)}</div>
 
             {/* Actions */}
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
