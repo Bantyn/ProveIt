@@ -25,7 +25,11 @@ export const routes = [
     element: <Login />,
   },
   {
+<<<<<<< HEAD
     path: "/signup/clientSignup",
+=======
+    path: "/signup/EmployeeSignup",
+>>>>>>> kishan
     element: <ClientSignup />,
   },
   {
