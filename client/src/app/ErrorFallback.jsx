@@ -27,9 +27,9 @@ const item = {
 
 const floating = {
   animate: {
-    y: [-6, 6],
+    y: [-10, 10],
     transition: {
-      duration: 2,
+      duration: 0.2,
       ease: "easeInOut",
       repeat: Infinity,
       repeatType: "reverse",
@@ -52,7 +52,7 @@ export default function ErrorFallback() {
           {/* 404 */}
           <motion.h1
             variants={item}
-            className="text-[96px] font-bold text-[#222] dark:text-white opacity-70 select-none"
+            className="text-[96px] font-bold text-[#222] dark:text-red-800 opacity-70 select-none"
           >
             Oops !
           </motion.h1>
@@ -80,7 +80,7 @@ export default function ErrorFallback() {
             className="flex flex-wrap gap-4 justify-center"
           >
             
-            <FlowButton text="Go Home" onClick={() => (window.location.href = "/home")} />
+            <FlowButton text="Go Home" onClick={() => (window.location.href = "/")} />
             <FlowButton text="Go Back" onClick={() => window.history.back()} />
           </motion.div>
         </motion.div>

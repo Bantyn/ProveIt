@@ -1,400 +1,621 @@
-import React, { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Flip } from 'gsap/Flip';
-import * as THREE from 'three';
-
-gsap.registerPlugin(ScrollTrigger, Flip);
+import React, { useEffect, useRef, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import {
+  Code2, Target, Users, Trophy, Rocket, ChevronDown,
+  Briefcase, Award, Globe, Shield, TrendingUp,
+  CheckCircle, Star, GitBranch, Cpu, Sparkles, Heart, Clock,
+  Check, X, Zap, Crown, Package
+} from 'lucide-react';
 
 const AboutUs = () => {
-  const glowRef1 = useRef(null);
-  const glowRef2 = useRef(null);
   const containerRef = useRef(null);
-  const canvasRef = useRef(null);
-  const rendererRef = useRef(null);
-  const sceneRef = useRef(null);
-  const cameraRef = useRef(null);
-  const meshRef = useRef(null);
-  const gsapCtxRef = useRef(null);
 
-  // Framer Motion Parallax
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
-  // Three.js texture generator
-  const makeGradientNoiseTexture = () => {
-    const c = document.createElement("canvas");
-    c.width = c.height = 256;
-    const g = c.getContext("2d");
-
-    const grd = g.createLinearGradient(0, 0, 230, 384);
-    grd.addColorStop(0, "#a855f7");
-    grd.addColorStop(1, "#ec4899");
-    g.fillStyle = grd;
-    g.fillRect(0, 0, 256, 256);
-
-    for (let i = 0; i < 4000; i++) {
-      const x = Math.floor(Math.random() * 256);
-      const y = Math.floor(Math.random() * 256);
-      const a = Math.random() * 0.08 + 0.02;
-      g.fillStyle = `rgba(0,0,0,${a})`;
-      g.fillRect(x, y, 3, 3);
+  // Memoized data to prevent recreating on every render
+  const valuePropositions = useMemo(() => [
+    {
+      icon: <Target className="w-10 h-10 text-purple-400" />,
+      title: "Real-World Challenges",
+      desc: "Companies post actual projects. You solve real problems, not just answer questions.",
+      features: ["Project-based evaluation", "Industry-relevant tasks", "Practical skill assessment"]
+    },
+    {
+      icon: <Shield className="w-10 h-10 text-blue-400" />,
+      title: "Bias-Free Selection",
+      desc: "Anonymous submissions ensure selection based purely on skill, not background.",
+      features: ["Blind evaluation", "Merit-only ranking", "Diverse talent pool"]
+    },
+    {
+      icon: <TrendingUp className="w-10 h-10 text-pink-400" />,
+      title: "Career Acceleration",
+      desc: "Top performers get direct access to hiring managers and exclusive opportunities.",
+      features: ["Direct job offers", "Priority interviews", "Competition rewards"]
     }
+  ], []);
 
-    const tex = new THREE.CanvasTexture(c);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = 4;
-    return tex;
-  };
-
-  // Initialize Three.js
-  const initThree = (canvas) => {
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    rendererRef.current = renderer;
-
-    const scene = new THREE.Scene();
-    sceneRef.current = scene;
-
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 0, 3);
-    cameraRef.current = camera;
-
-    const mat = new THREE.MeshBasicMaterial({ map: makeGradientNoiseTexture() });
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mat);
-    meshRef.current = mesh;
-    scene.add(mesh);
-
-    gsap.ticker.add(render);
-    onResize();
-  };
-
-  const render = () => {
-    if (rendererRef.current && sceneRef.current && cameraRef.current) {
-      rendererRef.current.render(sceneRef.current, cameraRef.current);
+  const journeySteps = useMemo(() => [
+    {
+      step: "01",
+      title: "Discover Challenges",
+      desc: "Browse competitions by tech stack, difficulty, or company",
+      icon: <Globe className="w-8 h-8" />
+    },
+    {
+      step: "02",
+      title: "Build & Submit",
+      desc: "Develop solutions using your preferred tools and frameworks",
+      icon: <Code2 className="w-8 h-8" />
+    },
+    {
+      step: "03",
+      title: "Get Evaluated",
+      desc: "AI + expert review with detailed feedback on your solution",
+      icon: <Award className="w-8 h-8" />
+    },
+    {
+      step: "04",
+      title: "Land Opportunities",
+      desc: "Top performers receive interview invites and job offers",
+      icon: <Briefcase className="w-8 h-8" />
     }
-  };
+  ], []);
 
-  const onResize = () => {
-    if (!rendererRef.current || !canvasRef.current) return;
-    const r = canvasRef.current.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    rendererRef.current.setPixelRatio(1);
-    rendererRef.current.setSize(
-      Math.max(1, r.width * dpr),
-      Math.max(1, r.height * dpr),
-      false
-    );
-    cameraRef.current.aspect = (r.width || 1) / (r.height || 1);
-    cameraRef.current.updateProjectionMatrix();
-  };
+  const features = useMemo(() => [
+    "Automatic code quality scoring",
+    "Real-time leaderboards",
+    "Detailed performance analytics",
+    "Portfolio generation from submissions",
+    "Direct company connections"
+  ], []);
 
-  const buildTimeline = () => {
-    if (gsapCtxRef.current) gsapCtxRef.current.revert();
-    
-    gsapCtxRef.current = gsap.context(() => {
-      const s2 = Flip.getState(".second .marker");
-      const s3 = Flip.getState(".third .marker");
+  const featureCards = useMemo(() => [
+    { icon: <GitBranch />, label: "Code Collaboration", color: "text-blue-400" },
+    { icon: <Cpu />, label: "AI Evaluation", color: "text-purple-400" },
+    { icon: <Clock />, label: "Time Tracking", color: "text-green-400" },
+    { icon: <Users />, label: "Community", color: "text-pink-400" }
+  ], []);
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          start: 0,
-          end: "max",
-          scrub: 2
+  const statistics = useMemo(() => [
+    { value: "250+", label: "Active Competitions", icon: <Trophy /> },
+    { value: "50K+", label: "Developers", icon: <Users /> },
+    { value: "2.4K", label: "Successfully Hired", icon: <Award /> },
+    { value: "95%", label: "Satisfaction Rate", icon: <Heart /> }
+  ], []);
+
+  const pricingPlans = useMemo(() => [
+    {
+      name: "Free",
+      price: "₹0",
+      period: "forever",
+      description: "Perfect for getting started",
+      icon: <Package className="w-8 h-8" />,
+      features: [
+        { text: "Access to 5 competitions/month", included: true },
+        { text: "Basic code evaluation", included: true },
+        { text: "Community support", included: true },
+        { text: "Public leaderboard", included: true },
+        { text: "Priority evaluation", included: false },
+        { text: "Direct company messages", included: false },
+        { text: "Advanced analytics", included: false },
+        { text: "Portfolio builder", included: false }
+      ],
+      popular: false,
+      gradient: "from-gray-600 to-gray-800"
+    },
+    {
+      name: "Pro",
+      price: "₹3,000",
+      period: "per month",
+      description: "For serious developers",
+      icon: <Zap className="w-8 h-8" />,
+      features: [
+        { text: "Unlimited competitions", included: true },
+        { text: "Priority code evaluation", included: true },
+        { text: "Priority support 24/7", included: true },
+        { text: "Featured profile", included: true },
+        { text: "Direct company messages", included: true },
+        { text: "Advanced analytics dashboard", included: true },
+        { text: "Professional portfolio builder", included: true },
+        { text: "Interview preparation resources", included: true }
+      ],
+      popular: true,
+      gradient: "from-purple-600 to-blue-600"
+    },
+    {
+      name: "Enterprise",
+      price: "Custom",
+      period: "contact us",
+      description: "For companies hiring talent",
+      icon: <Crown className="w-8 h-8" />,
+      features: [
+        { text: "Post unlimited challenges", included: true },
+        { text: "Dedicated account manager", included: true },
+        { text: "Custom evaluation criteria", included: true },
+        { text: "Direct talent pipeline", included: true },
+        { text: "API access", included: true },
+        { text: "White-label options", included: true },
+        { text: "Advanced hiring analytics", included: true },
+        { text: "Priority candidate screening", included: true }
+      ],
+      popular: false,
+      gradient: "from-pink-600 to-orange-600"
+    }
+  ], []);
+
+  const testimonials = useMemo(() => [
+    {
+      name: "Alex Chen",
+      role: "Frontend Developer @ TechCorp",
+      quote: "Provelt helped me land my dream job by showcasing my React skills in a real-world challenge."
+    },
+    {
+      name: "Sarah Johnson",
+      role: "Backend Engineer @ StartupXYZ",
+      quote: "The competition format pushed me to build better solutions than I ever had before."
+    },
+    {
+      name: "Marcus Rivera",
+      role: "Full Stack Developer",
+      quote: "No resume needed. My code spoke for itself and got me multiple offers."
+    }
+  ], []);
+
+  // Initialize AOS-like animations using Intersection Observer
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.getAttribute('data-delay') || '0';
+          setTimeout(() => {
+            entry.target.classList.add('aos-animate');
+          }, parseInt(delay));
         }
       });
+    }, observerOptions);
 
-      tl.add(Flip.fit(canvasRef.current, s2, { duration: 1, ease: "none" }), 0)
-        .to(
-          meshRef.current.rotation,
-          { x: `+=${Math.PI}`, y: `+=${Math.PI}`, duration: 1, ease: "none" },
-          "<"
-        )
-        .addLabel("mid", "+=0.5")
-        .add(Flip.fit(canvasRef.current, s3, { duration: 1, ease: "none" }), "mid")
-        .to(
-          meshRef.current.rotation,
-          { x: `+=${Math.PI}`, y: `+=${Math.PI}`, duration: 1, ease: "none" },
-          "<"
-        );
-    });
-  };
+    const elements = containerRef.current?.querySelectorAll('[data-aos]');
+    elements?.forEach(el => observer.observe(el));
 
-  useEffect(() => {
-    // Background glows
-    const ctx = gsap.context(() => {
-      gsap.to(glowRef1.current, {
-        x: '20%',
-        y: '20%',
-        duration: 8,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-      gsap.to(glowRef2.current, {
-        x: '-20%',
-        y: '-30%',
-        duration: 10,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 1,
-      });
-    });
-
-    // Initialize Three.js canvas
-    if (canvasRef.current) {
-      initThree(canvasRef.current);
-      buildTimeline();
-    }
-
-    const handleResize = () => {
-      onResize();
-      buildTimeline();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      ctx.revert();
-      if (gsapCtxRef.current) gsapCtxRef.current.revert();
-      window.removeEventListener('resize', handleResize);
-      gsap.ticker.remove(render);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full min-h-screen bg-black overflow-hidden text-white font-sans">
-      
-      {/* Background Effects */}
+    <div ref={containerRef} className="relative w-full min-h-screen bg-black overflow-hidden text-white selection:bg-purple-500 selection:text-white">
+
+      {/* Fixed Stable Glowing Background */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div 
-          ref={glowRef1}
-          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-700 rounded-full mix-blend-screen filter blur-[120px] opacity-40"
-        />
-        <div 
-          ref={glowRef2}
-          className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-pink-600 rounded-full mix-blend-screen filter blur-[150px] opacity-30"
-        />
-        <div className="absolute top-[40%] left-[30%] w-[300px] h-[300px] bg-fuchsia-800 rounded-full mix-blend-screen filter blur-[100px] opacity-20 animate-pulse" />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] mix-blend-screen animate-blob" />
+        <div className="absolute top-[40%] right-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-2000" />
+        <div className="absolute bottom-0 left-[20%] w-[400px] h-[400px] bg-pink-600/20 rounded-full blur-[100px] mix-blend-screen animate-blob animation-delay-4000" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50"></div>
       </div>
 
-      {/* Grid Background */}
-      <div 
-        className="fixed inset-0 opacity-[0.05] pointer-events-none z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255, 255, 255, 0.05) 2px, transparent 2px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 2px, transparent 2px),
-            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: '100px 100px, 100px 100px, 20px 20px, 20px 20px',
-          backgroundPosition: '-2px -2px, -2px -2px, -1px -1px, -1px -1px'
-        }}
-      />
+      {/* Main Content */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 py-24">
-        
-        {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center text-center mb-32">
-          <motion.div 
-            style={{ y: yText }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+        {/* HERO SECTION */}
+        <section className="min-h-screen flex flex-col justify-center items-center text-center mb-24 md:mb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-6xl mx-auto"
           >
-            <h2 className="text-purple-400 font-medium tracking-[0.2em] mb-4 text-sm uppercase">
-              About ProveIt.io
-            </h2>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-purple-900 drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-              Skills Speak <br /> Louder Than Words
+            <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer">
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              <span className="text-sm font-medium tracking-wide text-gray-300">
+                The Future of Skill-Based Hiring
+              </span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-8 leading-tight">
+              Where Skills
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500">
+                Meet Opportunity
+              </span>
             </h1>
-            <p className="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl leading-relaxed">
-              We're revolutionizing recruitment by putting skills first. No more resume bias. No more empty credentials. Just pure, validated talent meeting opportunity.
+
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+              Provelt.io bridges the gap between exceptional talent and forward-thinking companies through
+              <span className="text-white font-semibold"> real-world competitions</span>. Prove your skills,
+              not just your resume.
             </p>
+
+            <div className="flex flex-wrap gap-4 justify-center mb-16">
+              <button className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg font-bold rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] active:scale-95">
+                <span className="relative z-10 flex items-center gap-2">
+                  <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  Start Competing
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </button>
+              <button className="group px-8 py-4 border-2 border-white/20 text-white text-lg font-bold rounded-full hover:bg-white/10 transition-all hover:scale-105 hover:border-white/40 active:scale-95">
+                <span className="flex items-center gap-2">
+                  <Briefcase className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  Hire Talent
+                </span>
+              </button>
+            </div>
           </motion.div>
-        </div>
 
-        {/* Spacer for scroll */}
-        <div className="w-full h-[10vh] flex items-center justify-center">
-          <span className="text-gray-600 font-semibold tracking-wider text-sm uppercase animate-pulse">Scroll Down</span>
-        </div>
-
-        {/* GSAP Flip Animation Section */}
-        <div className="relative h-[200vh]">
-          
-          {/* Initial Container */}
-          <div className="container-initial absolute left-[60%] top-[10%] w-[200px] h-[200px] flex items-center justify-center border-2 border-dashed border-purple-500/30 rounded-xl">
-            <canvas 
-              ref={canvasRef}
-              className="w-[200px] h-[200px] border border-dashed border-purple-300/50 rounded-lg bg-transparent block"
-            />
-          </div>
-
-          {/* Content Section 1 - Skills Assessment */}
-          <div className="second absolute left-[10%] top-[50%] w-[100px] h-[100px] flex items-center justify-center">
-            <div className="marker w-[100px] h-[100px] rounded-lg outline outline-1 outline-dashed outline-purple-500/40 outline-offset-[-6px] opacity-60" />
-          </div>
-
-          <div className="absolute left-[20%] top-[45%] max-w-md">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h3 className="text-3xl font-bold mb-4 text-white">
-                Real Skills, <span className="text-pink-500">Real Results</span>
-              </h3>
-              <p className="text-gray-400 leading-relaxed mb-4">
-                Our platform enables companies to assess candidates through practical, hands-on challenges. No more guesswork—see what they can actually build.
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-sm text-purple-300">Live Coding</span>
-                <span className="px-4 py-2 bg-pink-500/10 border border-pink-500/30 rounded-full text-sm text-pink-300">Real Projects</span>
-                <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-sm text-purple-300">Instant Feedback</span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Content Section 2 - Company Benefits */}
-          <div className="third absolute right-[10%] bottom-[3rem] w-[200px] h-[200px] flex items-center justify-center">
-            <div className="marker w-[200px] h-[200px] rounded-lg outline outline-1 outline-dashed outline-pink-500/40 outline-offset-[-6px] opacity-60" />
-          </div>
-
-          <div className="absolute right-[20%] bottom-[8rem] max-w-md text-right">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h3 className="text-3xl font-bold mb-4 text-white">
-                <span className="text-purple-500">Hire Faster,</span> Hire Better
-              </h3>
-              <p className="text-gray-400 leading-relaxed mb-4">
-                For companies, we cut through the noise. Find developers, designers, and creators who can prove their worth from day one.
-              </p>
-              <div className="flex gap-3 flex-wrap justify-end">
-                <span className="px-4 py-2 bg-pink-500/10 border border-pink-500/30 rounded-full text-sm text-pink-300">Zero Bias</span>
-                <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-sm text-purple-300">Skill Verified</span>
-                <span className="px-4 py-2 bg-pink-500/10 border border-pink-500/30 rounded-full text-sm text-pink-300">Quality Talent</span>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* End Spacer */}
-        <div className="w-full h-[10vh] flex items-center justify-center mt-16">
-          <span className="text-gray-600 font-semibold tracking-wider text-sm uppercase">Keep Scrolling</span>
-        </div>
-
-        {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32 mt-32">
-          {[
-            { label: "Skills Assessed", value: "50K+" },
-            { label: "Companies Trust Us", value: "500+" },
-            { label: "Successful Hires", value: "10K+" }
-          ].map((stat, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 hover:border-purple-500/50 transition-all duration-300 group"
-            >
-              <h3 className="text-5xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
-                {stat.value}
-              </h3>
-              <p className="text-gray-400 font-medium uppercase tracking-wider text-sm">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Mission Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="relative group"
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="absolute bottom-10 animate-bounce cursor-pointer hover:scale-110 transition-transform"
           >
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
-            <div className="relative h-[400px] w-full bg-black/80 rounded-2xl border border-white/10 overflow-hidden flex items-center justify-center">
-              <div className="text-center p-8">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                  <span className="text-4xl">🎯</span>
+            <ChevronDown className="w-8 h-8 text-white/50 hover:text-white/80 transition-colors" />
+          </motion.div>
+        </section>
+
+        {/* VALUE PROPOSITION CARDS */}
+        <section className="mb-28 md:mb-40">
+          <div className="text-center mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Why Provelt Works Better
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Traditional hiring vs. Our skill-first approach
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {valuePropositions.map((card, idx) => (
+              <div
+                key={idx}
+                data-aos="fade-up"
+                data-delay={idx * 100}
+                className="group p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] cursor-pointer"
+              >
+                <div className="mb-6 p-4 bg-white/5 rounded-xl w-fit group-hover:bg-white/10 group-hover:scale-110 transition-all duration-300">
+                  {card.icon}
                 </div>
-                <h4 className="text-xl font-bold text-white mb-2">Skill-First Hiring</h4>
-                <p className="text-gray-400 text-sm">Validate talent through real challenges</p>
+                <h3 className="text-2xl font-bold mb-4 group-hover:text-purple-300 transition-colors">{card.title}</h3>
+                <p className="text-gray-400 mb-6 group-hover:text-gray-300 transition-colors">{card.desc}</p>
+                <ul className="space-y-3">
+                  {card.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-3 text-gray-300 group-hover:text-white transition-colors">
+                      <CheckCircle className="w-4 h-4 text-green-400 group-hover:scale-110 transition-transform" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(#a855f7 1px, transparent 1px), linear-gradient(90deg, #a855f7 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-            </div>
-          </motion.div>
+            ))}
+          </div>
+        </section>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-          >
-            <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-              The Future of <span className="text-purple-500">Recruitment</span> <br/>
-              Starts Here
-            </h3>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              ProveIt.io eliminates resume bias and focuses on what truly matters: demonstrable skills. We're building a world where opportunity is based on capability, not credentials.
+        {/* HOW IT WORKS - Removed the line */}
+        <section className="mb-28 md:mb-40">
+          <div className="text-center mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              The Provelt Journey
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              From competition to career in four simple steps
             </p>
-            <ul className="space-y-4">
-              {[
-                'Unbiased Assessment Platform',
-                'Real-World Coding Challenges', 
-                'Transparent Skill Validation'
-              ].map((item, i) => (
-                <li key={i} className="flex items-center text-gray-300">
-                  <span className="w-2 h-2 bg-purple-500 rounded-full mr-4 shadow-[0_0_10px_#a855f7]"></span>
-                  {item}
-                </li>
+          </div>
+
+          <div className="relative">
+            <div className="grid md:grid-cols-4 gap-8">
+              {journeySteps.map((step, idx) => (
+                <div
+                  key={idx}
+                  data-aos="zoom-in"
+                  data-delay={idx * 100}
+                  className="relative"
+                >
+                  <div className="relative group p-8 rounded-3xl bg-gradient-to-b from-white/10 to-transparent border border-white/5 hover:border-purple-500/50 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.3)] cursor-pointer">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center font-bold text-white text-lg group-hover:scale-125 transition-transform duration-300 shadow-lg">
+                      <div className="group-hover:rotate-12 transition-transform duration-300">
+                        {step.icon}
+                      </div>
+                    </div>
+                    <div className="mt-8 text-center">
+                      <div className="inline-block px-4 py-1 rounded-full bg-white/5 text-sm font-medium mb-4 group-hover:bg-white/10 transition-colors">
+                        Step {step.step}
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-purple-300 transition-colors">{step.title}</h3>
+                      <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">{step.desc}</p>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </ul>
-          </motion.div>
-        </div>
-
-        {/* CTA Section */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="relative rounded-3xl p-12 overflow-hidden text-center border border-purple-500/30 mb-16"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 via-pink-900/20 to-black z-0"></div>
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Ready to Prove Your Skills?</h2>
-            <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-              Join thousands of talented professionals and forward-thinking companies revolutionizing the hiring process.
-            </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(147,51,234,0.5)] transition-colors"
-              >
-                For Candidates
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(236,72,153,0.5)] transition-colors"
-              >
-                For Companies
-              </motion.button>
             </div>
           </div>
-        </motion.div>
+        </section>
+
+        {/* PRICING SECTION */}
+        <section className="mb-28 md:mb-40">
+          <div className="text-center mb-16" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Choose Your Plan
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Start free or unlock premium features to accelerate your career
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {pricingPlans.map((plan, idx) => (
+              <div
+                key={idx}
+                data-aos="fade-up"
+                data-delay={idx * 100}
+                className={`relative group rounded-3xl bg-gradient-to-b from-white/10 to-transparent border-2 transition-all duration-500 hover:scale-105 cursor-pointer ${plan.popular
+                    ? 'border-purple-500/50 hover:border-purple-400 shadow-[0_0_50px_rgba(139,92,246,0.3)] hover:shadow-[0_0_70px_rgba(139,92,246,0.5)]'
+                    : 'border-white/10 hover:border-white/30 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all duration-500 hover:scale-105'
+                  }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-sm font-bold shadow-lg">
+                    MOST POPULAR
+                  </div>
+                )}
+
+                <div className="p-8">
+                  <div className={`mb-6 p-4 bg-gradient-to-br ${plan.gradient} rounded-xl w-fit group-hover:scale-110 transition-transform duration-300`}>
+                    {plan.icon}
+                  </div>
+
+                  <h3 className="text-2xl font-bold mb-2 group-hover:text-purple-300 transition-colors">{plan.name}</h3>
+                  <p className="text-gray-400 text-sm mb-6">{plan.description}</p>
+
+                  <div className="mb-6">
+                    <div className="text-5xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
+                      {plan.price}
+                    </div>
+                    <div className="text-gray-400 text-sm">{plan.period}</div>
+                  </div>
+
+                  <button className={`w-full py-4 rounded-xl font-bold transition-all duration-300 mb-8 ${plan.popular
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] active:scale-95'
+                      : 'bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 active:scale-95'
+                    }`}>
+                    {plan.name === "Enterprise" ? "Contact Sales" : "Get Started"}
+                  </button>
+
+                  <div className="space-y-4">
+                    {plan.features.map((feature, i) => (
+                      <div
+                        key={i}
+                        className={`flex items-center gap-3 transition-all duration-300 ${feature.included
+                            ? 'text-gray-300 hover:text-white'
+                            : 'text-gray-600 hover:text-gray-500'
+                          }`}
+                      >
+                        {feature.included ? (
+                          <Check className="w-5 h-5 text-green-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                        ) : (
+                          <X className="w-5 h-5 text-gray-600 flex-shrink-0" />
+                        )}
+                        <span className="text-sm">{feature.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FEATURES SHOWCASE */}
+        <section className="mb-28 md:mb-40">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                Built for
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                  Developers & Companies
+                </span>
+              </h2>
+              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+                Provelt creates a win-win ecosystem where talented developers showcase their skills
+                and companies discover verified talent through practical assessments.
+              </p>
+
+              <div className="space-y-6">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-4 group cursor-pointer">
+                    <div className="p-2 rounded-lg bg-white/5 group-hover:bg-purple-500/20 group-hover:scale-110 transition-all duration-300">
+                      <Star className="w-5 h-5 text-purple-400 group-hover:rotate-12 transition-transform" />
+                    </div>
+                    <span className="text-gray-300 group-hover:text-white transition-colors">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div data-aos="fade-left" className="grid grid-cols-2 gap-4">
+              {featureCards.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.2)] cursor-pointer group"
+                >
+                  <div className={`${item.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    {item.icon}
+                  </div>
+                  <h4 className="font-bold text-lg group-hover:text-purple-300 transition-colors">{item.label}</h4>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* STATISTICS */}
+        <section className="mb-28 md:mb-40">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {statistics.map((stat, idx) => (
+              <div
+                key={idx}
+                data-aos="flip-up"
+                data-delay={idx * 100}
+                className="p-8 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 text-center hover:border-purple-500/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] cursor-pointer group"
+              >
+                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-3 group-hover:scale-110 transition-transform">
+                  {stat.value}
+                </div>
+                <div className="text-gray-400 mb-4 group-hover:scale-110 transition-transform">
+                  {stat.icon}
+                </div>
+                <p className="text-gray-300 font-medium group-hover:text-white transition-colors">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* TESTIMONIALS */}
+        <section className="mb-28 md:mb-40">
+          <div className="text-center mb-12" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Success Stories
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Hear from developers who transformed their careers through Provelt
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map((testimonial, idx) => (
+              <div
+                key={idx}
+                data-aos="fade-up"
+                data-delay={idx * 100}
+                className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] cursor-pointer group"
+              >
+                <div className="flex items-center gap-2 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current group-hover:scale-110 transition-transform" style={{ transitionDelay: `${i * 50}ms` }} />
+                  ))}
+                </div>
+                <p className="text-gray-300 mb-6 italic group-hover:text-white transition-colors">"{testimonial.quote}"</p>
+                <div>
+                  <h4 className="font-bold text-lg group-hover:text-purple-300 transition-colors">{testimonial.name}</h4>
+                  <p className="text-gray-400 text-sm">{testimonial.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA SECTION */}
+        <section data-aos="zoom-in">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-900/30 via-black to-blue-900/30 border border-white/10 hover:border-purple-500/30 transition-all duration-500 group">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent" />
+            <div className="relative p-12 md:p-16 lg:p-20 text-center">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 group-hover:scale-105 transition-transform duration-300">
+                Ready to Prove Your Skills?
+              </h2>
+              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                Join thousands of developers who've turned their passion into profession through real-world competitions.
+              </p>
+
+              <div className="flex flex-wrap gap-4 justify-center">
+                <button className="group/btn relative px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xl font-bold rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_60px_rgba(139,92,246,0.5)] active:scale-95">
+                  <span className="relative z-10 flex items-center gap-3">
+                    <Rocket className="w-6 h-6 group-hover/btn:rotate-12 transition-transform" />
+                    Join Free Competitions
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+                </button>
+
+                <button className="group/btn px-10 py-5 border-2 border-white/30 text-white text-xl font-bold rounded-full hover:bg-white/10 transition-all hover:scale-105 hover:border-white/50 active:scale-95">
+                  <span className="flex items-center gap-3">
+                    <Briefcase className="w-6 h-6 group-hover/btn:scale-110 transition-transform" />
+                    Post a Challenge
+                  </span>
+                </button>
+              </div>
+
+              <p className="mt-8 text-gray-400">
+                No subscription fees • Cancel anytime • Portfolio-ready projects
+              </p>
+            </div>
+          </div>
+        </section>
+
+
 
       </div>
+
+      <style>{`
+        @keyframes blob {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+        }
+
+        .animate-blob {
+          animation: blob 15s infinite ease-in-out;
+        }
+
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+
+        [data-aos] {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        [data-aos].aos-animate {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        [data-aos="fade-up"].aos-animate {
+          transform: translateY(0);
+        }
+
+        [data-aos="fade-right"] {
+          transform: translateX(-30px);
+        }
+
+        [data-aos="fade-right"].aos-animate {
+          transform: translateX(0);
+        }
+
+        [data-aos="fade-left"] {
+          transform: translateX(30px);
+        }
+
+        [data-aos="fade-left"].aos-animate {
+          transform: translateX(0);
+        }
+
+        [data-aos="zoom-in"] {
+          transform: scale(0.9);
+        }
+
+        [data-aos="zoom-in"].aos-animate {
+          transform: scale(1);
+        }
+
+        [data-aos="flip-up"] {
+          transform: perspective(1000px) rotateX(30deg);
+        }
+
+        [data-aos="flip-up"].aos-animate {
+          transform: perspective(1000px) rotateX(0);
+        }
+      `}</style>
     </div>
   );
 };
