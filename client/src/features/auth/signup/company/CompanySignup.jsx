@@ -73,11 +73,6 @@ const ThemeToggle = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div>Banty Sing up page</div>
-  )
-}
-=======
     <button
       onClick={toggleTheme}
       className="
@@ -931,4 +926,3 @@ const CompanySignup = () => {
 };
 
 export default CompanySignup;
->>>>>>> 9253db4fda5859245f7dc481b1ddba4163f64bc5
