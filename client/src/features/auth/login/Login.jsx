@@ -239,15 +239,15 @@ export const SignInPage = ({
         }
       />
 
-      {/* LEFT */}
-      <section className="flex-1 flex items-center justify-center p-8 relative z-10">
+      {/* LEFT - Form Section (Half Width) */}
+      <section className="w-1/2 flex items-center justify-center p-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 60, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full max-w-md"
+          className="w-full"
         >
-          <div className={`rounded-2xl border shadow-xl p-10 space-y-6 relative overflow-hidden ${isDark
+          <div className={`h-full rounded-2xl border shadow-xl p-10 space-y-6 relative overflow-hidden ${isDark
             ? "border-purple-900/30 bg-black"
             : "border-purple-200 bg-white"
             }`}>
@@ -260,12 +260,9 @@ export const SignInPage = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h1 className={`text-5xl font-bold tracking-tight leading-tight ${isDark
-                  ? "text-white"
-                  : "text-gray-900"
-                  }`}>
-                  Welcome to <br />
-                  <span className="text-purple-600">
+                <h1 className="text-5xl font-bold tracking-tight leading-tight">
+                  <span className={isDark ? "text-neutral-100" : "text-neutral-900"}>Welcome to</span> <br />
+                  <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
                     ProveIt
                   </span>
                 </h1>
@@ -275,7 +272,7 @@ export const SignInPage = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className={`text-sm leading-relaxed ${isDark ? "text-gray-300" : "text-gray-600"}`}
+                className={`text-sm leading-relaxed ${isDark ? "text-neutral-300" : "text-neutral-700"}`}
               >
                 Showcase your skills through real projects. Get hired based on proven expertise, not just claims.
               </motion.p>
@@ -289,7 +286,7 @@ export const SignInPage = ({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    <label className={`text-sm font-medium mb-2 block ${isDark ? "text-gray-300" : "text-gray-700"
+                    <label className={`text-sm font-medium mb-2 block ${isDark ? "text-neutral-300" : "text-neutral-900"
                       }`}>
                       Email Address
                     </label>
@@ -315,8 +312,8 @@ export const SignInPage = ({
                             onFocus={() => setFocusedField("email")}
                             value={formik.values.email}
                             className={`w-full bg-transparent p-4 pl-14 text-sm focus:outline-none transition-all ${isDark
-                              ? "placeholder:text-gray-500 text-white"
-                              : "placeholder:text-gray-400 text-gray-900"
+                              ? "placeholder:text-neutral-500 text-neutral-100"
+                              : "placeholder:text-neutral-400 text-neutral-900"
                               }`}
                           />
                         </label>
@@ -343,7 +340,7 @@ export const SignInPage = ({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.6 }}
                   >
-                    <label className={`text-sm font-medium mb-2 block ${isDark ? "text-gray-300" : "text-gray-700"
+                    <label className={`text-sm font-medium mb-2 block ${isDark ? "text-neutral-300" : "text-neutral-900"
                       }`}>
                       Password
                     </label>
@@ -369,8 +366,8 @@ export const SignInPage = ({
                             onFocus={() => setFocusedField("password")}
                             value={formik.values.password}
                             className={`w-full bg-transparent p-4 pl-14 pr-12 text-sm focus:outline-none transition-all ${isDark
-                              ? "placeholder:text-gray-500 text-white"
-                              : "placeholder:text-gray-400 text-gray-900"
+                              ? "placeholder:text-neutral-500 text-neutral-100"
+                              : "placeholder:text-neutral-400 text-neutral-900"
                               }`}
                           />
                         </label>
@@ -426,8 +423,8 @@ export const SignInPage = ({
                       />
 
                       <span className={`transition-colors ${isDark
-                        ? "text-gray-300 group-hover:text-white"
-                        : "text-gray-600 group-hover:text-gray-900"
+                        ? "text-neutral-300 group-hover:text-neutral-100"
+                        : "text-neutral-700 group-hover:text-neutral-900"
                         }`}>
                         Keep me signed in
                       </span>
@@ -437,8 +434,8 @@ export const SignInPage = ({
                       type="button"
                       onClick={onResetPassword}
                       className={`transition-colors font-medium ${isDark
-                        ? "text-purple-400 hover:text-purple-300"
-                        : "text-purple-600 hover:text-purple-700"
+                        ? "text-violet-400 hover:text-blue-400"
+                        : "text-violet-600 hover:text-blue-600"
                         }`}
                     >
                       Forgot password?
@@ -459,9 +456,9 @@ export const SignInPage = ({
                     disabled={formik.isSubmitting}
                     //redirecting to dashboard on successful login can be handled here
 
-                    className={`w-full rounded-xl py-4 font-semibold tracking-wide text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group ${isDark
-                      ? "bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-600/20"
-                      : "bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/20"
+                    className={`w-full rounded-xl py-4 font-semibold tracking-wide text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 ${isDark
+                      ? "shadow-lg shadow-violet-600/20"
+                      : "shadow-lg shadow-violet-500/20"
                       }`}
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
@@ -490,13 +487,13 @@ export const SignInPage = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
-                className={`relative flex items-center gap-4 text-xs uppercase tracking-wider my-8 ${isDark ? "text-gray-400" : "text-gray-500"
+                className={`relative flex items-center gap-4 text-xs uppercase tracking-wider my-8 ${isDark ? "text-neutral-400" : "text-neutral-600"
                   }`}
               >
                 <span className={`flex-1 border-t ${isDark ? "border-white/10" : "border-gray-300"}`} />
                 <span className={`px-3 font-semibold ${isDark
-                  ? "bg-gradient-to-r from-purple-400/80 to-violet-400/80 bg-clip-text text-transparent"
-                  : "text-purple-700"
+                  ? "bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent"
+                  : "bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent"
                   }`}>
                   Or continue with
                 </span>
@@ -548,15 +545,15 @@ export const SignInPage = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.1 }}
-                className={`text-center text-sm pt-4 ${isDark ? "text-gray-400" : "text-gray-600"}`}
+                className={`text-center text-sm pt-4 ${isDark ? "text-neutral-400" : "text-neutral-700"}`}
               >
                 New to ProveIt?{" "}
                 <motion.button
                   whileHover={{ x: 3 }}
                   onClick={onCreateAccount}
                   className={`font-semibold transition-colors inline-flex items-center gap-1 ${isDark
-                    ? "text-purple-400 hover:text-purple-300"
-                    : "text-purple-600 hover:text-purple-700"
+                    ? "text-violet-400 hover:text-blue-400"
+                    : "text-violet-600 hover:text-blue-600"
                     }`}
                 >
                   Create your account
@@ -569,53 +566,163 @@ export const SignInPage = ({
       </section>
 
       {/* RIGHT */}
-      {heroImageSrc && (
-        <section className="hidden lg:flex flex-1 relative p-8">
-          <motion.div
-            initial={{ scale: 1.1, opacity: 0, x: 100 }}
-            animate={{ scale: 1, opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className={`relative w-full h-full rounded-3xl overflow-hidden border shadow-2xl ${isDark ? "border-white/10" : "border-purple-200/50"
-              }`}
-          >
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${heroImageSrc})` }}
-            />
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-600/20 via-transparent to-indigo-600/20" />
-            {/* Floating testimonial card */}
+      {/* RIGHT - Content Section (Half Width) */}
+      <section className="w-1/2 hidden lg:flex relative p-8">
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full"
+        >
+          {/* Main Content Container with Border */}
+          <div className={`h-full rounded-2xl border shadow-xl p-10 space-y-6 relative overflow-hidden ${isDark
+            ? 'border-violet-900/30 bg-black'
+            : 'border-violet-200 bg-white'
+            }`}>
+            {/* Logo Placeholder */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.5, duration: 0.8 }}
-              className={`absolute bottom-8 left-8 right-8 p-6 rounded-2xl backdrop-blur-xl border shadow-2xl ${isDark
-                ? "bg-white/10 border-white/20"
-                : "bg-white/80 border-purple-200/50"
+              transition={{ delay: 0.2 }}
+              className={`mb-12 p-12 rounded-3xl border-2 border-dashed flex items-center justify-center ${isDark
+                ? 'border-violet-500/30 bg-violet-600/5'
+                : 'border-violet-300 bg-violet-50'
+                }`}
+            >
+              <div className="text-center">
+                <div className={`text-6xl mb-3 ${isDark ? 'text-violet-400' : 'text-violet-600'
+                  }`}>
+                  🚀
+                </div>
+                <p className={`text-sm font-medium ${isDark ? 'text-neutral-400' : 'text-neutral-600'
+                  }`}>
+                  Logo Coming Soon
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="grid grid-cols-3 gap-4 mb-8"
+            >
+              {[
+                { value: '50K+', label: 'Users' },
+                { value: '500+', label: 'Projects' },
+                { value: '94%', label: 'Success' }
+              ].map((stat, idx) => (
+                <div
+                  key={idx}
+                  className={`p-4 rounded-xl text-center ${isDark
+                    ? 'bg-violet-600/10 border border-violet-500/20'
+                    : 'bg-violet-100 border border-violet-300'
+                    }`}
+                >
+                  <div className="text-2xl font-black bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                    {stat.value}
+                  </div>
+                  <div className={`text-xs font-medium mt-1 ${isDark ? 'text-neutral-400' : 'text-neutral-600'
+                    }`}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Features */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="space-y-3"
+            >
+              <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-neutral-100' : 'text-neutral-900'
+                }`}>
+                Why Choose ProveIt?
+              </h3>
+              {[
+                { icon: '✨', text: 'Skill-based competitions' },
+                { icon: '🎯', text: 'Direct employer connections' },
+                { icon: '🏆', text: 'Prove your expertise' },
+                { icon: '⚡', text: 'Fast-track hiring process' }
+              ].map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-3"
+                >
+                  <span className="text-2xl">{feature.icon}</span>
+                  <span className={`font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-700'
+                    }`}>
+                    {feature.text}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Testimonial */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className={`p-6 rounded-2xl backdrop-blur-xl border ${isDark
+                ? 'bg-violet-600/10 border-violet-500/20'
+                : 'bg-white border-violet-200'
                 }`}
             >
               <div className="flex items-start gap-4">
                 <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${isDark
-                  ? "bg-gradient-to-br from-purple-400 to-violet-500"
-                  : "bg-gradient-to-br from-purple-500 to-violet-600"
+                  ? 'bg-gradient-to-br from-violet-400 to-blue-400'
+                  : 'bg-gradient-to-br from-violet-500 to-blue-600'
                   }`}>
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className={`text-sm leading-relaxed mb-2 ${isDark ? "text-white" : "text-gray-800"
+                  <p className={`text-sm leading-relaxed mb-2 ${isDark ? 'text-neutral-100' : 'text-neutral-900'
                     }`}>
                     "ProveIt revolutionized how I showcase my skills. Got hired within 2 weeks!"
                   </p>
-                  <p className={`text-xs font-medium ${isDark ? "text-gray-300" : "text-gray-600"
+                  <p className={`text-xs font-medium ${isDark ? 'text-neutral-300' : 'text-neutral-700'
                     }`}>
                     Sarah Chen — Senior Developer at TechCorp
                   </p>
                 </div>
               </div>
             </motion.div>
-          </motion.div>
-        </section>
-      )}
+
+            {/* Additional Details */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+              className={`pt-6 border-t ${isDark ? 'border-violet-500/20' : 'border-violet-300'
+                }`}
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className={isDark ? 'text-neutral-400' : 'text-neutral-600'}>
+                    Trusted by top companies
+                  </span>
+                  <span className="text-violet-400 font-semibold">150+</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className={isDark ? 'text-neutral-400' : 'text-neutral-600'}>
+                    Average time to hire
+                  </span>
+                  <span className="text-blue-400 font-semibold">2 weeks</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className={isDark ? 'text-neutral-400' : 'text-neutral-600'}>
+                    Success rate
+                  </span>
+                  <span className="text-violet-400 font-semibold">94%</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
     </div>
   );
 };

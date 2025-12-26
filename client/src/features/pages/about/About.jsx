@@ -1,623 +1,545 @@
-import React, { useEffect, useRef, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import LightRays from '../../components/LightRays';
 import {
-  Code2, Target, Users, Trophy, Rocket, ChevronDown,
-  Briefcase, Award, Globe, Shield, TrendingUp,
-  CheckCircle, Star, GitBranch, Cpu, Sparkles, Heart, Clock,
-  Check, X, Zap, Crown, Package
+  Zap,
+  Target,
+  Users,
+  Trophy,
+  ArrowRight,
+  Sparkles,
+  Shield,
+  TrendingUp,
+  Heart,
+  Award,
+  Lightbulb,
+  ChevronDown,
+  Moon,
+  Sun
 } from 'lucide-react';
 
-const AboutUs = () => {
-  const containerRef = useRef(null);
-
-  // Memoized data to prevent recreating on every render
-  const valuePropositions = useMemo(() => [
-    {
-      icon: <Target className="w-10 h-10 text-purple-400" />,
-      title: "Real-World Challenges",
-      desc: "Companies post actual projects. You solve real problems, not just answer questions.",
-      features: ["Project-based evaluation", "Industry-relevant tasks", "Practical skill assessment"]
-    },
-    {
-      icon: <Shield className="w-10 h-10 text-blue-400" />,
-      title: "Bias-Free Selection",
-      desc: "Anonymous submissions ensure selection based purely on skill, not background.",
-      features: ["Blind evaluation", "Merit-only ranking", "Diverse talent pool"]
-    },
-    {
-      icon: <TrendingUp className="w-10 h-10 text-pink-400" />,
-      title: "Career Acceleration",
-      desc: "Top performers get direct access to hiring managers and exclusive opportunities.",
-      features: ["Direct job offers", "Priority interviews", "Competition rewards"]
-    }
-  ], []);
-
-  const journeySteps = useMemo(() => [
-    {
-      step: "01",
-      title: "Discover Challenges",
-      desc: "Browse competitions by tech stack, difficulty, or company",
-      icon: <Globe className="w-8 h-8" />
-    },
-    {
-      step: "02",
-      title: "Build & Submit",
-      desc: "Develop solutions using your preferred tools and frameworks",
-      icon: <Code2 className="w-8 h-8" />
-    },
-    {
-      step: "03",
-      title: "Get Evaluated",
-      desc: "AI + expert review with detailed feedback on your solution",
-      icon: <Award className="w-8 h-8" />
-    },
-    {
-      step: "04",
-      title: "Land Opportunities",
-      desc: "Top performers receive interview invites and job offers",
-      icon: <Briefcase className="w-8 h-8" />
-    }
-  ], []);
-
-  const features = useMemo(() => [
-    "Automatic code quality scoring",
-    "Real-time leaderboards",
-    "Detailed performance analytics",
-    "Portfolio generation from submissions",
-    "Direct company connections"
-  ], []);
-
-  const featureCards = useMemo(() => [
-    { icon: <GitBranch />, label: "Code Collaboration", color: "text-blue-400" },
-    { icon: <Cpu />, label: "AI Evaluation", color: "text-purple-400" },
-    { icon: <Clock />, label: "Time Tracking", color: "text-green-400" },
-    { icon: <Users />, label: "Community", color: "text-pink-400" }
-  ], []);
-
-  const statistics = useMemo(() => [
-    { value: "250+", label: "Active Competitions", icon: <Trophy /> },
-    { value: "50K+", label: "Developers", icon: <Users /> },
-    { value: "2.4K", label: "Successfully Hired", icon: <Award /> },
-    { value: "95%", label: "Satisfaction Rate", icon: <Heart /> }
-  ], []);
-
-  const pricingPlans = useMemo(() => [
-    {
-      name: "Free",
-      price: "₹0",
-      period: "forever",
-      description: "Perfect for getting started",
-      icon: <Package className="w-8 h-8" />,
-      features: [
-        { text: "Access to 5 competitions/month", included: true },
-        { text: "Basic code evaluation", included: true },
-        { text: "Community support", included: true },
-        { text: "Public leaderboard", included: true },
-        { text: "Priority evaluation", included: false },
-        { text: "Direct company messages", included: false },
-        { text: "Advanced analytics", included: false },
-        { text: "Portfolio builder", included: false }
-      ],
-      popular: false,
-      gradient: "from-gray-600 to-gray-800"
-    },
-    {
-      name: "Pro",
-      price: "₹3,000",
-      period: "per month",
-      description: "For serious developers",
-      icon: <Zap className="w-8 h-8" />,
-      features: [
-        { text: "Unlimited competitions", included: true },
-        { text: "Priority code evaluation", included: true },
-        { text: "Priority support 24/7", included: true },
-        { text: "Featured profile", included: true },
-        { text: "Direct company messages", included: true },
-        { text: "Advanced analytics dashboard", included: true },
-        { text: "Professional portfolio builder", included: true },
-        { text: "Interview preparation resources", included: true }
-      ],
-      popular: true,
-      gradient: "from-purple-600 to-blue-600"
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      period: "contact us",
-      description: "For companies hiring talent",
-      icon: <Crown className="w-8 h-8" />,
-      features: [
-        { text: "Post unlimited challenges", included: true },
-        { text: "Dedicated account manager", included: true },
-        { text: "Custom evaluation criteria", included: true },
-        { text: "Direct talent pipeline", included: true },
-        { text: "API access", included: true },
-        { text: "White-label options", included: true },
-        { text: "Advanced hiring analytics", included: true },
-        { text: "Priority candidate screening", included: true }
-      ],
-      popular: false,
-      gradient: "from-pink-600 to-orange-600"
-    }
-  ], []);
-
-  const testimonials = useMemo(() => [
-    {
-      name: "Alex Chen",
-      role: "Frontend Developer @ TechCorp",
-      quote: "Provelt helped me land my dream job by showcasing my React skills in a real-world challenge."
-    },
-    {
-      name: "Sarah Johnson",
-      role: "Backend Engineer @ StartupXYZ",
-      quote: "The competition format pushed me to build better solutions than I ever had before."
-    },
-    {
-      name: "Marcus Rivera",
-      role: "Full Stack Developer",
-      quote: "No resume needed. My code spoke for itself and got me multiple offers."
-    }
-  ], []);
-
-  // Initialize AOS-like animations using Intersection Observer
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const delay = entry.target.getAttribute('data-delay') || '0';
-          setTimeout(() => {
-            entry.target.classList.add('aos-animate');
-          }, parseInt(delay));
-        }
-      });
-    }, observerOptions);
-
-    const elements = containerRef.current?.querySelectorAll('[data-aos]');
-    elements?.forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
+const TimelineNode = ({ year, title, desc, side, index, isDark }) => {
   return (
-    <div ref={containerRef} className="relative w-full min-h-screen bg-black overflow-hidden text-white selection:bg-purple-500 selection:text-white">
-
-      {/* Fixed Stable Glowing Background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] mix-blend-screen animate-blob" />
-        <div className="absolute top-[40%] right-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-2000" />
-        <div className="absolute bottom-0 left-[20%] w-[400px] h-[400px] bg-pink-600/20 rounded-full blur-[100px] mix-blend-screen animate-blob animation-delay-4000" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50"></div>
+    <div className={`flex w-full mb-32 relative ${side === 'left' ? 'flex-row' : 'flex-row-reverse'}`}>
+      {/* Center Line Connection */}
+      <div className={`absolute left-1/2 top-8 -translate-x-1/2 w-6 h-6 rounded-full ${isDark ? 'bg-black border-violet-500' : 'bg-white border-violet-500'
+        } border-4 z-20 shadow-[0_0_30px_rgba(139,92,246,0.8)]`}>
+        <div className="absolute inset-0 bg-violet-500 rounded-full animate-ping opacity-30" />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-
-        {/* HERO SECTION */}
-        <section className="min-h-screen flex flex-col justify-center items-center text-center mb-24 md:mb-32">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="max-w-6xl mx-auto"
-          >
-            <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-sm font-medium tracking-wide text-gray-300">
-                The Future of Skill-Based Hiring
-              </span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-8 leading-tight">
-              Where Skills
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500">
-                Meet Opportunity
-              </span>
-            </h1>
-
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Provelt.io bridges the gap between exceptional talent and forward-thinking companies through
-              <span className="text-white font-semibold"> real-world competitions</span>. Prove your skills,
-              not just your resume.
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center mb-16">
-              <button className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg font-bold rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] active:scale-95">
-                <span className="relative z-10 flex items-center gap-2">
-                  <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                  Start Competing
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-              <button className="group px-8 py-4 border-2 border-white/20 text-white text-lg font-bold rounded-full hover:bg-white/10 transition-all hover:scale-105 hover:border-white/40 active:scale-95">
-                <span className="flex items-center gap-2">
-                  <Briefcase className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  Hire Talent
-                </span>
-              </button>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-10 animate-bounce cursor-pointer hover:scale-110 transition-transform"
-          >
-            <ChevronDown className="w-8 h-8 text-white/50 hover:text-white/80 transition-colors" />
-          </motion.div>
-        </section>
-
-        {/* VALUE PROPOSITION CARDS */}
-        <section className="mb-28 md:mb-40">
-          <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Why Provelt Works Better
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Traditional hiring vs. Our skill-first approach
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {valuePropositions.map((card, idx) => (
-              <div
-                key={idx}
-                data-aos="fade-up"
-                data-delay={idx * 100}
-                className="group p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] cursor-pointer"
-              >
-                <div className="mb-6 p-4 bg-white/5 rounded-xl w-fit group-hover:bg-white/10 group-hover:scale-110 transition-all duration-300">
-                  {card.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-purple-300 transition-colors">{card.title}</h3>
-                <p className="text-gray-400 mb-6 group-hover:text-gray-300 transition-colors">{card.desc}</p>
-                <ul className="space-y-3">
-                  {card.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-gray-300 group-hover:text-white transition-colors">
-                      <CheckCircle className="w-4 h-4 text-green-400 group-hover:scale-110 transition-transform" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* HOW IT WORKS - Removed the line */}
-        <section className="mb-28 md:mb-40">
-          <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              The Provelt Journey
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              From competition to career in four simple steps
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="grid md:grid-cols-4 gap-8">
-              {journeySteps.map((step, idx) => (
-                <div
-                  key={idx}
-                  data-aos="zoom-in"
-                  data-delay={idx * 100}
-                  className="relative"
-                >
-                  <div className="relative group p-8 rounded-3xl bg-gradient-to-b from-white/10 to-transparent border border-white/5 hover:border-purple-500/50 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(139,92,246,0.3)] cursor-pointer">
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center font-bold text-white text-lg group-hover:scale-125 transition-transform duration-300 shadow-lg">
-                      <div className="group-hover:rotate-12 transition-transform duration-300">
-                        {step.icon}
-                      </div>
-                    </div>
-                    <div className="mt-8 text-center">
-                      <div className="inline-block px-4 py-1 rounded-full bg-white/5 text-sm font-medium mb-4 group-hover:bg-white/10 transition-colors">
-                        Step {step.step}
-                      </div>
-                      <h3 className="text-xl font-bold mb-3 group-hover:text-purple-300 transition-colors">{step.title}</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">{step.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PRICING SECTION */}
-        <section className="mb-28 md:mb-40">
-          <div className="text-center mb-16" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Choose Your Plan
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Start free or unlock premium features to accelerate your career
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {pricingPlans.map((plan, idx) => (
-              <div
-                key={idx}
-                data-aos="fade-up"
-                data-delay={idx * 100}
-                className={`relative group rounded-3xl bg-gradient-to-b from-white/10 to-transparent border-2 transition-all duration-500 hover:scale-105 cursor-pointer ${plan.popular
-                    ? 'border-purple-500/50 hover:border-purple-400 shadow-[0_0_50px_rgba(139,92,246,0.3)] hover:shadow-[0_0_70px_rgba(139,92,246,0.5)]'
-                    : 'border-white/10 hover:border-white/30 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all duration-500 hover:scale-105'
-                  }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-sm font-bold shadow-lg">
-                    MOST POPULAR
-                  </div>
-                )}
-
-                <div className="p-8">
-                  <div className={`mb-6 p-4 bg-gradient-to-br ${plan.gradient} rounded-xl w-fit group-hover:scale-110 transition-transform duration-300`}>
-                    {plan.icon}
-                  </div>
-
-                  <h3 className="text-2xl font-bold mb-2 group-hover:text-purple-300 transition-colors">{plan.name}</h3>
-                  <p className="text-gray-400 text-sm mb-6">{plan.description}</p>
-
-                  <div className="mb-6">
-                    <div className="text-5xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
-                      {plan.price}
-                    </div>
-                    <div className="text-gray-400 text-sm">{plan.period}</div>
-                  </div>
-
-                  <button className={`w-full py-4 rounded-xl font-bold transition-all duration-300 mb-8 ${plan.popular
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] active:scale-95'
-                      : 'bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 active:scale-95'
-                    }`}>
-                    {plan.name === "Enterprise" ? "Contact Sales" : "Get Started"}
-                  </button>
-
-                  <div className="space-y-4">
-                    {plan.features.map((feature, i) => (
-                      <div
-                        key={i}
-                        className={`flex items-center gap-3 transition-all duration-300 ${feature.included
-                            ? 'text-gray-300 hover:text-white'
-                            : 'text-gray-600 hover:text-gray-500'
-                          }`}
-                      >
-                        {feature.included ? (
-                          <Check className="w-5 h-5 text-green-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                        ) : (
-                          <X className="w-5 h-5 text-gray-600 flex-shrink-0" />
-                        )}
-                        <span className="text-sm">{feature.text}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* FEATURES SHOWCASE */}
-        <section className="mb-28 md:mb-40">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Built for
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                  Developers & Companies
-                </span>
-              </h2>
-              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                Provelt creates a win-win ecosystem where talented developers showcase their skills
-                and companies discover verified talent through practical assessments.
-              </p>
-
-              <div className="space-y-6">
-                {features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-4 group cursor-pointer">
-                    <div className="p-2 rounded-lg bg-white/5 group-hover:bg-purple-500/20 group-hover:scale-110 transition-all duration-300">
-                      <Star className="w-5 h-5 text-purple-400 group-hover:rotate-12 transition-transform" />
-                    </div>
-                    <span className="text-gray-300 group-hover:text-white transition-colors">
-                      {feature}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div data-aos="fade-left" className="grid grid-cols-2 gap-4">
-              {featureCards.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.2)] cursor-pointer group"
-                >
-                  <div className={`${item.color} mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    {item.icon}
-                  </div>
-                  <h4 className="font-bold text-lg group-hover:text-purple-300 transition-colors">{item.label}</h4>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* STATISTICS */}
-        <section className="mb-28 md:mb-40">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {statistics.map((stat, idx) => (
-              <div
-                key={idx}
-                data-aos="flip-up"
-                data-delay={idx * 100}
-                className="p-8 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 text-center hover:border-purple-500/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] cursor-pointer group"
-              >
-                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-3 group-hover:scale-110 transition-transform">
-                  {stat.value}
-                </div>
-                <div className="text-gray-400 mb-4 group-hover:scale-110 transition-transform">
-                  {stat.icon}
-                </div>
-                <p className="text-gray-300 font-medium group-hover:text-white transition-colors">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* TESTIMONIALS */}
-        <section className="mb-28 md:mb-40">
-          <div className="text-center mb-12" data-aos="fade-up">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-              Success Stories
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Hear from developers who transformed their careers through Provelt
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, idx) => (
-              <div
-                key={idx}
-                data-aos="fade-up"
-                data-delay={idx * 100}
-                className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] cursor-pointer group"
-              >
-                <div className="flex items-center gap-2 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current group-hover:scale-110 transition-transform" style={{ transitionDelay: `${i * 50}ms` }} />
-                  ))}
-                </div>
-                <p className="text-gray-300 mb-6 italic group-hover:text-white transition-colors">"{testimonial.quote}"</p>
-                <div>
-                  <h4 className="font-bold text-lg group-hover:text-purple-300 transition-colors">{testimonial.name}</h4>
-                  <p className="text-gray-400 text-sm">{testimonial.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA SECTION */}
-        <section data-aos="zoom-in">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-900/30 via-black to-blue-900/30 border border-white/10 hover:border-purple-500/30 transition-all duration-500 group">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent" />
-            <div className="relative p-12 md:p-16 lg:p-20 text-center">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 group-hover:scale-105 transition-transform duration-300">
-                Ready to Prove Your Skills?
-              </h2>
-              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-                Join thousands of developers who've turned their passion into profession through real-world competitions.
-              </p>
-
-              <div className="flex flex-wrap gap-4 justify-center">
-                <button className="group/btn relative px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xl font-bold rounded-full overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_60px_rgba(139,92,246,0.5)] active:scale-95">
-                  <span className="relative z-10 flex items-center gap-3">
-                    <Rocket className="w-6 h-6 group-hover/btn:rotate-12 transition-transform" />
-                    Join Free Competitions
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
-                </button>
-
-                <button className="group/btn px-10 py-5 border-2 border-white/30 text-white text-xl font-bold rounded-full hover:bg-white/10 transition-all hover:scale-105 hover:border-white/50 active:scale-95">
-                  <span className="flex items-center gap-3">
-                    <Briefcase className="w-6 h-6 group-hover/btn:scale-110 transition-transform" />
-                    Post a Challenge
-                  </span>
-                </button>
-              </div>
-
-              <p className="mt-8 text-gray-400">
-                No subscription fees • Cancel anytime • Portfolio-ready projects
-              </p>
-            </div>
-          </div>
-        </section>
-
-
-
+      <div className={`w-1/2 ${side === 'left' ? 'pr-20 text-right' : 'pl-20 text-left'}`}>
+        <motion.div
+          initial={{ opacity: 0, x: side === 'left' ? -50 : 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: index * 0.1 }}
+          className="relative group"
+        >
+          <span className={`text-8xl font-black ${isDark ? 'text-neutral-900' : 'text-neutral-200'
+            } absolute -top-16 left-0 right-0 select-none pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity duration-300`}>
+            {year}
+          </span>
+          <h3 className="text-4xl font-black mb-4 relative z-10 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent group-hover:from-blue-400 group-hover:to-violet-400 transition-all duration-500">
+            {title}
+          </h3>
+          <p className={`text-xl ${isDark ? 'text-neutral-400 group-hover:text-neutral-200' : 'text-neutral-600 group-hover:text-neutral-800'
+            } font-medium leading-relaxed transition-colors duration-300`}>
+            {desc}
+          </p>
+        </motion.div>
       </div>
-
-      <style>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-        }
-
-        .animate-blob {
-          animation: blob 15s infinite ease-in-out;
-        }
-
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-
-        [data-aos] {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        [data-aos].aos-animate {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        [data-aos="fade-up"].aos-animate {
-          transform: translateY(0);
-        }
-
-        [data-aos="fade-right"] {
-          transform: translateX(-30px);
-        }
-
-        [data-aos="fade-right"].aos-animate {
-          transform: translateX(0);
-        }
-
-        [data-aos="fade-left"] {
-          transform: translateX(30px);
-        }
-
-        [data-aos="fade-left"].aos-animate {
-          transform: translateX(0);
-        }
-
-        [data-aos="zoom-in"] {
-          transform: scale(0.9);
-        }
-
-        [data-aos="zoom-in"].aos-animate {
-          transform: scale(1);
-        }
-
-        [data-aos="flip-up"] {
-          transform: perspective(1000px) rotateX(30deg);
-        }
-
-        [data-aos="flip-up"].aos-animate {
-          transform: perspective(1000px) rotateX(0);
-        }
-      `}</style>
+      <div className="w-1/2" />
     </div>
   );
 };
 
-export default AboutUs;
+export default function About() {
+  const timelineRef = useRef(null);
+  const [isDark, setIsDark] = useState(true);
+  const [stats, setStats] = useState({
+    projects: 0,
+    users: 0,
+    companies: 0,
+    success: 0
+  });
+
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"]
+  });
+
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+      once: true,
+      easing: 'ease-out-cubic',
+      offset: 100
+    });
+
+    // Counter animation for stats
+    const animateValue = (key, end, duration = 2000) => {
+      const start = 0;
+      const increment = end / (duration / 16);
+      let current = start;
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= end) {
+          current = end;
+          clearInterval(timer);
+        }
+        setStats(prev => ({ ...prev, [key]: Math.floor(current) }));
+      }, 16);
+    };
+
+    // Start counter animations after a delay
+    setTimeout(() => {
+      animateValue('projects', 500);
+      animateValue('users', 2500);
+      animateValue('companies', 150);
+      animateValue('success', 94);
+    }, 500);
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
+
+  return (
+    <div className={`relative min-h-screen ${isDark ? 'bg-black text-neutral-100' : 'bg-white text-neutral-900'
+      } overflow-hidden transition-colors duration-500`}>
+
+      {/* Theme Toggle Button */}
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={toggleTheme}
+        className={`fixed top-6 right-6 z-50 p-3 rounded-xl shadow-lg transition-all ${isDark
+            ? 'bg-violet-900/30 border border-violet-500/20 text-violet-400 hover:bg-violet-900/50'
+            : 'bg-white border border-violet-300 text-violet-600 hover:bg-violet-50'
+          }`}
+      >
+        {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      </motion.button>
+
+      {/* Hero Section with LightRays */}
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        {/* LightRays Background - Only in dark mode */}
+        {isDark && (
+          <div className="absolute inset-0 z-0">
+            <LightRays
+              raysOrigin="top-center"
+              raysColor="#8b5cf6"
+              raysSpeed={0.8}
+              lightSpread={1.2}
+              rayLength={2.5}
+              pulsating={true}
+              fadeDistance={1.2}
+              saturation={1.2}
+              followMouse={true}
+              mouseInfluence={0.15}
+              noiseAmount={0.05}
+              distortion={0.1}
+            />
+          </div>
+        )}
+
+        {/* Gradient Overlay */}
+        <div className={`absolute inset-0 z-[1] ${isDark
+            ? 'bg-gradient-to-b from-black/40 via-violet-950/20 to-black'
+            : 'bg-gradient-to-b from-violet-50/50 via-white to-violet-50/30'
+          }`} />
+
+        {/* Animated Grid Pattern */}
+        <div className="absolute inset-0 z-[1] opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `linear-gradient(${isDark ? 'rgba(139, 92, 246, 0.3)' : 'rgba(139, 92, 246, 0.2)'} 1px, transparent 1px), linear-gradient(90deg, ${isDark ? 'rgba(139, 92, 246, 0.3)' : 'rgba(139, 92, 246, 0.2)'} 1px, transparent 1px)`,
+            backgroundSize: '50px 50px'
+          }} />
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent leading-tight drop-shadow-[0_0_30px_rgba(139,92,246,0.5)]">
+              Revolutionizing Hiring
+            </h1>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+            className={`text-xl md:text-2xl ${isDark ? 'text-neutral-300' : 'text-neutral-600'
+              } mb-8 max-w-3xl mx-auto`}
+          >
+            Where talent meets opportunity through skill-based competitions.
+            We don't just match resumes—we prove capabilities.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+            className="flex gap-4 justify-center items-center flex-wrap"
+          >
+            <button className={`px-8 py-4 bg-gradient-to-r from-violet-600 via-blue-600 to-violet-600 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${isDark
+                ? 'border border-violet-500/50 hover:shadow-[0_0_40px_rgba(139,92,246,0.6)] text-white'
+                : 'border border-violet-400 hover:shadow-[0_0_40px_rgba(139,92,246,0.4)] text-white'
+              }`}>
+              Join the Revolution
+            </button>
+            <button className={`px-8 py-4 border-2 rounded-full font-semibold transition-all duration-300 hover:scale-105 ${isDark
+                ? 'border-violet-500 hover:bg-violet-500/20 hover:border-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.4)] text-neutral-100'
+                : 'border-violet-500 hover:bg-violet-50 hover:border-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] text-neutral-900'
+              }`}>
+              Learn More
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            className={`flex flex-col items-center gap-2 ${isDark ? 'text-neutral-400 hover:text-violet-400' : 'text-neutral-600 hover:text-violet-600'
+              } transition-colors duration-300 cursor-pointer`}
+          >
+            <span className="text-sm font-medium">Scroll to explore</span>
+            <ChevronDown className="w-6 h-6" />
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Company Story Section */}
+      <section className={`relative py-32 px-6 ${isDark ? 'bg-gradient-to-b from-black via-violet-950/10 to-black' : 'bg-gradient-to-b from-white via-violet-50/30 to-white'
+        }`} data-aos="fade-up">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+                Our Story
+              </h2>
+              <p className={`text-lg ${isDark ? 'text-neutral-300' : 'text-neutral-700'} mb-6 leading-relaxed`}>
+                Provelt was born from a simple observation: traditional hiring is broken.
+                Resumes lie, interviews are subjective, and the best talent often goes unnoticed.
+              </p>
+              <p className={`text-lg ${isDark ? 'text-neutral-300' : 'text-neutral-700'} mb-6 leading-relaxed`}>
+                We created a platform where skills speak louder than words. Companies post real projects,
+                we organize competitive challenges, and candidates prove their worth through actual work—not polished CVs.
+              </p>
+              <p className={`text-lg ${isDark ? 'text-neutral-300' : 'text-neutral-700'} leading-relaxed`}>
+                Today, we're building the future of work—one competition at a time.
+              </p>
+            </div>
+
+            <div className="relative group">
+              <div className={`aspect-square bg-gradient-to-br ${isDark
+                  ? 'from-violet-600/20 via-blue-600/10 to-violet-800/20 border-violet-500/30 hover:border-blue-500 hover:shadow-[0_0_60px_rgba(139,92,246,0.4)]'
+                  : 'from-violet-200/40 via-blue-200/20 to-violet-300/40 border-violet-300/50 hover:border-blue-400 hover:shadow-[0_0_60px_rgba(139,92,246,0.3)]'
+                } rounded-3xl backdrop-blur-sm border flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-105`}>
+                <div className={`absolute inset-0 bg-gradient-to-br ${isDark ? 'from-violet-500/10 to-blue-500/10' : 'from-violet-300/20 to-blue-300/20'
+                  } opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Sparkles className={`w-32 h-32 ${isDark ? 'text-violet-400 group-hover:text-blue-400' : 'text-violet-500 group-hover:text-blue-500'
+                    } group-hover:scale-110 transition-all duration-500`} style={{ filter: 'drop-shadow(0 0 30px rgba(139, 92, 246, 0.8))' }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className={`relative py-32 px-6 ${isDark ? 'bg-black' : 'bg-neutral-100'}`} data-aos="fade-up">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-6 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+            How It Works
+          </h2>
+          <p className={`text-xl ${isDark ? 'text-neutral-400' : 'text-neutral-600'} text-center mb-16 max-w-3xl mx-auto`}>
+            A seamless three-step process that connects talent with opportunity
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { icon: Target, title: "Companies Submit Projects", desc: "Organizations post real-world challenges they need solved, defining clear objectives and success criteria.", color: "violet" },
+              { icon: Shield, title: "We Organize Competitions", desc: "Our admin team reviews, validates, and structures each project into fair, transparent competitions.", color: "blue" },
+              { icon: Trophy, title: "Talent Competes & Gets Hired", desc: "Users showcase their skills through actual work. Top performers get hired based on proven capabilities.", color: "violet" }
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                className={`group relative bg-gradient-to-br ${isDark
+                    ? `from-${step.color}-600/10 via-${step.color}-500/5 to-transparent border-${step.color}-500/30 hover:border-${step.color}-400 hover:bg-${step.color}-600/15 hover:shadow-[0_0_50px_rgba(139,92,246,0.3)]`
+                    : `from-${step.color}-100/50 via-${step.color}-50/30 to-transparent border-${step.color}-300/40 hover:border-${step.color}-400 hover:bg-${step.color}-100/60 hover:shadow-[0_0_50px_rgba(139,92,246,0.2)]`
+                  } border rounded-3xl p-10 transition-all duration-500 hover:scale-105 overflow-hidden`}
+              >
+                <div className={`absolute -top-20 -right-20 w-40 h-40 ${isDark ? `bg-${step.color}-500/20` : `bg-${step.color}-300/30`
+                  } rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700 opacity-0 group-hover:opacity-100`} />
+
+                <div className={`absolute -top-6 left-8 w-14 h-14 bg-gradient-to-r from-violet-600 via-blue-600 to-violet-600 rounded-full flex items-center justify-center font-bold text-xl shadow-[0_0_30px_rgba(139,92,246,0.6)] group-hover:scale-110 transition-transform duration-300 text-white`}>
+                  {index + 1}
+                </div>
+                <div className={`relative z-10 mt-4 mb-6 w-20 h-20 ${isDark ? `bg-${step.color}-600/20` : `bg-${step.color}-200/50`
+                  } rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-inner`}>
+                  <step.icon className={`w-10 h-10 ${isDark ? `text-${step.color}-400 group-hover:text-${step.color}-300` : `text-${step.color}-600 group-hover:text-${step.color}-700`
+                    }`} />
+                </div>
+                <h3 className={`relative z-10 text-2xl font-bold mb-4 ${isDark ? 'text-neutral-100 group-hover:text-white' : 'text-neutral-900'
+                  } transition-colors duration-300`}>{step.title}</h3>
+                <p className={`relative z-10 ${isDark ? 'text-neutral-400 group-hover:text-neutral-300' : 'text-neutral-600 group-hover:text-neutral-700'
+                  } leading-relaxed transition-colors duration-300`}>
+                  {step.desc}
+                </p>
+
+                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-600 via-blue-500 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm`} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className={`relative py-32 px-6 ${isDark ? 'bg-gradient-to-b from-black via-violet-950/10 to-black' : 'bg-gradient-to-b from-white via-violet-50/30 to-white'
+        }`} data-aos="fade-up">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+            Impact in Numbers
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { value: `${stats.projects}+`, label: "Projects Completed", color: "violet" },
+              { value: `${stats.users}+`, label: "Talented Users", color: "blue" },
+              { value: `${stats.companies}+`, label: "Partner Companies", color: "violet" },
+              { value: `${stats.success}%`, label: "Success Rate", color: "blue" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                data-aos="zoom-in"
+                data-aos-delay={index * 100}
+                className={`group text-center p-10 bg-gradient-to-br ${isDark
+                    ? `from-${stat.color}-600/10 to-transparent border-${stat.color}-500/30 hover:border-${stat.color}-400 hover:bg-${stat.color}-600/15 hover:shadow-[0_0_50px_rgba(139,92,246,0.4)]`
+                    : `from-${stat.color}-100/50 to-transparent border-${stat.color}-300/40 hover:border-${stat.color}-400 hover:bg-${stat.color}-100/60 hover:shadow-[0_0_50px_rgba(139,92,246,0.3)]`
+                  } border rounded-3xl transition-all duration-500 hover:scale-110 cursor-pointer overflow-hidden`}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${isDark ? `from-${stat.color}-500/10` : `from-${stat.color}-200/20`
+                  } to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className="relative z-10 text-6xl md:text-7xl font-black bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
+                  {stat.value}
+                </div>
+                <div className={`relative z-10 ${isDark ? 'text-neutral-400 group-hover:text-neutral-200' : 'text-neutral-600 group-hover:text-neutral-800'
+                  } font-semibold text-lg transition-colors duration-300`}>{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section - Bento Grid */}
+      <section className={`relative py-32 px-6 ${isDark ? 'bg-black' : 'bg-neutral-100'}`} data-aos="fade-up">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-6 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+            Our Core Values
+          </h2>
+          <p className={`text-xl ${isDark ? 'text-neutral-400' : 'text-neutral-600'} text-center mb-16 max-w-3xl mx-auto`}>
+            The principles that drive everything we do
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { icon: Award, title: "Merit-Based Selection", desc: "We believe in meritocracy. Your skills, creativity, and results matter—not your background, connections, or how well you interview. Everyone competes on a level playing field.", span: 2, color: "violet" },
+              { icon: Lightbulb, title: "Innovation", desc: "We continuously push boundaries, experiment with new ideas, and challenge the status quo.", span: 1, color: "blue" },
+              { icon: Shield, title: "Transparency", desc: "Clear criteria, fair judging, and open communication. No hidden agendas, no favoritism.", span: 1, color: "violet" },
+              { icon: TrendingUp, title: "Pursuit of Excellence", desc: "We set high standards for ourselves and our community. Quality over quantity, mastery over mediocrity. We celebrate exceptional work and continuous improvement.", span: 2, color: "blue" }
+            ].map((value, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                className={`${value.span === 2 ? 'md:col-span-2' : ''} group relative bg-gradient-to-br ${isDark
+                    ? `from-${value.color}-600/10 via-${value.color}-500/5 to-transparent border-${value.color}-500/30 hover:border-${value.color}-400 hover:bg-${value.color}-600/15 hover:shadow-[0_0_60px_rgba(139,92,246,0.4)]`
+                    : `from-${value.color}-100/50 via-${value.color}-50/30 to-transparent border-${value.color}-300/40 hover:border-${value.color}-400 hover:bg-${value.color}-100/60 hover:shadow-[0_0_60px_rgba(139,92,246,0.3)]`
+                  } border rounded-3xl p-12 transition-all duration-500 hover:scale-105 overflow-hidden cursor-pointer`}
+              >
+                <div className={`absolute top-0 right-0 ${value.span === 2 ? 'w-80 h-80' : 'w-64 h-64'} ${isDark ? `bg-${value.color}-500/20` : `bg-${value.color}-300/30`
+                  } rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000 opacity-0 group-hover:opacity-100`} />
+                <div className="relative z-10">
+                  <div className={`inline-block p-4 ${isDark ? `bg-${value.color}-600/20` : `bg-${value.color}-200/50`
+                    } rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-inner`}>
+                    <value.icon className={`w-12 h-12 ${isDark ? `text-${value.color}-400 group-hover:text-${value.color}-300` : `text-${value.color}-600 group-hover:text-${value.color}-700`
+                      }`} />
+                  </div>
+                  <h3 className={`text-3xl font-bold mb-5 ${isDark ? 'text-neutral-100 group-hover:text-white' : 'text-neutral-900'
+                    } transition-colors duration-300`}>{value.title}</h3>
+                  <p className={`${value.span === 2 ? 'text-lg' : ''} ${isDark ? 'text-neutral-300 group-hover:text-neutral-100' : 'text-neutral-700 group-hover:text-neutral-900'
+                    } leading-relaxed transition-colors duration-300`}>
+                    {value.desc}
+                  </p>
+                </div>
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl`}>
+                  <div className={`absolute inset-0 border-2 ${isDark ? `border-${value.color}-400/30` : `border-${value.color}-400/40`
+                    } rounded-3xl`} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline Section */}
+      <section ref={timelineRef} className={`relative py-48 px-6 overflow-hidden ${isDark ? 'bg-gradient-to-b from-black via-violet-950/10 to-black' : 'bg-gradient-to-b from-white via-violet-50/30 to-white'
+        }`}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-48" data-aos="fade-up">
+            <span className={`inline-block px-6 py-3 rounded-full ${isDark
+                ? 'bg-violet-600/20 border-violet-500/30 text-violet-400 hover:bg-violet-600/30 hover:border-violet-400 hover:shadow-[0_0_30px_rgba(139,92,246,0.4)]'
+                : 'bg-violet-100/70 border-violet-300/50 text-violet-700 hover:bg-violet-200/70 hover:border-violet-400 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)]'
+              } border font-bold text-sm uppercase tracking-[0.3em] mb-12 transition-all duration-300`}>
+              Our Journey
+            </span>
+            <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-none bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+              TIMELINE
+            </h2>
+          </div>
+
+          <div className="relative">
+            {/* Background Line */}
+            <div className={`absolute left-1/2 top-0 bottom-0 w-[6px] ${isDark ? 'bg-neutral-900' : 'bg-neutral-300'
+              } -translate-x-1/2 rounded-full`} />
+
+            {/* Animated Progress Line */}
+            <motion.div
+              style={{ scaleY, originY: 0 }}
+              className="absolute left-1/2 top-0 bottom-0 w-[6px] bg-gradient-to-b from-violet-600 via-blue-500 to-violet-600 -translate-x-1/2 z-10 rounded-full shadow-[0_0_40px_rgba(139,92,246,0.8)]"
+            />
+
+            {/* Timeline Items */}
+            {[
+              { year: "2023", title: "The Foundation", desc: "Provelt was born from a vision to revolutionize hiring. We launched our alpha platform and onboarded our first 100 companies.", side: "left" },
+              { year: "2024", title: "Rapid Growth", desc: "Expanded to 150+ partner companies and 2,500+ talented users. Introduced AI-powered matching and real-time competition analytics.", side: "right" },
+              { year: "2025", title: "Global Scale", desc: "Became the leading skill-based hiring platform. Processing 500+ projects with a 94% success rate across multiple industries.", side: "left" }
+            ].map((item, index) => (
+              <TimelineNode
+                key={index}
+                year={item.year}
+                title={item.title}
+                desc={item.desc}
+                side={item.side}
+                index={index}
+                isDark={isDark}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className={`relative py-32 px-6 overflow-hidden ${isDark ? 'bg-black' : 'bg-neutral-100'}`}>
+        {/* LightRays Background - Only in dark mode */}
+        {isDark && (
+          <div className="absolute inset-0 opacity-30">
+            <LightRays
+              raysOrigin="bottom-center"
+              raysColor="#8b5cf6"
+              raysSpeed={0.6}
+              lightSpread={1.5}
+              rayLength={2}
+              pulsating={true}
+              fadeDistance={1}
+              saturation={1.3}
+              followMouse={false}
+              mouseInfluence={0}
+              noiseAmount={0.1}
+              distortion={0.05}
+            />
+          </div>
+        )}
+
+        <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-b from-black via-violet-950/20 to-black' : 'bg-gradient-to-b from-neutral-100 via-violet-50/30 to-neutral-100'
+          }`} />
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center" data-aos="fade-up">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+            Ready to Prove Your Worth?
+          </h2>
+          <p className={`text-xl ${isDark ? 'text-neutral-300' : 'text-neutral-700'} mb-12 max-w-2xl mx-auto`}>
+            Join thousands of talented individuals competing for real opportunities.
+            No more gatekeeping—just pure skill and determination.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-10 py-5 bg-gradient-to-r from-violet-600 via-blue-600 to-violet-600 rounded-full font-bold text-lg transition-all duration-300 flex items-center gap-2 group text-white ${isDark
+                  ? 'hover:shadow-[0_0_50px_rgba(139,92,246,0.6)] border border-violet-500/50'
+                  : 'hover:shadow-[0_0_50px_rgba(139,92,246,0.4)] border border-violet-400'
+                }`}
+            >
+              For Talent: Join Competitions
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-10 py-5 border-2 rounded-full font-bold text-lg transition-all duration-300 flex items-center gap-2 group ${isDark
+                  ? 'border-violet-500 hover:bg-violet-500/20 hover:border-blue-500 hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] text-neutral-100'
+                  : 'border-violet-500 hover:bg-violet-50 hover:border-blue-500 hover:shadow-[0_0_40px_rgba(139,92,246,0.3)] text-neutral-900'
+                }`}
+            >
+              For Companies: Post Projects
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            </motion.button>
+          </div>
+
+          <div className={`mt-16 flex flex-wrap justify-center gap-8 md:gap-12 ${isDark ? 'text-neutral-400' : 'text-neutral-600'
+            }`}>
+            {[
+              { icon: Zap, label: "Fast Turnaround", hoverColor: isDark ? 'hover:text-violet-400' : 'hover:text-violet-600' },
+              { icon: Heart, label: "Verified Talent", hoverColor: isDark ? 'hover:text-blue-400' : 'hover:text-blue-600' },
+              { icon: Trophy, label: "Real Results", hoverColor: isDark ? 'hover:text-violet-400' : 'hover:text-violet-600' }
+            ].map((item, index) => (
+              <div key={index} className={`flex items-center gap-2 ${item.hoverColor} transition-colors duration-300 cursor-pointer`}>
+                <item.icon className="w-5 h-5" />
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

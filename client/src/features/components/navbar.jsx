@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Home, 
-  User, 
-  Briefcase, 
-  FileText, 
-  Sun, 
-  Moon, 
-  LogIn, 
-  UserPlus, 
-  LogOut, 
+import {
+  Home,
+  User,
+  Briefcase,
+  FileText,
+  Sun,
+  Moon,
+  LogIn,
+  UserPlus,
+  LogOut,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -25,10 +25,10 @@ function ThemeToggle() {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
     setIsDark(shouldBeDark);
-    
+
     if (shouldBeDark) {
       document.documentElement.classList.add('dark');
     } else {
@@ -39,7 +39,7 @@ function ThemeToggle() {
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
-    
+
     if (newTheme) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
@@ -76,13 +76,13 @@ function ProfileMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div 
+    <div
       className="relative ml-1 sm:ml-2"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
       {/* The Profile Circle */}
-      <Link 
+      <Link
         to="/dashboard"
         className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/30 transition-all duration-300 z-20 relative ring-2 ring-white dark:ring-slate-800"
       >
@@ -105,19 +105,19 @@ function ProfileMenu() {
             <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 py-2">
               Account
             </div>
-            
+
             <Link to="/login" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition-colors">
               <LogIn size={16} />
               <span>Login</span>
             </Link>
-            
+
             <Link to="/signup/clientSignup" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition-colors">
               <UserPlus size={16} />
               <span>Register</span>
             </Link>
-            
+
             <div className="h-px bg-gray-100 dark:bg-slate-800 my-1" />
-            
+
             <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
               <LogOut size={16} />
               <span>Logout</span>
@@ -145,7 +145,7 @@ export function NavBar({ items, className }) {
       )}
     >
       <div className="flex items-center gap-1 sm:gap-2 bg-white/90 dark:bg-black/80 border border-gray-200 dark:border-slate-800 backdrop-blur-xl p-2 rounded-full shadow-2xl transition-all duration-300">
-        
+
         {/* Navigation Items List */}
         <div className="flex items-center">
           {items.map((item) => {
@@ -159,8 +159,8 @@ export function NavBar({ items, className }) {
                 onClick={() => setActiveTab(item.name)}
                 className={cn(
                   'relative cursor-pointer text-sm font-semibold px-4 py-3 sm:px-6 sm:py-3 rounded-full transition-all duration-300 flex items-center justify-center gap-2',
-                  isActive 
-                    ? 'text-blue-600 dark:text-white' 
+                  isActive
+                    ? 'text-blue-600 dark:text-white'
                     : 'text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-slate-800/50'
                 )}
               >
@@ -169,7 +169,7 @@ export function NavBar({ items, className }) {
                   {/* Text hidden on mobile, visible on tablet/desktop */}
                   <span className="hidden md:inline">{item.name}</span>
                 </span>
-                
+
                 {/* THE TORCH / LAMP EFFECT */}
                 {isActive && (
                   <motion.div
@@ -184,7 +184,7 @@ export function NavBar({ items, className }) {
                   >
                     {/* The light source line at the top */}
                     <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-[2px] bg-blue-500 dark:bg-white rounded-t-full shadow-[0_-2px_10px_rgba(59,130,246,1)] dark:shadow-[0_-2px_10px_rgba(255,255,255,1)] z-20"></div>
-                    
+
                     {/* The Glow Beam dripping down */}
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-100/20 dark:from-white/20 via-blue-50/5 dark:via-white/5 to-transparent blur-sm rounded-full"></div>
                   </motion.div>
