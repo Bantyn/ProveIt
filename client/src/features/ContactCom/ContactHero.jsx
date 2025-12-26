@@ -1,678 +1,501 @@
-// src/components/ConnectHero.jsx - ELITE EDITION
-import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useMotionValueEvent, animate } from 'framer-motion';
+// src/features/ContactCom/ContactHero.jsx - THE NEURAL PARALLAX EDITION
+import React, { useRef, useEffect, useState, useMemo } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import {
-  Mail, Phone, MessageSquare, Github, Linkedin, Twitter,
-  ArrowRight, MapPin, Instagram, Youtube, Globe, Calendar,
-  Figma, Code, Camera, Headphones, Sparkles, Cloud,
-  Wifi, Cpu, Shield, Database
+  Mail, Github, Linkedin, Twitter,
+  ArrowRight, Sparkles, MessageSquare,
+  ExternalLink, ChevronRight, Sun, Moon,
+  Zap, Activity, Cpu, Terminal,
+  Hash, Send, Globe, Shield, Database, Cloud,
+  Binary, Code2, Scan, Radar, Network,
+  Fingerprint, FileKey, Smartphone, Wifi, Server, HardDrive, FileCheck
 } from 'lucide-react';
 
-// Simple class name utility
-function cn(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+const cn = (...classes) => classes.filter(Boolean).join(' ');
 
-// 🌟 IMPROVEMENT 1: Global Animation Clock
-const useGlobalClock = () => {
-  const time = useMotionValue(0);
-  
-  useEffect(() => {
-    let animationFrameId;
-    
-    const updateTime = () => {
-      time.set(performance.now() / 1000);
-      animationFrameId = requestAnimationFrame(updateTime);
-    };
-    
-    animationFrameId = requestAnimationFrame(updateTime);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [time]);
-  
-  return time;
-};
-
-// Animation Variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 1.5,
-      ease: [0.33, 1, 0.68, 1]
-    }
-  }
-};
-
-const textVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 1.2,
-      delay: 0.3,
-      ease: [0.33, 1, 0.68, 1]
-    }
-  }
-};
-
-// 🌟 IMPROVEMENT 2: Light Trails Background Layer
-const LightTrails = React.memo(() => {
-  return (
-    <svg className="absolute inset-0 w-full h-full opacity-[0.15] pointer-events-none z-0">
-      <defs>
-        <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-          <stop offset="30%" stopColor="rgba(168,85,247,0.3)" />
-          <stop offset="70%" stopColor="rgba(59,130,246,0.3)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-        </linearGradient>
-      </defs>
-      
-      {/* Multiple curved paths at different depths */}
-      {[...Array(8)].map((_, i) => (
-        <motion.path
-          key={i}
-          d={`
-            M ${-200 + i * 50} ${200 + i * 80}
-            C ${400} ${100 + i * 60}, 
-              ${800} ${500 - i * 70}, 
-              ${1400} ${300 + i * 40}
-          `}
-          fill="none"
-          stroke="url(#trailGradient)"
-          strokeWidth="0.8"
-          strokeDasharray="8 4"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: 1,
-            opacity: [0.1, 0.3, 0.1],
-            pathOffset: [0, 1]
-          }}
-          transition={{
-            duration: 20 + i * 4,
-            repeat: Infinity,
-            ease: "linear",
-            opacity: {
-              duration: 15,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }
-          }}
-        />
-      ))}
-    </svg>
-  );
-});
-
-LightTrails.displayName = 'LightTrails';
-
-// Floating Node Component - OPTIMIZED with global clock
-const FloatingNode = React.memo(({ node, clock, mouseX, mouseY, index }) => {
-  const Icon = node.icon;
-  const [isHovered, setIsHovered] = useState(false);
-  const [showRipple, setShowRipple] = useState(false);
-  
-  const x = useMotionValue(node.x);
-  const y = useMotionValue(node.y);
-  
-  const springX = useSpring(x, { stiffness: 150, damping: 25, mass: 0.5 });
-  const springY = useSpring(y, { stiffness: 150, damping: 25, mass: 0.5 });
-  
-  // 🌟 IMPROVEMENT 3: Magnetic effect using global clock
-  useMotionValueEvent(clock, "change", (time) => {
-    // Base floating animation
-    const baseX = Math.sin(time * node.floatSpeedX * 0.8 + index) * node.floatAmplitudeX;
-    const baseY = Math.cos(time * node.floatSpeedY * 1.2 + index * 1.5) * node.floatAmplitudeY;
-    
-    // Add subtle noise
-    const noiseX = Math.sin(time * 0.3 + index * 2) * node.floatAmplitudeX * 0.3;
-    const noiseY = Math.cos(time * 0.4 + index * 3) * node.floatAmplitudeY * 0.3;
-    
-    x.set(node.x + baseX + noiseX);
-    y.set(node.y + baseY + noiseY);
-  });
-  
-  // Magnetic effect
-  const magneticRadius = 150;
-  const magneticStrength = 0.25;
-  
-  const magneticInfluenceX = useTransform(
-    [springX, mouseX],
-    ([latestX, latestMouseX]) => {
-      const distanceX = latestMouseX - latestX;
-      const distanceY = mouseY.get() - springY.get();
-      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-      
-      if (distance < magneticRadius) {
-        const force = (1 - distance / magneticRadius) * magneticStrength;
-        return latestX + distanceX * force;
-      }
-      return latestX;
-    }
-  );
-  
-  const magneticInfluenceY = useTransform(
-    [springY, mouseY],
-    ([latestY, latestMouseY]) => {
-      const distanceX = mouseX.get() - springX.get();
-      const distanceY = latestMouseY - latestY;
-      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-      
-      if (distance < magneticRadius) {
-        const force = (1 - distance / magneticRadius) * magneticStrength;
-        return latestY + distanceY * force;
-      }
-      return latestY;
-    }
-  );
-  
-  const handleHoverStart = useCallback(() => {
-    setIsHovered(true);
-    setShowRipple(true);
-    setTimeout(() => setShowRipple(false), 600);
-  }, []);
-  
-  return (
-    <motion.div
-      className="absolute z-20 cursor-pointer group pointer-events-auto"
-      style={{
-        x: magneticInfluenceX,
-        y: magneticInfluenceY,
-      }}
-      whileHover="hover"
-      whileTap="tap"
-      onHoverStart={handleHoverStart}
-      onHoverEnd={() => setIsHovered(false)}
-      variants={{
-        hover: { scale: 1.15 },
-        tap: { scale: 0.95 }
-      }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 500, 
-        damping: 25 
-      }}
-    >
-      <motion.div className="relative">
-        {/* Ripple effect */}
-        {showRipple && (
-          <motion.div
-            className="absolute inset-0 rounded-xl border-2"
-            style={{ borderColor: node.color }}
-            initial={{ scale: 0.8, opacity: 0.6 }}
-            animate={{ scale: 1.8, opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          />
-        )}
-        
-        {/* Glow */}
-        <motion.div
-          className="absolute inset-0 rounded-xl blur-lg"
-          style={{ backgroundColor: node.color }}
-          animate={{ 
-            opacity: isHovered ? 0.4 : 0.15,
-            scale: isHovered ? 1.3 : 1
-          }}
-          transition={{ duration: 0.3 }}
-        />
-        
-        {/* Node */}
-        <div className={cn(
-          "relative p-3 backdrop-blur-xl rounded-xl border",
-          "transition-all duration-300",
-          "group-hover:shadow-xl",
-          "bg-gradient-to-br from-white/5 to-white/10",
-          "border-white/20 group-hover:border-white/40"
-        )}>
-          <Icon className="w-5 h-5 text-white relative z-10" />
-        </div>
-        
-        {/* Tooltip */}
-        <motion.div
-          className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 px-3 py-2 
-                     bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl 
-                     border border-white/10 rounded-lg whitespace-nowrap pointer-events-none 
-                     shadow-xl z-30"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ 
-            opacity: isHovered ? 1 : 0, 
-            y: isHovered ? 0 : 10
-          }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold text-white/90">
-              {node.label}
-            </span>
-          </div>
-          <div className="text-sm font-bold text-white">
-            {node.value}
-          </div>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  );
-});
-
-FloatingNode.displayName = 'FloatingNode';
-
-// 🌟 IMPROVEMENT 4: Enhanced Particle Network with Node Awareness
-const EnhancedParticleNetwork = React.memo(({ nodes, networkOpacity, mousePosition }) => {
+// 🔌 Circuit Board: Silicon Traces and Pulsing Signals - HYPER ACTIVE
+const CircuitBoard = ({ darkMode }) => {
   const canvasRef = useRef(null);
-  const particles = useRef([]);
-  const signals = useRef([]);
-  const animationRef = useRef();
-  const rafId = useRef();
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !nodes.length) return;
-
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    let animationFrameId;
 
-    // Setup
-    const setupCanvas = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      
-      ctx.scale(dpr, dpr);
-      ctx.globalCompositeOperation = 'lighter';
+    let traces = [];
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      init();
     };
 
-    setupCanvas();
-    window.addEventListener('resize', setupCanvas);
+    const init = () => {
+      // INCREASED: More traces (15 -> 25) for denser circuitry
+      traces = Array(25).fill(0).map(() => {
+        const startX = Math.random() * canvas.width;
+        const startY = Math.random() * canvas.height;
+        const width = Math.random() * 200 + 100;
+        const vertical = Math.random() > 0.5;
+        return {
+          startX, startY,
+          endX: vertical ? startX : startX + (Math.random() > 0.5 ? width : -width),
+          endY: vertical ? startY + (Math.random() > 0.5 ? width : -width) : startY,
+          pulse: Math.random(),
+          // INCREASED: Faster movement (0.005 -> 0.01 base)
+          speed: 0.01 + Math.random() * 0.02
+        };
+      });
+    };
 
-    // Initialize particles
-    const initParticles = () => {
-      const particleCount = 50;
-      particles.current = [];
-      
-      for (let i = 0; i < particleCount; i++) {
-        particles.current.push({
-          x: Math.random() * canvas.width / window.devicePixelRatio,
-          y: Math.random() * canvas.height / window.devicePixelRatio,
-          vx: (Math.random() - 0.5) * 0.2,
-          vy: (Math.random() - 0.5) * 0.2,
-          radius: Math.random() * 1 + 0.5,
-          opacity: Math.random() * 0.1 + 0.05,
-          hue: 220 + Math.random() * 40,
-          size: Math.random() * 1.5 + 0.5,
-          trail: []
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      traces.forEach(t => {
+        ctx.beginPath();
+        ctx.moveTo(t.startX, t.startY);
+        ctx.lineTo(t.endX, t.endY);
+        ctx.strokeStyle = darkMode ? 'rgba(59, 130, 246, 0.12)' : 'rgba(37, 99, 235, 0.08)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Pulsing Signal
+        t.pulse += t.speed;
+        if (t.pulse > 1) t.pulse = 0;
+
+        const px = t.startX + (t.endX - t.startX) * t.pulse;
+        const py = t.startY + (t.endY - t.startY) * t.pulse;
+
+        ctx.beginPath();
+        // INCREASED: Larger pulse head
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fillStyle = darkMode ? `rgba(96, 165, 250, ${0.4 + Math.sin(t.pulse * Math.PI) * 0.8})` : `rgba(37, 99, 235, 0.5)`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = darkMode ? "rgba(96, 165, 250, 0.8)" : "rgba(37, 99, 235, 0.5)";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    window.addEventListener('resize', resize);
+    resize(); draw();
+    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animationFrameId); };
+  }, [darkMode]);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-80 z-0" />;
+};
+
+// 📐 Vector Geometry (3D Wireframes) - FASTER ROTATION
+const VectorGeometry = ({ darkMode }) => {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let shapes = [];
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); };
+    const init = () => {
+      shapes = Array(5).fill(0).map(() => ({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        size: Math.random() * 100 + 50, rotation: Math.random() * Math.PI * 2,
+        // INCREASED: Faster rotation and drift
+        vRot: (Math.random() - 0.5) * 0.015,
+        vX: (Math.random() - 0.5) * 0.8,
+        vY: (Math.random() - 0.5) * 0.8,
+      }));
+    };
+    const drawHex = (x, y, size, rotation) => {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = rotation + (i * Math.PI) / 3;
+        const px = x + size * Math.cos(angle); const py = y + size * Math.sin(angle);
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = darkMode ? 'rgba(59, 130, 246, 0.15)' : 'rgba(37, 99, 235, 0.1)';
+      ctx.lineWidth = 1; ctx.stroke();
+    };
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      shapes.forEach(s => {
+        s.x += s.vX; s.y += s.vY; s.rotation += s.vRot;
+        if (s.x < -s.size) s.x = canvas.width + s.size; if (s.x > canvas.width + s.size) s.x = -s.size;
+        if (s.y < -s.size) s.y = canvas.height + s.size; if (s.y > canvas.height + s.size) s.y = -s.size;
+        drawHex(s.x, s.y, s.size, s.rotation);
+        ctx.beginPath(); for (let i = 0; i < 3; i++) {
+          const angle = s.rotation + (i * 2 * Math.PI) / 3;
+          ctx.moveTo(s.x, s.y); ctx.lineTo(s.x + s.size * Math.cos(angle), s.y + s.size * Math.sin(angle));
+        }
+        ctx.stroke();
+      });
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    window.addEventListener('resize', resize); resize(); animate();
+    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animationFrameId); };
+  }, [darkMode]);
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-50" />;
+};
+
+// 🕸️ Quantum Nexus: Mesh with Signal Packets - HIGH DENSITY
+const QuantumNexus = React.memo(({ darkMode }) => {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: 0, y: 0, active: false });
+  const ripplesRef = useRef([]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let particles = [];
+    let signalPackets = [];
+
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); };
+    const init = () => {
+      particles = [];
+      // INCREASED: Density (20000 -> 14000 divisor gives ~40% more particles)
+      const count = Math.floor((canvas.width * canvas.height) / 14000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+          // INCREASED: Particle velocity
+          vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8,
+          size: Math.random() * 2 + 1, color: darkMode ? '96, 165, 250' : '37, 99, 235'
         });
       }
     };
 
-    initParticles();
-
-    // Animation loop
     const animate = () => {
-      const currentOpacity = networkOpacity.get();
-      const { width, height } = canvas;
-      const dpr = window.devicePixelRatio || 1;
-      const displayWidth = width / dpr;
-      const displayHeight = height / dpr;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Clear with fade effect
-      ctx.fillStyle = `rgba(0, 0, 0, ${0.05})`;
-      ctx.fillRect(0, 0, displayWidth, displayHeight);
-
-      // Update and draw signals
-      signals.current = signals.current.filter(signal => {
-        signal.radius += 2;
-        signal.opacity *= 0.96;
-        
-        if (signal.opacity > 0.01) {
-          ctx.beginPath();
-          ctx.arc(signal.x, signal.y, signal.radius, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(168, 85, 247, ${signal.opacity})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
+      // Update Ripples
+      ripplesRef.current = ripplesRef.current.filter(r => {
+        r.radius += r.speed; r.opacity *= 0.95;
+        if (r.opacity > 0.01) {
+          ctx.beginPath(); ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${darkMode ? '255,255,255' : '59,130,246'}, ${r.opacity * 0.3})`; ctx.lineWidth = 2; ctx.stroke();
           return true;
         }
         return false;
       });
 
-      // Update and draw particles
-      particles.current.forEach((particle, i) => {
-        // 🌟 NODE AWARENESS: Attract to nearest node
-        let nearestNode = null;
-        let minDistance = Infinity;
-        
-        nodes.forEach(node => {
-          const dx = node.x - particle.x;
-          const dy = node.y - particle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 200 && distance < minDistance) {
-            minDistance = distance;
-            nearestNode = { dx, dy, distance };
+      particles.forEach((p, i) => {
+        let dx_dist = 0, dy_dist = 0;
+        ripplesRef.current.forEach(r => {
+          const dx = p.x - r.x, dy = p.y - r.y, dist = Math.sqrt(dx * dx + dy * dy), diff = dist - r.radius;
+          if (Math.abs(diff) < 60) { // INCREASED interaction radius
+            const force = (60 - Math.abs(diff)) / 60 * r.opacity * 15;
+            const angle = Math.atan2(dy, dx); dx_dist += Math.cos(angle) * force; dy_dist += Math.sin(angle) * force;
           }
         });
-
-        if (nearestNode) {
-          const force = (1 - nearestNode.distance / 200) * 0.02;
-          particle.vx += nearestNode.dx * force * 0.01;
-          particle.vy += nearestNode.dy * force * 0.01;
-        }
-
-        // Mouse interaction
-        const mouseDx = mousePosition.current.x - particle.x;
-        const mouseDy = mousePosition.current.y - particle.y;
-        const mouseDist = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
-        
-        if (mouseDist < 120) {
-          const force = (1 - mouseDist / 120) * 0.03;
-          particle.vx -= (mouseDx / mouseDist) * force;
-          particle.vy -= (mouseDy / mouseDist) * force;
-        }
-
-        // Apply velocity with damping
-        particle.vx *= 0.98;
-        particle.vy *= 0.98;
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        // Boundary handling
-        const padding = 50;
-        if (particle.x < -padding || particle.x > displayWidth + padding) particle.vx *= -0.8;
-        if (particle.y < -padding || particle.y > displayHeight + padding) particle.vy *= -0.8;
-
-        // Draw particle
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${particle.hue}, 100%, 70%, ${particle.opacity * currentOpacity * 2})`;
-        ctx.fill();
-
-        // Draw connections
-        particles.current.slice(i + 1).forEach(otherParticle => {
-          const dx = otherParticle.x - particle.x;
-          const dy = otherParticle.y - particle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 150) {
-            const opacity = 0.05 * (1 - distance / 150) * currentOpacity;
-            
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-            ctx.lineWidth = 0.4;
-            ctx.stroke();
+        if (mouseRef.current.active) {
+          const dx = mouseRef.current.x - p.x, dy = mouseRef.current.y - p.y, dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) { // INCREASED mouse influence radius
+            const force = (180 - dist) / 180 * 4; // STRONGER force
+            const angle = Math.atan2(dy, dx); dx_dist -= Math.cos(angle) * force; dy_dist -= Math.sin(angle) * force;
           }
-        });
+        }
+        p.x += p.vx + dx_dist; p.y += p.vy + dy_dist;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(${p.color}, 0.7)`; ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j], dist = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
+          if (dist < 130) {
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(${p.color}, ${(130 - dist) / 130 * 0.2})`; ctx.lineWidth = 0.5; ctx.stroke();
+
+            // INCREASED: More frequent signal packets
+            if (Math.random() < 0.003) {
+              signalPackets.push({ p1: p, p2: p2, progress: 0, speed: 0.05 + Math.random() * 0.05 });
+            }
+          }
+        }
       });
 
-      rafId.current = requestAnimationFrame(animate);
+      // Draw Signal Packets
+      signalPackets = signalPackets.filter(s => {
+        s.progress += s.speed;
+        if (s.progress > 1) return false;
+        const x = s.p1.x + (s.p2.x - s.p1.x) * s.progress;
+        const y = s.p1.y + (s.p2.y - s.p1.y) * s.progress;
+        ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); // Larger packets
+        ctx.fillStyle = darkMode ? '#fff' : '#2563eb';
+        ctx.shadowBlur = 4; ctx.shadowColor = "white"; // Glow effect
+        ctx.fill(); ctx.shadowBlur = 0;
+        return true;
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    animationRef.current = animate();
-    rafId.current = requestAnimationFrame(animate);
-
-    // Add signal on node hover simulation (for demo)
-    const interval = setInterval(() => {
-      if (nodes.length > 0 && Math.random() > 0.7) {
-        const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
-        signals.current.push({
-          x: randomNode.x,
-          y: randomNode.y,
-          radius: 5,
-          opacity: 0.3
-        });
-      }
-    }, 1000);
-
+    const handleMouseMove = (e) => { mouseRef.current = { x: e.clientX, y: e.clientY, active: true }; };
+    const handleClick = (e) => { ripplesRef.current.push({ x: e.clientX, y: e.clientY, radius: 0, speed: 8, opacity: 1 }); };
+    window.addEventListener('resize', resize); window.addEventListener('mousemove', handleMouseMove); window.addEventListener('click', handleClick);
+    resize(); animate();
     return () => {
-      clearInterval(interval);
-      window.removeEventListener('resize', setupCanvas);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('click', handleClick);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [nodes, networkOpacity, mousePosition]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-    />
-  );
+  }, [darkMode]);
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
 });
 
-EnhancedParticleNetwork.displayName = 'EnhancedParticleNetwork';
+// 🌫️ Atmospheric Haze - FASTER DRIFT
+const AtmosphericHaze = ({ darkMode }) => (
+  <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-40">
+    {[...Array(3)].map((_, i) => (
+      <motion.div key={i} className={cn("absolute rounded-full blur-[120px] opacity-25", i === 0 ? (darkMode ? "bg-blue-600" : "bg-blue-400") : i === 1 ? (darkMode ? "bg-purple-600" : "bg-purple-400") : (darkMode ? "bg-indigo-600" : "bg-indigo-400"))}
+        // FASTER ANIMATION
+        animate={{ x: [Math.random() * 100 + "%", Math.random() * 100 + "%"], y: [Math.random() * 100 + "%", Math.random() * 100 + "%"], scale: [1, 1.3, 0.9, 1] }}
+        transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "easeInOut" }}
+        style={{ width: 500 + i * 100 + "px", height: 500 + i * 100 + "px", left: "-20%", top: "-20%" }} />
+    ))}
+  </div>
+);
 
-// Main Component - Elite Edition
-const ConnectHero = () => {
-  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
-  const mousePosition = useRef({ x: 0, y: 0 });
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const networkOpacity = useMotionValue(0.08);
-  const [ctaHovered, setCtaHovered] = useState(false);
-  
-  // 🌟 Global animation clock
-  const globalClock = useGlobalClock();
-
-  // Screen size
+// 🌧️ Code Streams - MORE DENSE & FAST
+const CodeRain = ({ darkMode }) => {
+  const canvasRef = useRef(null);
   useEffect(() => {
-    const updateScreenSize = () => {
-      setScreenSize({
-        width: window.innerWidth,
-        height: window.innerHeight
+    const canvas = canvasRef.current; if (!canvas) return; const ctx = canvas.getContext('2d');
+    let animationFrameId; const chars = "0101<>[]{}/\\#%&*+=-_~".split(""); let columns = []; const fontSize = 14;
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; const count = Math.floor(canvas.width / fontSize); columns = Array(count).fill(0).map(() => ({ y: Math.random() * canvas.height, speed: Math.random() * 3 + 1, opacity: Math.random() * 0.4 })); };
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.font = fontSize + "px monospace";
+      columns.forEach((col, i) => {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillStyle = darkMode ? `rgba(96, 165, 250, ${col.opacity})` : `rgba(37, 99, 235, ${col.opacity * 0.6})`;
+        ctx.fillText(char, i * fontSize, col.y); col.y += col.speed; if (col.y > canvas.height) col.y = -fontSize;
       });
+      animationFrameId = requestAnimationFrame(draw);
     };
-    
-    updateScreenSize();
-    window.addEventListener('resize', updateScreenSize);
-    return () => window.removeEventListener('resize', updateScreenSize);
-  }, []);
+    window.addEventListener('resize', resize); resize(); draw();
+    return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animationFrameId); };
+  }, [darkMode]);
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-30" />;
+};
 
-  // Mouse tracking
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-      mousePosition.current = { x: e.clientX, y: e.clientY };
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
+// 📺 UI Overlay
+const DigitalOverlay = () => (
+  <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden opacity-20">
+    <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] bg-[length:100%_4px,3px_100%]" />
+    <motion.div animate={{ y: ["-100%", "100%"] }} transition={{ duration: 12, repeat: Infinity, ease: "linear" }} className="w-full h-[40%] bg-gradient-to-b from-transparent via-blue-500/5 to-transparent absolute" />
+  </div>
+);
 
-  // Network opacity based on CTA hover
-  useEffect(() => {
-    animate(networkOpacity, ctaHovered ? 0.2 : 0.08, {
-      duration: 0.5,
-      ease: "easeOut"
-    });
-  }, [ctaHovered, networkOpacity]);
-
-  // Memoized nodes
-  const floatingNodes = useMemo(() => {
-    if (screenSize.width === 0) return [];
-    
-    const nodes = [
-      { id: 'email', icon: Mail, label: 'Email', value: 'hello@studio.com', color: '#60A5FA' },
-      { id: 'phone', icon: Phone, label: 'Phone', value: '+91 98243xxxxx', color: '#34D399' },
-      { id: 'github', icon: Github, label: 'GitHub', value: '@studio', color: '#9CA3AF' },
-      { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', value: 'in/studio', color: '#0A66C2' },
-      { id: 'twitter', icon: Twitter, label: 'Twitter', value: '@studio', color: '#1DA1F2' },
-      { id: 'chat', icon: MessageSquare, label: 'Chat', value: 'Start chat', color: '#A78BFA' },
-      { id: 'instagram', icon: Instagram, label: 'Instagram', value: '@studio.design', color: '#E4405F' },
-      { id: 'figma', icon: Figma, label: 'Figma', value: 'Community', color: '#F24E1E' },
-      { id: 'code', icon: Code, label: 'API', value: 'docs.studio.io', color: '#3B82F6' },
-      { id: 'globe', icon: Globe, label: 'Website', value: 'studio.io', color: '#10B981' },
-    ];
-
-    // Distribute nodes around screen with good spacing
-    const grid = [
-      [0.15, 0.2], [0.25, 0.1], [0.85, 0.15], [0.75, 0.25],
-      [0.2, 0.8], [0.1, 0.7], [0.8, 0.85], [0.9, 0.75],
-      [0.5, 0.5], [0.5, 0.9]
-    ];
-
-    return nodes.map((node, i) => {
-      const [xPercent, yPercent] = grid[i] || [0.5, 0.5];
-      return {
-        ...node,
-        x: screenSize.width * xPercent,
-        y: screenSize.height * yPercent,
-        floatAmplitudeX: 20 + Math.random() * 25,
-        floatAmplitudeY: 20 + Math.random() * 25,
-        floatSpeedX: 0.1 + Math.random() * 0.1,
-        floatSpeedY: 0.1 + Math.random() * 0.1
-      };
-    });
-  }, [screenSize]);
-
+// ⌨️ Kinetic Typography
+const KineticTitle = ({ text, darkMode }) => {
+  const letters = text.split("");
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-gray-950">
-      {/* 🌟 Background Layers (Depth Stack) */}
-      
-      {/* Base Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900" />
-      
-      {/* Aurora Orbs */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20"
-             style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-3xl opacity-20"
-             style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%)' }} />
-      </div>
-      
-      {/* 🌟 Light Trails Layer */}
-      <LightTrails />
-      
-      {/* 🌟 Enhanced Particle Network */}
-      {screenSize.width > 0 && (
-        <EnhancedParticleNetwork 
-          nodes={floatingNodes}
-          networkOpacity={networkOpacity}
-          mousePosition={mousePosition}
-        />
-      )}
-      
-      {/* Noise Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-           style={{
-             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-           }} />
-      
-      {/* Floating Nodes */}
-      <div className="absolute inset-0 z-10">
-        {floatingNodes.map((node, index) => (
-          <FloatingNode
-            key={node.id}
-            node={node}
-            clock={globalClock}
-            mouseX={mouseX}
-            mouseY={mouseY}
-            index={index}
-          />
-        ))}
-      </div>
-      
-      {/* Main Content */}
-      <motion.div
-        className="relative z-20 w-full h-full flex flex-col items-center justify-center px-4 pointer-events-none"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Title */}
-        <motion.div 
-          className="relative pointer-events-auto mb-4"
-          variants={textVariants}
-        >
-          <h1 className="text-[clamp(5rem,15vw,10rem)] font-black tracking-tighter text-center 
-                        bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400
-                        animate-gradient bg-[length:200%_auto] leading-[0.85]">
-            Connect
-          </h1>
-        </motion.div>
-        
-        {/* Subtitle */}
+    <h1 className={cn("text-7xl md:text-[9rem] lg:text-[11rem] font-black tracking-tighter mb-10 leading-none flex justify-center", darkMode ? "text-white" : "text-gray-900")}>
+      {letters.map((char, i) => (
+        <motion.span key={i} initial={{ y: 80, opacity: 0, scale: 0.8, filter: "blur(15px)" }} animate={{ y: 0, opacity: 1, scale: 1, filter: "blur(0px)" }} transition={{ duration: 1, delay: i * 0.08, ease: [0.23, 1, 0.32, 1] }} className={cn("bg-clip-text text-transparent bg-gradient-to-r inline-block", darkMode ? "from-cyan-400 via-violet-400 to-fuchsia-400" : "from-cyan-600 via-violet-600 to-fuchsia-600")}>
+          {char}
+        </motion.span>
+      ))}
+    </h1>
+  );
+};
+
+// 💎 Connection Card
+const ConnectionCard = ({ node, isHovered, onHover, onLeave, darkMode }) => {
+  const Icon = node.icon;
+  return (
+    <motion.div className="absolute z-30" style={{ left: `${node.x}%`, top: `${node.y}%` }} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: node.delay, duration: 0.8, ease: [0.23, 1, 0.32, 1] }}>
+      <div className="relative group" onMouseEnter={() => onHover(node.id)} onMouseLeave={onLeave}>
         <motion.div
-          className="max-w-2xl mx-auto mt-8 pointer-events-auto"
-          variants={textVariants}
-        >
-          <p className="text-xl text-center font-light leading-relaxed px-4 text-white/60">
-            Where digital ether meets human intention.
-            <br />
-            A constellation of possibilities awaiting your signal.
-          </p>
-        </motion.div>
-        
-        {/* 🌟 CTA Button with Network Interaction */}
-        <motion.button
-          className="group relative mt-12 px-10 py-4 rounded-2xl border backdrop-blur-xl pointer-events-auto
-                     bg-gradient-to-br from-white/10 via-white/5 to-transparent border-white/20 
-                     hover:border-white/40 text-white transition-all duration-500"
-          whileHover={{ y: -3 }}
-          whileTap={{ scale: 0.97 }}
-          onHoverStart={() => setCtaHovered(true)}
-          onHoverEnd={() => setCtaHovered(false)}
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { 
-              opacity: 1, 
-              y: 0,
-              transition: { delay: 0.8, duration: 0.6 }
-            }
+          animate={{
+            y: [0, -12, 0],
+            x: [0, 8, 0],
+            rotate: [0, 5, -5, 0]
           }}
+          transition={{
+            duration: 6 + Math.random() * 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className={cn(
+            "relative w-11 h-11 flex items-center justify-center rounded-xl cursor-pointer transition-all duration-500",
+            darkMode ? "bg-white/5 backdrop-blur-md border border-white/10" : "bg-black/5 backdrop-blur-md border border-black/10",
+            isHovered && (darkMode ? "ring-2 ring-blue-500 shadow-[0_0_25px_rgba(59,130,246,0.4)]" : "ring-2 ring-blue-600 shadow-[0_0_25px_rgba(37,99,235,0.15)]")
+          )}
         >
-          <div className="relative z-10 flex items-center gap-3">
-            <Sparkles className="w-5 h-5 text-blue-400" />
-            <span className="text-lg font-semibold tracking-wide">
-              Initiate Connection
-            </span>
-            <ArrowRight className="w-5 h-5 text-pink-400" />
-          </div>
-          
-          {/* Pulse effect */}
+          <Icon className={cn("w-4.5 h-4.5 transition-all duration-500", isHovered ? (darkMode ? "text-blue-400 scale-110" : "text-blue-600 scale-110") : (darkMode ? "text-white/60" : "text-black/50"))} />
+        </motion.div>
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div initial={{ opacity: 0, x: 20, scale: 0.95 }} animate={{ opacity: 1, x: 55, scale: 1 }} exit={{ opacity: 0, x: 20, scale: 0.95 }} className={cn("absolute top-0 left-0 w-64 p-5 rounded-2xl backdrop-blur-2xl border shadow-2xl z-50 pointer-events-none transition-colors", darkMode ? "bg-gray-900/95 border-white/10" : "bg-white/98 border-black/10")}>
+              <div className="flex items-center gap-2 mb-3">
+                <Activity className={cn("w-3 h-3", darkMode ? "text-blue-400" : "text-blue-600")} />
+                <span className={cn("text-[9px] font-bold tracking-widest uppercase", darkMode ? "text-blue-400/80" : "text-blue-600/80")}>Protocol Linked</span>
+              </div>
+              <h3 className={cn("font-bold text-lg mb-1", darkMode ? "text-white" : "text-gray-900")}>{node.title}</h3>
+              <p className={cn("text-xs mb-4 leading-relaxed", darkMode ? "text-white/50" : "text-gray-600")}>{node.description}</p>
+              <div className={cn("flex items-center justify-between text-[10px] font-mono", darkMode ? "text-white/30" : "text-gray-400")}><span>{node.handle}</span><ExternalLink className="w-3 h-3" /></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+};
+
+// 💠 Floating Icon Cloud: Decorative Background Layer
+const FloatingIcons = ({ darkMode }) => {
+  // UPDATED: Expanded set with "Verification & Proof" themed icons
+  const icons = [
+    Binary, Code2, Cpu, Terminal, Globe, Shield, Database, Network,
+    Scan, Radar, Zap, Activity, Fingerprint, FileKey, Smartphone,
+    Wifi, Server, HardDrive, FileCheck
+  ];
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {[...Array(20)].map((_, i) => { // INCREASED count for more density
+        const Icon = icons[i % icons.length];
+        const size = 15 + Math.random() * 20;
+        return (
           <motion.div
-            className="absolute inset-0 rounded-2xl blur-xl -z-10 opacity-30"
+            key={i}
+            className={cn("absolute opacity-[0.05]", darkMode ? "text-white" : "text-black")}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
             animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.6, 0.3]
+              y: [0, -40, 0],
+              rotate: [0, 45, 0],
+              opacity: [0.03, 0.08, 0.03]
             }}
             transition={{
-              duration: 2,
+              duration: 10 + Math.random() * 15,
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            style={{
-              background: 'radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)'
-            }}
-          />
-        </motion.button>
-        
-        {/* Status */}
-        <motion.div
-          className="mt-8 flex items-center gap-2 text-sm text-white/40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-        >
-          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span>Network Active • {floatingNodes.length} Connection Points</span>
-        </motion.div>
+          >
+            <Icon size={size} />
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+};
+
+const ConnectHero = ({ darkMode, setDarkMode }) => {
+  const [hoveredNode, setHoveredNode] = useState(null);
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+
+  // Mouse Parallax Engine
+  const mouseX = useSpring(0, { damping: 50, stiffness: 450 });
+  const mouseY = useSpring(0, { damping: 50, stiffness: 450 });
+  const handleMouseMove = (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+    mouseX.set(x); mouseY.set(y);
+  };
+
+  const p1X = useTransform(mouseX, x => x * -20); const p1Y = useTransform(mouseY, y => y * -20);
+  const p2X = useTransform(mouseX, x => x * -40); const p2Y = useTransform(mouseY, y => y * -40);
+  const p3X = useTransform(mouseX, x => x * -60); const p3Y = useTransform(mouseY, y => y * -60);
+  const pDeepX = useTransform(mouseX, x => x * -10); const pDeepY = useTransform(mouseY, y => y * -10);
+
+  const nodes = [
+    { id: 'mail', icon: Mail, x: 15, y: 18, title: 'Direct Transmission', description: 'Immediate response protocol for serious inquiries.', handle: 'hello@proveit.io', delay: 0.2 },
+    { id: 'github', icon: Github, x: 82, y: 15, title: 'Source Protocol', description: 'Review our infrastructure and architecture.', handle: 'github.com/proveit', delay: 0.4 },
+    { id: 'linkedin', icon: Linkedin, x: 12, y: 75, title: 'Professional Core', description: 'Synchronize career and talent opportunities.', handle: 'linkedin.com/proveit', delay: 0.6 },
+    { id: 'twitter', icon: Twitter, x: 88, y: 78, title: 'Neural Feed', description: 'Real-time platform updates and insights.', handle: '@ProveItIO', delay: 0.8 },
+    { id: 'discord', icon: MessageSquare, x: 50, y: 82, title: 'Signal Ground', description: 'Collaborative hub for high-performance teams.', handle: 'discord.gg/proveit', delay: 1.0 },
+    { id: 'slack', icon: Hash, x: 10, y: 45, title: 'Internal Comms', description: 'Real-time synchronization for core partners.', handle: 'proveit.slack.com', delay: 1.2 },
+    { id: 'telegram', icon: Send, x: 85, y: 42, title: 'Encrypted Link', description: 'Secure, high-speed burst communication.', handle: 't.me/proveit', delay: 1.4 },
+    { id: 'status', icon: Activity, x: 10, y: 85, title: 'Core Status', description: 'Live telemetry and infrastructure uptime.', handle: 'status.proveit.io', delay: 1.6 },
+  ];
+
+  return (
+    <div className={cn("relative w-full h-[100vh] overflow-hidden flex items-center justify-center font-sans transition-colors duration-1000", darkMode ? "bg-black" : "bg-gray-50")} onMouseMove={handleMouseMove}>
+      {/* Deepest Background Layer */}
+      <motion.div style={{ x: pDeepX, y: pDeepY }} className="absolute inset-0 z-0">
+        <FloatingIcons darkMode={darkMode} />
       </motion.div>
-      
-      {/* Global CSS */}
-      <style jsx global>{`
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        .animate-gradient {
-          animation: gradient 3s ease infinite;
-        }
-      `}</style>
+
+      {/* Deep Background Layers */}
+      <motion.div style={{ x: p1X, y: p1Y }} className="absolute inset-0 z-0">
+        <AtmosphericHaze darkMode={darkMode} />
+        <CircuitBoard darkMode={darkMode} />
+      </motion.div>
+
+      {/* Mid Background Layers */}
+      <motion.div style={{ x: p2X, y: p2Y }} className="absolute inset-0 z-10">
+        <VectorGeometry darkMode={darkMode} />
+        <CodeRain darkMode={darkMode} />
+      </motion.div>
+
+      {/* Foreground Background Layer */}
+      <motion.div style={{ x: p3X, y: p3Y }} className="absolute inset-0 z-20">
+        <QuantumNexus darkMode={darkMode} />
+        <DigitalOverlay />
+      </motion.div>
+
+      {/* Main Content */}
+      <div className="container relative z-30 px-6 pointer-events-none">
+        <motion.div style={{ opacity }} className="text-center max-w-5xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={cn("inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-10 transition-colors", darkMode ? "bg-white/5 border-white/10" : "bg-white/90 border-gray-200 shadow-sm")}>
+            <Zap className={cn("w-3.5 h-3.5 animate-pulse", darkMode ? "text-blue-400" : "text-blue-600")} />
+            <span className={cn("text-[10px] font-bold tracking-[0.4em] uppercase", darkMode ? "text-white/80" : "text-gray-900/80")}>Neural_Vortex_Active</span>
+          </motion.div>
+
+          <KineticTitle text="Connect" darkMode={darkMode} />
+
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className={cn("text-xl md:text-2xl font-light max-w-2xl mx-auto leading-relaxed mb-14 transition-colors px-4", darkMode ? "text-white/50" : "text-gray-500")}>
+            Synchronize with the next-generation proof layers. Bridge vision and verification through the atmospheric nexus.
+          </motion.p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pointer-events-auto">
+            <motion.button whileHover={{ scale: 1.05, y: -2, boxShadow: darkMode ? "0 0 30px rgba(59,130,246,0.3)" : "0 0 30px rgba(37,99,235,0.15)" }} whileTap={{ scale: 0.95 }} className={cn("group relative px-12 py-5 font-bold rounded-2xl overflow-hidden shadow-2xl transition-all duration-500", darkMode ? "bg-white text-black" : "bg-gray-900 text-white")}>
+              <div className="relative z-10 flex items-center gap-3">
+                Initialize Linking <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </div>
+              <motion.div className="absolute inset-0 bg-blue-500/10" initial={{ x: "-100%" }} whileHover={{ x: "0%" }} transition={{ duration: 0.4 }} />
+            </motion.button>
+            <button className={cn("flex items-center gap-2 text-sm font-bold tracking-widest group transition-colors", darkMode ? "text-white/40 hover:text-white" : "text-gray-400 hover:text-gray-900")}>
+              Protocol Spec <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="absolute inset-0 z-40">
+        {nodes.map(node => (
+          <ConnectionCard key={node.id} node={node} isHovered={hoveredNode === node.id} onHover={setHoveredNode} onLeave={() => setHoveredNode(null)} darkMode={darkMode} />
+        ))}
+      </div>
+
+      <div className="absolute bottom-10 left-10 right-10 z-50 flex flex-col md:flex-row items-center justify-between gap-10">
+        <div className="flex items-center gap-12 text-center md:text-left">
+          <div className="flex flex-col gap-1.5">
+            <span className={cn("text-[8px] font-bold tracking-[0.3em] text-opacity-40 uppercase", darkMode ? "text-white" : "text-black")}>Atmospheric Engine</span>
+            <div className="flex items-center gap-2.5">
+              <Cpu className={cn("w-3.5 h-3.5", darkMode ? "text-blue-400" : "text-blue-600")} />
+              <span className={cn("text-[11px] font-mono font-bold", darkMode ? "text-white/80" : "text-gray-900")}>VOLTS_v2.5_EXT</span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <span className={cn("text-[8px] font-bold tracking-[0.3em] text-opacity-40 uppercase", darkMode ? "text-white" : "text-black")}>Neural Traces</span>
+            <div className="flex items-center gap-2">
+              <Activity className={cn("w-3.5 h-3.5", darkMode ? "text-blue-400" : "text-blue-600")} />
+              <span className={cn("text-[11px] font-mono font-bold", darkMode ? "text-white/80" : "text-gray-900")}>ACTIVE_SYNC_STABLE</span>
+            </div>
+          </div>
+        </div>
+        <button className={cn("p-4 rounded-full border transition-all pointer-events-auto hover:scale-110 active:scale-95", darkMode ? "bg-white/5 border-white/10 text-white hover:bg-white/10" : "bg-white border-gray-200 text-gray-900 shadow-md")} onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? <Sun size={22} className="text-yellow-400" /> : <Moon size={22} className="text-indigo-600" />}
+        </button>
+      </div>
     </div>
   );
 };

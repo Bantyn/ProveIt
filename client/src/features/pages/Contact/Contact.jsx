@@ -120,7 +120,7 @@
 //       900: "#a5b4fc",
 //     }
 //   },
-  
+
 //   // Secondary colors (Emerald - Growth & Success)
 //   secondary: {
 //     light: {
@@ -148,7 +148,7 @@
 //       900: "#d1fae5",
 //     }
 //   },
-  
+
 //   // Accent colors (Amber - Energy & Attention)
 //   accent: {
 //     light: {
@@ -176,7 +176,7 @@
 //       900: "#fffbeb",
 //     }
 //   },
-  
+
 //   // Neutral colors
 //   neutral: {
 //     light: {
@@ -255,7 +255,7 @@
 //         this.size = Math.random() * 2 + 0.5;
 //         this.speedX = Math.random() * 1 - 0.5;
 //         this.speedY = Math.random() * 1 - 0.5;
-        
+
 //         // Use theme-based colors
 //         const colors = theme === 'dark' 
 //           ? [
@@ -268,7 +268,7 @@
 //               COLORS.secondary.light[500], // Emerald
 //               COLORS.accent.light[500], // Amber
 //             ];
-        
+
 //         this.color = colors[Math.floor(Math.random() * colors.length)];
 //       }
 
@@ -299,7 +299,7 @@
 
 //     const animate = () => {
 //       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
 //       particles.forEach(particle => {
 //         particle.update();
 //         particle.draw();
@@ -414,7 +414,7 @@
 //             : COLORS.accent.light[300] + '30'
 //         }}
 //       />
-      
+
 //       {/* Subtle grid pattern */}
 //       <div 
 //         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02]"
@@ -608,7 +608,7 @@
 //     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
 //       <FloatingParticles />
 //       <AnimatedGradientBackground />
-      
+
 //       {/* Floating decorative elements */}
 //       <div className="absolute inset-0 pointer-events-none">
 //         {[...Array(12)].map((_, i) => (
@@ -721,7 +721,7 @@
 //                 Start Free Trial
 //                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
 //               </motion.button>
-              
+
 //               <motion.button
 //                 whileHover={{ scale: 1.05 }}
 //                 whileTap={{ scale: 0.95 }}
@@ -809,7 +809,7 @@
 // // ===================== Contact Form Section =====================
 // const ContactFormSection = () => {
 //   const { theme } = React.useContext(ThemeContext);
-  
+
 //   const formik = useFormik({
 //     initialValues: {
 //       name: "",
@@ -870,7 +870,7 @@
 //                 Get in Touch
 //               </span>
 //             </div>
-            
+
 //             <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: COLORS.neutral[theme][900] }}>
 //               Let's{" "}
 //               <span style={{
@@ -881,7 +881,7 @@
 //                 Connect
 //               </span>
 //             </h2>
-            
+
 //             <p className="text-xl max-w-2xl mx-auto" style={{ color: COLORS.neutral[theme][600] }}>
 //               Have questions? We're here to help. Send us a message and we'll respond within 24 hours.
 //             </p>
@@ -1276,7 +1276,7 @@
 // // ===================== Additional Sections (Simplified) =====================
 // const SupportSection = () => {
 //   const { theme } = React.useContext(ThemeContext);
-  
+
 //   return (
 //     <section id="support" className="py-20"
 //       style={{
@@ -1302,7 +1302,7 @@
 //                 Support Center
 //               </span>
 //             </div>
-            
+
 //             <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: COLORS.neutral[theme][900] }}>
 //               We're Here to{" "}
 //               <span style={{
@@ -1314,7 +1314,7 @@
 //               </span>
 //             </h2>
 //           </motion.div>
-          
+
 //           {/* Support content would go here */}
 //         </div>
 //       </div>
@@ -1324,7 +1324,7 @@
 
 // const TeamSection = () => {
 //   const { theme } = React.useContext(ThemeContext);
-  
+
 //   return (
 //     <section id="team" className="py-20">
 //       <div className="container mx-auto px-6">
@@ -1346,7 +1346,7 @@
 //                 Meet Our Team
 //               </span>
 //             </div>
-            
+
 //             <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: COLORS.neutral[theme][900] }}>
 //               The Minds{" "}
 //               <span style={{
@@ -1358,7 +1358,7 @@
 //               </span>
 //             </h2>
 //           </motion.div>
-          
+
 //           {/* Team content would go here */}
 //         </div>
 //       </div>
@@ -1369,7 +1369,7 @@
 // // ===================== Footer =====================
 // const Footer = () => {
 //   const { theme } = React.useContext(ThemeContext);
-  
+
 //   return (
 //     <footer className="pt-20 pb-8"
 //       style={{
@@ -1467,7 +1467,7 @@
 //       <div className="min-h-screen transition-colors duration-300">
 //         <Navigation />
 //         <ThemeToggle />
-        
+
 //         <Toaster
 //           position="top-right"
 //           toastOptions={{
@@ -1532,17 +1532,18 @@
 
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import ContactHero from '../../ContactCom/ContactHero';
 import ContactSection from '../../ContactCom/ContactSection';
 
 const Contact = () => {
-  return (
-    <>
-      <ContactHero />
-      <ContactSection  />
+  const [darkMode, setDarkMode] = useState(true);
 
-    </>
+  return (
+    <div className={darkMode ? 'dark bg-black' : 'bg-white'}>
+      <ContactHero darkMode={darkMode} setDarkMode={setDarkMode} />
+      <ContactSection darkMode={darkMode} setDarkMode={setDarkMode} />
+    </div>
   );
 };
 
