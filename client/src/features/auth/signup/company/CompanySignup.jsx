@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import {
   Building2,
@@ -279,32 +279,32 @@ const FeaturesGrid = () => {
 };
 
 /* ===================== Stats Counter ===================== */
-const StatsCounter = () => {
-  const stats = [
-    { value: "10K+", label: "Companies", icon: Building2 },
-    { value: "500K+", label: "Candidates", icon: Users },
-    { value: "85%", label: "Faster Hiring", icon: TrendingUp },
-    { value: "4.9★", label: "Rating", icon: Star },
-  ];
+// const StatsCounter = () => {
+//   const stats = [
+//     { value: "10K+", label: "Companies", icon: Building2 },
+//     { value: "500K+", label: "Candidates", icon: Users },
+//     { value: "85%", label: "Faster Hiring", icon: TrendingUp },
+//     { value: "4.9★", label: "Rating", icon: Star },
+//   ];
 
-  return (
-    <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 backdrop-blur-sm border border-white/20 dark:border-white/10">
-      <div className="grid grid-cols-2 gap-4">
-        {stats.map((stat, index) => (
-          <div key={index} className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-1">
-              <stat.icon className="w-4 h-4 text-purple-500 dark:text-purple-400" />
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                {stat.value}
-              </div>
-            </div>
-            <div className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">{stat.label}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="mt-10 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 backdrop-blur-sm border border-white/20 dark:border-white/10">
+//       <div className="grid grid-cols-2 gap-4">
+//         {stats.map((stat, index) => (
+//           <div key={index} className="text-center">
+//             <div className="flex items-center justify-center gap-2 mb-1">
+//               <stat.icon className="w-4 h-4 text-purple-500 dark:text-purple-400" />
+//               <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+//                 {stat.value}
+//               </div>
+//             </div>
+//             <div className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">{stat.label}</div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
 /* ===================== Stepper ===================== */
 const Stepper = ({ step }) => {
@@ -313,7 +313,7 @@ const Stepper = ({ step }) => {
   return (
     <div className="relative mb-8 sm:mb-12">
       <div className="absolute top-5 left-4 right-4 h-0.5 bg-zinc-200 dark:bg-zinc-800 -z-0"></div>
-      <div 
+      <div
         className="absolute top-5 left-4 h-0.5 bg-gradient-to-r from-purple-600 to-pink-500 -z-0 transition-all duration-700"
         style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
       />
@@ -440,11 +440,10 @@ const InputField = ({
               {[1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}
-                  className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-                    i <= (formik.values.password?.length || 0) / 2 
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
-                      : 'bg-zinc-200 dark:bg-zinc-700'
-                  }`}
+                  className={`h-1 flex-1 rounded-full transition-all duration-500 ${i <= (formik.values.password?.length || 0) / 2
+                    ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                    : 'bg-zinc-200 dark:bg-zinc-700'
+                    }`}
                 />
               ))}
             </div>
@@ -502,10 +501,10 @@ const CompanySignup = () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 1500));
         trackEvent('form_submission_success', values);
-        
+
         toast.success('Account created successfully!', { duration: 3000 });
         localStorage.removeItem('companySignupData');
-        
+
         setTimeout(() => navigate("/signup/companySignup/plan_selection"), 2000);
       } catch (error) {
         toast.error('Signup failed. Please try again.');
@@ -569,7 +568,7 @@ const CompanySignup = () => {
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-6xl bg-white/90 dark:bg-black/80 backdrop-blur-xl rounded-3xl border border-white/20 dark:border-white/10 shadow-2xl overflow-hidden">
           {/* Mobile Header - Visible only on small screens */}
-          <div className="xl:hidden p-6 pb-0">
+          {/* <div className="xl:hidden p-6 pb-0">
             <BrandLogo isMobile={true} />
             <div className="mt-6 text-center">
               <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
@@ -578,6 +577,18 @@ const CompanySignup = () => {
                   texts={["Skills.", "Proof.", "Growth.", "Excellence."]}
                   gradient="from-purple-600 via-pink-500 to-orange-400"
                 />
+              </h1>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Join thousands of companies hiring with confidence
+              </p>
+            </div>
+          </div> */}
+          <div className="xl:hidden p-6 pb-0">
+            <BrandLogo isMobile={true} />
+            <div className="mt-6 text-center">
+              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
+                Scale Teams With <br />
+                Skills.
               </h1>
               <p className="text-sm text-zinc-600 dark:text-zinc-400">
                 Join thousands of companies hiring with confidence
@@ -592,21 +603,21 @@ const CompanySignup = () => {
               <div className="absolute inset-0">
                 {/* Main gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-pink-50/30 dark:from-purple-950/30 dark:via-black dark:to-pink-950/20" />
-                
+
                 {/* Animated blobs */}
                 <div className="absolute -top-20 -left-20 w-96 h-96 bg-purple-400/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
                 <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-pink-400/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-400/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
-                
+
                 {/* Grid pattern */}
                 <GridPattern />
-                
+
                 {/* Floating shapes */}
                 <FloatingShapes />
-                
+
                 {/* Floating stars */}
                 <FloatingStars />
-                
+
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer pointer-events-none" />
               </div>
@@ -614,7 +625,7 @@ const CompanySignup = () => {
               {/* Content */}
               <div className="relative z-10 flex-1 flex flex-col">
                 <BrandLogo />
-                
+
                 <div className="flex-1 flex flex-col justify-center">
                   <div className="mb-8">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 mb-6">
@@ -623,23 +634,29 @@ const CompanySignup = () => {
                         Trusted by 10,000+ Companies
                       </span>
                     </div>
-                    
-                    <h1 className="text-3xl xl:text-4xl font-bold text-zinc-900 dark:text-white mb-4 leading-tight">
+
+                    {/* <h1 className="text-3xl xl:text-4xl font-bold text-zinc-900 dark:text-white mb-4 leading-tight">
                       Hire Based on <br />
                       <TypeWriterText
                         texts={["Real Skills.", "Actual Projects.", "Verified Talent.", "Proven Results."]}
                         gradient="from-purple-600 via-pink-500 to-orange-400"
                       />
+                    </h1> */}
+                    <h1 className="text-3xl xl:text-4xl font-bold text-zinc-900 dark:text-white mb-4 leading-tight">
+                      Hire Based on <br />
+                      <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent">
+                        Verified Talent.
+                      </span>
                     </h1>
                     <p className="text-zinc-600 dark:text-zinc-300 text-lg mb-6">
-                      Transform your hiring with skill-verified recruitment. 
+                      Transform your hiring with skill-verified recruitment.
                       Candidates demonstrate abilities through real projects.
                     </p>
                   </div>
 
                   <FeaturesGrid />
-                  
-                  <StatsCounter />
+
+                  {/* <StatsCounter /> */}
 
                   <div className="mt-12 pt-8 border-t border-white/20 dark:border-white/10">
                     <div className="flex items-center justify-between text-sm text-zinc-600 dark:text-zinc-400">
@@ -647,10 +664,10 @@ const CompanySignup = () => {
                         <Shield className="w-4 h-4 text-green-500" />
                         <span>Enterprise Security</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      {/* <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-purple-500" />
                         <span>30-Day Free Trial</span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -663,14 +680,14 @@ const CompanySignup = () => {
                 {/* Desktop Step Title */}
                 <div className="hidden sm:block mb-8">
                   <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
-                    {step === 1 ? "Create Company Account" : 
-                     step === 2 ? "Business Details" : 
-                     "Review & Submit"}
+                    {step === 1 ? "Create Company Account" :
+                      step === 2 ? "Business Details" :
+                        "Review & Submit"}
                   </h2>
                   <p className="text-zinc-500 dark:text-zinc-400">
-                    {step === 1 ? "Start your free trial today" : 
-                     step === 2 ? "Tell us about your company" : 
-                     "Final step to get started"}
+                    {step === 1 ? "Start your free trial today" :
+                      step === 2 ? "Tell us about your company" :
+                        "Final step to get started"}
                   </p>
                 </div>
 
@@ -859,14 +876,14 @@ const CompanySignup = () => {
                 {/* Footer Links */}
                 <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800">
                   <div className="text-center text-xs text-zinc-500 dark:text-zinc-400">
-                    <p className="mb-2">Already have an account? <button className="text-purple-600 dark:text-purple-400 hover:underline">Sign in</button></p>
+                    <Link to="/signin/companySignin" className="mb-2">Already have an account? <button className="text-purple-600 dark:text-purple-400 hover:underline">Sign in</button></Link>
                     <div className="flex items-center justify-center gap-4">
                       <span className="flex items-center gap-1">
                         <Lock className="w-3 h-3" />
                         Secure & Encrypted
                       </span>
-                      <span>•</span>
-                      <span>GDPR Compliant</span>
+                      {/* <span>•</span> */}
+                      {/* <span>GDPR Compliant</span> */}
                     </div>
                   </div>
                 </div>
@@ -875,7 +892,7 @@ const CompanySignup = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Add CSS animations */}
       <style jsx>{`
         @keyframes float-slow {

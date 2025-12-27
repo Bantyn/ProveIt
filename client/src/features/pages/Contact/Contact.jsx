@@ -1582,7 +1582,7 @@ const Contact = () => {
   };
   return (
     <div className={darkMode ? 'dark bg-black' : 'bg-white'}>
-      <ContactHero darkMode={darkMode} setDarkMode={setDarkMode} />
+      <ContactHero />
       <ContactSection darkMode={darkMode} setDarkMode={setDarkMode} />
       <FAQ
           title="Frequently Asked Questions"
