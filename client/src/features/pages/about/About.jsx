@@ -367,7 +367,6 @@ export default function About() {
         }}
       />
 
-      <SpectrumBackground />
 
       <div className="relative w-full">
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-30 dark:opacity-25 transition-opacity duration-[2000ms]">
@@ -681,7 +680,7 @@ export default function About() {
           </section>
         </div>
       </div>
-
+      <SpectrumBackground />
     </div>
   );
 }
