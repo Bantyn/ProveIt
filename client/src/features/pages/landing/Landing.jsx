@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRef } from "react";
 import Navbar from '../../components/Navbar'
 
@@ -37,7 +37,7 @@ export default function Landing() {
     <FloatingIconsHero
       title="Skill-Verified Hiring Platform"
       subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
-      ctaText="Expolore"
+      ctaText="Explore"
       ctaHref="/home"
       icons={demoIcons}
     />
@@ -61,7 +61,7 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
       const rect = ref.current.getBoundingClientRect();
       const distance = Math.sqrt(
         Math.pow(mouseX.current - (rect.left + rect.width / 2), 2) +
-          Math.pow(mouseY.current - (rect.top + rect.height / 2), 2)
+        Math.pow(mouseY.current - (rect.top + rect.height / 2), 2)
       );
 
       if (distance < 150) {
@@ -129,50 +129,50 @@ export const FloatingIconsHero = React.forwardRef(
 
     return (
       <>
-      <section
-        ref={ref}
-        onMouseMove={handleMouseMove}
-        className={clsx(
-          "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
-          className
-        )}
-        {...props}
-      >
-        {/* Background Floating Icons */}
-        <div className="absolute inset-0 w-full h-full ">
-          {icons.map((iconData, index) => (
-            <Icon
-              key={iconData.id}
-              mouseX={mouseX}
-              mouseY={mouseY}
-              iconData={iconData}
-              index={index}
-            />
-          ))}
-        </div>
-
-        {/* Foreground Content */}
-        <div className="relative z-10 text-center px-4 ">
-          
-          
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
-            {title}
-          </h1>
-          
-          
-          <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
-            {subtitle}
-          </p>
-
-
-          <div className="md:mt-15 mt-30">
-            <UltimateGlassCTA ctaHref="/home" ctaText="Explore" ></UltimateGlassCTA>
+        <section
+          ref={ref}
+          onMouseMove={handleMouseMove}
+          className={clsx(
+            "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
+            className
+          )}
+          {...props}
+        >
+          {/* Background Floating Icons */}
+          <div className="absolute inset-0 w-full h-full ">
+            {icons.map((iconData, index) => (
+              <Icon
+                key={iconData.id}
+                mouseX={mouseX}
+                mouseY={mouseY}
+                iconData={iconData}
+                index={index}
+              />
+            ))}
           </div>
-        </div>
-      </section>
-      <section>
-        
-      </section>
+
+          {/* Foreground Content */}
+          <div className="relative z-10 text-center px-4 ">
+
+
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
+              {title}
+            </h1>
+
+
+            <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
+              {subtitle}
+            </p>
+
+
+            <div className="md:mt-15 mt-30">
+              <UltimateGlassCTA ctaHref={ctaHref} ctaText={ctaText} ></UltimateGlassCTA>
+            </div>
+          </div>
+        </section>
+        <section>
+
+        </section>
       </>
     );
   }
@@ -456,7 +456,7 @@ export function UltimateGlassCTA({ ctaText, ctaHref }) {
         group-hover:opacity-100"
       />
 
-      
+
       <span
         className="relative overflow-hidden rounded-3xl
         px-12 py-4

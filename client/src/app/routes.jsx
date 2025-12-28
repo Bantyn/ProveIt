@@ -1,7 +1,6 @@
 // Authanication
 import Login from "../features/auth/login/Login.jsx";
 import ClientSignup from "../features/auth/signup/client/ClientSignup";
-import CompanySignup from "../features/auth/signup/company/CompanySignup";
 
 // Pages
 import Home from "../features/pages/home/Home";
@@ -30,10 +29,6 @@ export const routes = [
     {
         path: "/signup/clientSignup",
         element: <ClientSignup />,
-    },
-    {
-        path: "/signup/companySignup",
-        element: <CompanySignup />,
     },
     {
         path: "/profile",
