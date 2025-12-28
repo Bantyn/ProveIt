@@ -358,7 +358,7 @@ export default function About() {
 
       {/* HERO SECTION - REPLACED WITH BACKGROUND PATHS */}
       <BackgroundPaths
-        title="Where Skills Meet Opportunity"
+        title="ABOUT US"
         subtitle="Provelt.io bridges the gap between exceptional talent and companies through real-world competitions. Prove your skills, not just your resume."
         buttonText="Start Competing"
         onButtonClick={() => {
