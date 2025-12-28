@@ -1536,6 +1536,7 @@ import React, { useState } from 'react';
 import ContactHero from '../../ContactCom/ContactHero';
 import ContactSection from '../../ContactCom/ContactSection';
 import FAQ from './FAQ';
+import Earth from '../../ContactCom/Earth'
 const Contact = () => {
   const [darkMode, setDarkMode] = useState(true);
   const categories = {
@@ -1582,7 +1583,7 @@ const Contact = () => {
   };
   return (
     <div className={darkMode ? 'dark bg-black' : 'bg-white'}>
-      <ContactHero />
+      <ContactHero darkMode={darkMode ? 'dark bg-black' : 'bg-white'} />
       <ContactSection darkMode={darkMode} setDarkMode={setDarkMode} />
       <FAQ
           title="Frequently Asked Questions"
@@ -1590,6 +1591,8 @@ const Contact = () => {
           categories={categories}
           faqData={faqData}
         />
+
+        <Earth />
     </div>
   );
 };

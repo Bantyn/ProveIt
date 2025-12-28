@@ -12,6 +12,9 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.4",
+    "@react-spring/three": "^10.0.3",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
     "@tailwindcss/vite": "^4.1.18",
     "aos": "^2.3.4",
     "axios": "^1.13.2",
@@ -29,6 +32,7 @@
     "react-icon-cloud": "^4.1.7",
     "react-router-dom": "^7.11.0",
     "tailwindcss": "^4.1.18",
+    "three": "^0.182.0",
     "yup": "^1.7.1"
   },
   "devDependencies": {

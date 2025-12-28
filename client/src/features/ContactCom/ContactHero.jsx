@@ -432,23 +432,9 @@ function ElegantShape({
     );
 }
 
-function ContactInfoCard({ icon: Icon, title, value, href, theme = "light" }) {
+function ContactInfoCard({ icon: Icon, title, value, href }) {
     const iconRotate = useMotionValue(0);
-    
-    const styles = theme === "light" 
-        ? {
-            card: "bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1]",
-            icon: "bg-indigo-500/20 text-indigo-300",
-            title: "text-white/60",
-            value: "text-white"
-        }
-        : {
-            card: "bg-gray-100 hover:bg-gray-200 border border-gray-300 shadow-sm",
-            icon: "bg-indigo-100 text-indigo-600",
-            title: "text-gray-600",
-            value: "text-gray-900"
-        };
-    
+
     return (
         <motion.a
             href={href}
@@ -459,26 +445,35 @@ function ContactInfoCard({ icon: Icon, title, value, href, theme = "light" }) {
             whileTap={{ scale: 0.95 }}
             className={cn(
                 "inline-flex items-center gap-4 px-6 py-4 mx-1.5 rounded-2xl transition-all duration-300 relative group",
-                styles.card,
+                "bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1]",
                 "backdrop-blur-sm overflow-hidden"
             )}
             aria-label={`Contact via ${title}`}
         >
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             <motion.div
-                className={cn("p-3 rounded-full relative z-10", styles.icon)}
+                className={cn(
+                    "p-3 rounded-full relative z-10",
+                    "bg-indigo-500/20 text-indigo-300"
+                )}
                 whileHover={{ rotate: 6 }}
                 transition={{ type: "spring", stiffness: 300 }}
             >
                 <Icon className="w-6 h-6" aria-hidden="true" />
             </motion.div>
-            
+
             <div className="text-left relative z-10">
-                <p className={cn("text-sm font-medium mb-1", styles.title)}>
+                <p className={cn(
+                    "text-sm font-medium mb-1",
+                    "text-white/60"
+                )}>
                     {title}
                 </p>
-                <p className={cn("text-lg font-semibold", styles.value)}>
+                <p className={cn(
+                    "text-lg font-semibold",
+                    "text-white"
+                )}>
                     {value}
                 </p>
             </div>
@@ -486,15 +481,11 @@ function ContactInfoCard({ icon: Icon, title, value, href, theme = "light" }) {
     );
 }
 
-function MagneticButton({ children, href, theme = "light", className = "" }) {
+function MagneticButton({ children, href, className = "" }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const rotateX = useTransform(y, [-50, 50], [8, -8]);
     const rotateY = useTransform(x, [-50, 50], [-8, 8]);
-
-    const buttonStyle = theme === "dark"
-        ? "bg-gradient-to-r from-indigo-600 to-cyan-600"
-        : "bg-gradient-to-r from-indigo-500 to-cyan-500";
 
     const handleMouseMove = (e) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -517,7 +508,7 @@ function MagneticButton({ children, href, theme = "light", className = "" }) {
             whileTap={{ scale: 0.95 }}
             className={cn(
                 "inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300",
-                buttonStyle,
+                "bg-gradient-to-r from-indigo-600 to-cyan-600",
                 "text-white hover:shadow-[0_0_40px_rgba(99,102,241,0.3)]",
                 "relative overflow-hidden",
                 className
@@ -535,20 +526,20 @@ function MagneticButton({ children, href, theme = "light", className = "" }) {
                 }}
                 style={{ backgroundSize: "200% 100%" }}
             />
-            
+
             <span className="relative z-10">{children}</span>
-            <svg 
-                className="w-5 h-5 ml-2 relative z-10" 
-                fill="none" 
-                stroke="currentColor" 
+            <svg
+                className="w-5 h-5 ml-2 relative z-10"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
             >
-                <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M14 5l7 7m0 0l-7 7m7-7H3" 
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
                 />
             </svg>
         </motion.a>
@@ -556,24 +547,23 @@ function MagneticButton({ children, href, theme = "light", className = "" }) {
 }
 
 function ContactHero({
-    // Theme customization (REMOVED - now uses Tailwind dark mode)
     // Content customization
     badge = "Get In Touch",
     title = "Let's Start a Conversation",
     description = "Have a project in mind? Want to collaborate? We'd love to hear from you. Send us a message and let's create something amazing together.",
-    
+
     // Contact Information
     contactInfo = {
         email: "Info@ProveltIo.com",
         phone: "+91 (555) 123-4567",
         location: "Gujarat, India",
     },
-    
+
     // Color customization
     primaryColor = "indigo",
     secondaryColor = "cyan",
     accentColor = "amber",
-    
+
     // Layout customization
     showBadge = true,
     showDescription = true,
@@ -581,18 +571,18 @@ function ContactHero({
     showCTA = true,
 }) {
     const shouldReduceMotion = useReducedMotion();
-    
+
     // Color classes based on theme
     const primaryColorClass = useMemo(
         () => `from-${primaryColor}-500/[0.15]`,
         [primaryColor]
     );
-    
+
     const secondaryColorClass = useMemo(
         () => `from-${secondaryColor}-500/[0.15]`,
         [secondaryColor]
     );
-    
+
     const accentColorClass = useMemo(
         () => `from-${accentColor}-500/[0.15]`,
         [accentColor]
@@ -635,8 +625,8 @@ function ContactHero({
     }, [mouseX, mouseY]);
 
     return (
-        <div 
-            className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-[#030303] dark:bg-gray-50"
+        <div
+            className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-[#030303]"
             onMouseMove={(e) => {
                 mouseX.set(e.clientX);
                 mouseY.set(e.clientY);
@@ -651,7 +641,7 @@ function ContactHero({
             />
 
             {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br blur-2xl from-indigo-500/[0.08] via-transparent to-cyan-500/[0.08] dark:from-indigo-500/[0.03] dark:via-transparent dark:to-cyan-500/[0.03]" />
+            <div className="absolute inset-0 bg-gradient-to-br blur-2xl from-indigo-500/[0.08] via-transparent to-cyan-500/[0.08]" />
 
             {/* Animated shapes */}
             <div className="absolute inset-0 overflow-hidden">
@@ -716,39 +706,60 @@ function ContactHero({
                             {showBadge && (
                                 <motion.div
                                     variants={fadeUpVariants}
-                                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-8 bg-white/[0.03] border border-white/[0.08] dark:bg-black/[0.03] dark:border dark:border-black/[0.08]"
+                                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-8 bg-white/[0.03] border border-white/[0.08]"
                                 >
-                                    <Circle className="h-2 w-2 fill-cyan-500/80 dark:fill-cyan-600/80" aria-hidden="true" />
-                                    <span className="text-sm tracking-wide text-white/60 dark:text-gray-600">
+                                    <Circle className="h-2 w-2 fill-cyan-500/80" aria-hidden="true" />
+                                    <span className="text-sm tracking-wide text-white/60">
                                         {badge}
                                     </span>
                                 </motion.div>
                             )}
 
+
+
                             {/* Title */}
                             <motion.div variants={fadeUpVariants}>
-                                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-white dark:text-gray-900">
-                                    <motion.span
-                                        className="bg-clip-text text-transparent inline-block bg-gradient-to-r from-indigo-300 via-cyan-300 to-amber-300 dark:from-indigo-600 dark:via-cyan-600 dark:to-amber-600"
-                                        animate={shouldReduceMotion ? {} : {
-                                            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                                        }}
-                                        transition={shouldReduceMotion ? {} : {
-                                            duration: 8,
-                                            repeat: Infinity,
-                                            ease: "linear",
-                                        }}
-                                        style={{ backgroundSize: "200% 200%" }}
-                                    >
-                                        {title}
-                                    </motion.span>
+                                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-white">
+                                    <span className="text-white">Let's Start a </span>
+                                    <span className="relative inline-block">
+                                        {/* Main gradient text */}
+                                        <motion.span
+                                            className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-amber-400 relative z-10"
+                                            animate={shouldReduceMotion ? {} : {
+                                                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                                            }}
+                                            transition={shouldReduceMotion ? {} : {
+                                                duration: 4,
+                                                repeat: Infinity,
+                                                ease: "linear",
+                                            }}
+                                            style={{ backgroundSize: "200% 200%" }}
+                                        >
+                                            Conversation
+                                        </motion.span>
+
+                                        {/* Glow effect */}
+                                        <motion.span
+                                            className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-amber-500/50 blur-xl opacity-50 -z-10"
+                                            animate={shouldReduceMotion ? {} : {
+                                                opacity: [0.3, 0.6, 0.3],
+                                            }}
+                                            transition={shouldReduceMotion ? {} : {
+                                                duration: 2,
+                                                repeat: Infinity,
+                                                ease: "easeInOut",
+                                            }}
+                                        >
+                                            Conversation
+                                        </motion.span>
+                                    </span>
                                 </h1>
                             </motion.div>
 
                             {/* Description */}
                             {showDescription && (
                                 <motion.div variants={fadeUpVariants}>
-                                    <p className="text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-2xl text-white/40 dark:text-gray-500">
+                                    <p className="text-lg md:text-xl mb-8 leading-relaxed font-light tracking-wide max-w-2xl text-white/40">
                                         {description}
                                     </p>
                                 </motion.div>
@@ -762,21 +773,21 @@ function ContactHero({
                                             href="#contact-form"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
-                                            className="inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-500 dark:to-cyan-500 text-white hover:shadow-[0_0_40px_rgba(99,102,241,0.3)]"
+                                            className="inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 bg-gradient-to-r from-indigo-600 to-cyan-600 text-white hover:shadow-[0_0_40px_rgba(99,102,241,0.3)]"
                                         >
                                             Send a Message
-                                            <svg 
-                                                className="w-5 h-5 ml-2" 
-                                                fill="none" 
-                                                stroke="currentColor" 
+                                            <svg
+                                                className="w-5 h-5 ml-2"
+                                                fill="none"
+                                                stroke="currentColor"
                                                 viewBox="0 0 24 24"
                                                 aria-hidden="true"
                                             >
-                                                <path 
-                                                    strokeLinecap="round" 
-                                                    strokeLinejoin="round" 
-                                                    strokeWidth={2} 
-                                                    d="M14 5l7 7m0 0l-7 7m7-7H3" 
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
                                                 />
                                             </svg>
                                         </motion.a>
@@ -817,8 +828,8 @@ function ContactHero({
             </div>
 
             {/* Overlay gradient */}
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#030303]/80 via-transparent to-transparent dark:from-white/80 dark:via-transparent dark:to-transparent" />
-            
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#030303]/80 via-transparent to-transparent" />
+
             {/* Scroll indicator */}
             {!shouldReduceMotion && (
                 <motion.div
@@ -836,21 +847,21 @@ function ContactHero({
                             repeat: Infinity,
                             ease: "easeInOut",
                         }}
-                        className="flex flex-col items-center text-white/40 dark:text-gray-500"
+                        className="flex flex-col items-center text-white/40"
                     >
                         <span className="text-sm mb-2">Scroll to form</span>
-                        <svg 
-                            className="w-6 h-6" 
-                            fill="none" 
-                            stroke="currentColor" 
+                        <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
                             viewBox="0 0 24 24"
                             aria-hidden="true"
                         >
-                            <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 14l-7 7m0 0l-7-7m7 7V3"
                             />
                         </svg>
                     </motion.div>
