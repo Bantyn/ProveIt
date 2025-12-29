@@ -33,6 +33,8 @@ import SpectrumBackground from '../../components/SpectrumBackground';
 import { TestimonialMarquee } from './TestimonialMarquee';
 import { Tiles } from '../../../components/ui/tiles';
 
+
+
 const TimelineNode = ({ year, title, desc, side, index, isDark, icon: IconComponent }) => { // eslint-disable-line no-unused-vars
   return (
     <div className={`flex w-full mb-32 relative ${side === 'left' ? 'flex-row' : 'flex-row-reverse'}`}>
@@ -373,10 +375,10 @@ export default function About() {
           <Tiles rows={50} cols={250} tileSize="lg" />
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 lg:px-12 space-y-64 pb-64">
+        <div className="relative z-10 container mx-auto px-6 lg:px-12 space-y-64 pt-10 pb-64">
 
           {/* VALUE PROPOSITION CARDS */}
-          <section data-aos="fade-up">
+          <section data-aos="zoom-in">
             <div className="text-center mb-24">
               <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
                 Why Provelt Works

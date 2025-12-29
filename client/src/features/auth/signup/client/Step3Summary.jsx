@@ -1,9 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Phone, GraduationCap, Briefcase, Calendar, Sparkles, Upload, Edit2, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
+const Step3Summary = ({ formik, setCurrentStep, isDark }) => {
+    const navigate = useNavigate();
     const skills = formik.values.skills ? formik.values.skills.split(',').map(s => s.trim()) : [];
+
+    const handleChoosePlan = () => {
+        // Navigate to pricing page
+        navigate('/pricing');
+    };
 
     return (
         <motion.div
@@ -26,8 +33,8 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
             <div className="space-y-4">
                 {/* Personal Information */}
                 <div className={`p-6 rounded-xl border ${isDark
-                        ? 'bg-violet-600/5 border-violet-500/20'
-                        : 'bg-violet-50 border-violet-300'
+                    ? 'bg-violet-600/5 border-violet-500/20'
+                    : 'bg-violet-50 border-violet-300'
                     }`}>
                     <div className="flex items-center justify-between mb-4">
                         <h4 className={`text-lg font-bold flex items-center gap-2 ${isDark ? 'text-neutral-100' : 'text-neutral-900'
@@ -38,8 +45,8 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
                         <button
                             onClick={() => setCurrentStep(1)}
                             className={`p-2 rounded-lg transition-colors ${isDark
-                                    ? 'hover:bg-violet-600/20 text-violet-400'
-                                    : 'hover:bg-violet-100 text-violet-600'
+                                ? 'hover:bg-violet-600/20 text-violet-400'
+                                : 'hover:bg-violet-100 text-violet-600'
                                 }`}
                         >
                             <Edit2 className="w-4 h-4" />
@@ -91,8 +98,8 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
 
                 {/* Professional Details */}
                 <div className={`p-6 rounded-xl border ${isDark
-                        ? 'bg-blue-600/5 border-blue-500/20'
-                        : 'bg-blue-50 border-blue-300'
+                    ? 'bg-blue-600/5 border-blue-500/20'
+                    : 'bg-blue-50 border-blue-300'
                     }`}>
                     <div className="flex items-center justify-between mb-4">
                         <h4 className={`text-lg font-bold flex items-center gap-2 ${isDark ? 'text-neutral-100' : 'text-neutral-900'
@@ -103,8 +110,8 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
                         <button
                             onClick={() => setCurrentStep(2)}
                             className={`p-2 rounded-lg transition-colors ${isDark
-                                    ? 'hover:bg-blue-600/20 text-blue-400'
-                                    : 'hover:bg-blue-100 text-blue-600'
+                                ? 'hover:bg-blue-600/20 text-blue-400'
+                                : 'hover:bg-blue-100 text-blue-600'
                                 }`}
                         >
                             <Edit2 className="w-4 h-4" />
@@ -165,8 +172,8 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
                                     <span
                                         key={idx}
                                         className={`px-3 py-1 rounded-full text-xs font-medium ${isDark
-                                                ? 'bg-violet-600/20 text-violet-300 border border-violet-500/30'
-                                                : 'bg-violet-100 text-violet-700 border border-violet-300'
+                                            ? 'bg-violet-600/20 text-violet-300 border border-violet-500/30'
+                                            : 'bg-violet-100 text-violet-700 border border-violet-300'
                                             }`}
                                     >
                                         {skill}
@@ -182,7 +189,7 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
             <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={onOpenPlanModal}
+                onClick={handleChoosePlan}
                 className="w-full py-4 rounded-xl font-bold text-lg bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all"
             >
                 Choose Your Plan
@@ -190,13 +197,13 @@ const Step3Summary = ({ formik, setCurrentStep, onOpenPlanModal, isDark }) => {
 
             {/* Info Note */}
             <div className={`p-4 rounded-lg border ${isDark
-                    ? 'bg-violet-600/5 border-violet-500/20'
-                    : 'bg-violet-50 border-violet-300'
+                ? 'bg-violet-600/5 border-violet-500/20'
+                : 'bg-violet-50 border-violet-300'
                 }`}>
                 <p className={`text-sm flex items-start gap-2 ${isDark ? 'text-neutral-300' : 'text-neutral-700'
                     }`}>
                     <CheckCircle className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" />
-                    After selecting a plan, you'll be redirected to your profile page where you can complete your setup and start participating in competitions.
+                    After selecting a plan, you'll be redirected to complete your registration and access your dashboard.
                 </p>
             </div>
         </motion.div>
