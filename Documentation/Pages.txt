@@ -1,0 +1,33 @@
+Default Page : (Without Login)
+Landing Page
+Home 
+Companies : Companies Details Page (Not Show Competition)
+About Us 
+Contact Us
+
+Login/Sign Up
+Sign Up -> Subscription Model (Company/Job) -> Company / User (Job seeker)
+Forgot Password (To reset password - OTP Verification)
+
+Login -> Company Profile
+Login -> User Profile
+
+
+(User Logged In)
+Landing Page 
+Home
+Competitions : Competitions Detailed Page , when to start & when to end , Register
+	-> Register
+	-> Project Upload Page (Folder,Zip,Google Drive Link,GitHub Repo link) 
+Companies : Companies Detailed Page (Shown All Details like compititons and all)
+About Us 
+Contact Us
+Profile (User) : user profile, participated compition (also shows project & view project details) 		 Reviwes,Liked compition,setting
+
+(Company Logged In)
+Landing Page 
+Home
+About Us 
+Contact Us 
+Profile (Company) : company profile, Dashboard (Add Competition, Analyze Competition ,Competition
+Details - like viewing uploaded projects, A dedicated Page to manage completed competition - like view all projects and participate - can view resume - interview scheduled - company can update your status emp is hired or not), setting 

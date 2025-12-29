@@ -1,0 +1,131 @@
+Finalized Project Description (Refined)
+
+This project is a centralized recruitment platform where the Admin acts as the controlling authority between Companies and Users. The system evaluates candidates based on real project submissions, ensuring skill-based hiring rather than resume-only selection.
+
+
+---
+
+Module Breakdown (Enhanced)
+
+
+---
+
+1. Company Module
+-Companies interact with the portal under Admin supervision.
+
+Features:
+
+Company registration (Admin approval required)
+
+Post job openings with:
+
+Required skills
+
+Project/problem statements
+
+Eligibility criteria
+
+
+View shortlisted candidates
+Schedule interviews via Admin coordination
+Subscription-based job posting access
+
+
+
+---
+
+2. User Module
+-Users represent job seekers applying through skill validation.
+
+Features:
+
+User registration & authentication
+Browse jobs with detailed criteria
+
+Uploads:
+
+Resume
+
+Project files (GitHub / ZIP / live demo)
+Participate in Admin-conducted competitions
+
+Track application status:
+
+Submitted
+Shortlisted
+Interview Scheduled
+Selected / Rejected
+Notification system (email + dashboard)
+
+
+
+---
+
+3. Admin Module (CORE OF THE SYSTEM)
+
+-Admin is the decision-making engine of the platform.
+
+Core Responsibilities:
+
+Approve/reject companies
+Manage all job postings
+Conduct project-based competitions
+Evaluate user submissions
+Shortlist candidates
+Schedule interviews
+Maintain system integrity
+
+
+Advanced Admin Features (High-Scoring)
+
+User Management
+Block/suspend users
+View activity logs
+Resume & project verification
+
+
+Company Management
+Verify company authenticity
+Control job visibility
+Subscription enforcement
+
+Competition & Evaluation Engine
+Assign scoring rubrics
+Auto-ranking of projects
+Manual review + comments
+Plagiarism detection (basic logic)
+
+Fraud & Abuse Detection
+Duplicate project detection
+Fake profile identification
+Repeated suspicious submissions
+IP/activity pattern analysis (basic)
+
+Interview Scheduling
+Calendar integration
+Panel assignment
+Interview feedback recording
+
+Analytics Dashboard
+Total users / companies
+Job success rate
+Hiring conversion ratio
+Subscription revenue tracking
+
+
+Subscription Model (Very Important for Modern SaaS)
+For Companies (Primary Revenue)
+Plan	Features
+
+Free Trial	Limited job posting, limited candidates
+Monthly Plan	 Unlimited job posts, priority listing
+Yearly Plan	Discounted price, analytics access
+Enterprise	Custom branding, API access
+
+
+Optional User Subscription (Value-Added)
+Resume visibility boost
+Priority competition access
+Skill certification badges
+Early interview slots
+
