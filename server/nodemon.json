@@ -1,0 +1,3 @@
+{
+  "exec": "node --import ./env.mjs index.mjs"
+}
