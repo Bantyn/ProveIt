@@ -1,10 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
-import dotenv from 'dotenv';
-
-// Config dotenv file to use all .env variables
-dotenv.config();
+import  './Config/connectDB.mjs'; //Connecting to Database
 
 // Creating Server and Defining port
 const app = express();
