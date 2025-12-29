@@ -116,8 +116,8 @@ const SpectrumBackground = () => {
             bottom: 0,
             left: 0,
             right: 0,
-            height: '150px',
-            background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 100%)',
+            height: '50px',
+            background: 'linear-gradient(to top, rgba(0,0,0) 0%, transparent 100%)',
             zIndex: 25,
             pointerEvents: 'none',
         }
@@ -126,7 +126,7 @@ const SpectrumBackground = () => {
     return (
         <div style={styles.container} ref={containerRef}>
             <div style={styles.gradients}>
-                <div style={{ ...styles.gradientBase, ...styles.gradient1 }}></div>
+                {/* <div style={{ ...styles.gradientBase, ...styles.gradient1 }}></div> */}
                 <div style={{ ...styles.gradientBase, ...styles.gradient2 }}></div>
                 <div style={{ ...styles.gradientBase, ...styles.gradient3 }}></div>
             </div>

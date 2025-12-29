@@ -635,16 +635,11 @@ export default function About() {
                 Hear from developers who transformed their careers through Provelt
               </p>
             </div>
-
             <TestimonialMarquee />
           </section>
-
           {/* CTA SECTION */}
           <section data-aos="fade-up" className="relative px-6">
-
             <div className="relative p-12 lg:p-24 overflow-hidden group">
-
-
               <div className="max-w-4xl mx-auto relative z-10 text-center">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-8" data-aos="fade-up">
                   <Rocket className="w-3 h-3" />

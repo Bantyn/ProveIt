@@ -30,7 +30,7 @@ const items = [
 
 function TestimonialCard({ item }) {
     return (
-        <div className="relative flex h-full w-[20rem] flex-col items-start justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-colors hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-900">
+        <div className="relative flex  w-[20rem] flex-col items-start justify-between rounded-xl border border-neutral-200 bg-white p-4 shadow-sm transition-colors hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-900">
             <div className="mb-4 text-sm text-neutral-500 dark:text-neutral-400">
                 {item.body}
             </div>
@@ -58,8 +58,8 @@ function TestimonialCard({ item }) {
 export function TestimonialMarquee() {
     return (
         <div className="relative w-full overflow-hidden py-10">
-            <div className="absolute inset-y-0 left-0 z-10 w-48 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 z-10 w-48 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+            <div className="absolute inset-y-0 left-0 z-10 w-48 dark:bg-gradient-to-r dark:from-black dark:to-transparent bg-gradient-to-r from-white to-transparent  pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 z-10 w-48 dark:bg-gradient-to-l dark:from-black dark:to-transparent bg-gradient-to-l from-white to-transparent pointer-events-none" />
 
             <Marquee className="py-4" direction="left">
                 {[...items, ...items].map((item, index) => (
