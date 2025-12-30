@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-
 /* ----------------------------------------
    Utility: className merge
 ---------------------------------------- */
@@ -78,18 +77,27 @@ const AnimatedTitle = ({ title1, title2 }) => {
 
   return (
     <div className="text-center">
-      <motion.div initial="hidden" animate="visible" custom={1} variants={fadeUp}>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        custom={1}
+        variants={fadeUp}
+      >
         <h1 className="mb-6 text-6xl font-bold tracking-tight sm:text-7xl md:text-9xl">
-          <span className="bg-gradient-to-b from-black to-black/80 
+          <span
+            className="bg-gradient-to-b from-black to-black/80 
                            dark:from-white dark:to-white/80 
-                           bg-clip-text text-transparent ">
+                           bg-clip-text text-transparent "
+          >
             {title1}
           </span>
           <br />
-          <span className="bg-gradient-to-r 
+          <span
+            className="bg-gradient-to-r 
                            from-indigo-400 via-black/90 to-rose-400
                            dark:from-indigo-300 dark:via-white/90 dark:to-rose-300
-                           bg-clip-text text-transparent">
+                           bg-clip-text text-transparent"
+          >
             {title2}
           </span>
         </h1>
@@ -115,74 +123,84 @@ const AnimatedTitle = ({ title1, title2 }) => {
 ---------------------------------------- */
 export default function EmployeeDashboard() {
   return (
-    <div className="relative flex pb-50 md:pb-40 min-h-screen items-center justify-center  
+    <>
+      {/* Main Hero */}
+      <section>
+        <div
+          className="relative flex pb-50 md:pb-40 min-h-screen items-center justify-center  
                     bg-white dark:bg-black 
-                    transition-colors duration-500">
-
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-gradient-to-br 
+                    transition-colors duration-500"
+        >
+          {/* Background glow */}
+          <div
+            className="absolute inset-0 bg-gradient-to-br 
                       from-indigo-500/[0.04] via-transparent to-rose-500/[0.04]
                       dark:from-indigo-500/[0.08] dark:to-rose-500/[0.08]
-                      blur-3xl" />
+                      blur-3xl"
+          />
 
-      {/* Floating Shapes */}
-      <div className="absolute inset-0 overflow-hidden">
-        <ElegantShape
-          className="top-[-10%] left-[-15%]"
-          gradient="from-indigo-500/[0.25] dark:from-indigo-500/[0.35]"
-          width={300}
-          height={500}
-          rotate={-8}
-          borderRadius={24}
-          delay={0.3}
-        />
+          {/* Floating Shapes */}
+          <div className="absolute inset-0 overflow-hidden">
+            <ElegantShape
+              className="top-[-10%] left-[-15%]"
+              gradient="from-indigo-500/[0.25] dark:from-indigo-500/[0.35]"
+              width={300}
+              height={500}
+              rotate={-8}
+              borderRadius={24}
+              delay={0.3}
+            />
 
-        <ElegantShape
-          className="right-[-20%] bottom-[-5%]"
-          gradient="from-rose-500/[0.25] dark:from-rose-500/[0.35]"
-          width={600}
-          height={200}
-          rotate={15}
-          borderRadius={20}
-          delay={0.5}
-        />
+            <ElegantShape
+              className="right-[-20%] bottom-[-5%]"
+              gradient="from-rose-500/[0.25] dark:from-rose-500/[0.35]"
+              width={600}
+              height={200}
+              rotate={15}
+              borderRadius={20}
+              delay={0.5}
+            />
 
-        <ElegantShape
-          className="top-[40%] left-[-5%]"
-          gradient="from-violet-500/[0.25] dark:from-violet-500/[0.35]"
-          width={300}
-          height={300}
-          rotate={24}
-          borderRadius={32}
-          delay={0.4}
-        />
+            <ElegantShape
+              className="top-[40%] left-[-5%]"
+              gradient="from-violet-500/[0.25] dark:from-violet-500/[0.35]"
+              width={300}
+              height={300}
+              rotate={24}
+              borderRadius={32}
+              delay={0.4}
+            />
 
-        <ElegantShape
-          className="top-[5%] right-[10%]"
-          gradient="from-amber-500/[0.25] dark:from-amber-500/[0.35]"
-          width={250}
-          height={100}
-          rotate={-20}
-          borderRadius={12}
-          delay={0.6}
-        />
-      </div>
+            <ElegantShape
+              className="top-[5%] right-[10%]"
+              gradient="from-amber-500/[0.25] dark:from-amber-500/[0.35]"
+              width={250}
+              height={100}
+              rotate={-20}
+              borderRadius={12}
+              delay={0.6}
+            />
+          </div>
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-6">
-        <AnimatedTitle
-         title1="Welcome to"
-         title2="Your Digital Experience"
-        />
-        
-      </div>
-      {/* Fade overlay */}
-      <div className="pointer-events-none absolute inset-0 
+          {/* Content */}
+          <div className="relative z-10 container mx-auto px-6">
+            <AnimatedTitle
+              title1="Welcome to"
+              title2="Your Digital Experience"
+            />
+          </div>
+          {/* Fade overlay */}
+          <div
+            className="pointer-events-none absolute inset-0 
                       bg-gradient-to-t 
                       from-white via-transparent to-white/80
-                      dark:from-black dark:via-transparent dark:to-black/80" />
-
-       
-    </div>
+                      dark:from-black dark:via-transparent dark:to-black/80"
+          />
+        </div>
+      </section>
+      {/* Carusale */}
+      <section>
+      </section>
+    </>
   );
 }
