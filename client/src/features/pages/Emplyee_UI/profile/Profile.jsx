@@ -4,6 +4,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import ProfileHero from "./ProfileHero";
 import ProfileSmoothTabs from "./ProfileSmoothTabs";
+import LightRays from "./LightRays";
 /* -------------------------------------------
    User Data
 ------------------------------------------- */
@@ -12,23 +13,24 @@ const currentUser = {
   email: "banty123@gmail.com",
   phone: "1234567890",
   bio: "Frontend Developer passionate about building interactive web apps.",
-  description: "I specialize in React, Tailwind CSS, and full-stack development. I love crafting responsive, modern, and user-friendly web applications while continuously learning new technologies to improve my skills.",
+  description:
+    "I specialize in React, Tailwind CSS, and full-stack development. I love crafting responsive, modern, and user-friendly web applications while continuously learning new technologies to improve my skills.",
   role: "user",
   isVerified: true,
   isBlocked: false,
   education: {
     college: "XYZ University",
     degree: "BCA",
-    graduationYear: 2023
+    graduationYear: 2023,
   },
   skills: ["React", "Tailwind", "MERN"],
   resumeUrl: "",
   subscriptionPlan: "premium",
-  hasPriorityAccess: true
+  hasPriorityAccess: true,
 };
-
-
 const viewerRole = "employee"; // <-- change to "user" to allow form editing
+
+
 
 
 
@@ -41,147 +43,199 @@ export default function Profile() {
 
   return (
     <main className="min-h-screen w-full bg-background">
-      <div className=" mx-auto space-y-20">
+
+      {/* LightRays Effect */}
+            {/* <div className="absolute inset-0 pointer-events-none z-[1] md:inline hidden">
+                <LightRays
+                    raysOrigin="top-center"
+                    raysColor=""
+                    raysSpeed={0.2}
+                    lightSpread={1.1}
+                    rayLength={1.5}
+                    followMouse={true}
+                    mouseInfluence={0.15}
+                    noiseAmount={0.1}
+                    distortion={0.03}
+                    fadeDistance={0.1}
+                    saturation={0.1}
+                />
+            </div> */}
+      <div className=" mx-auto space-y-10">
         {/* ================= HERO ================= */}
-        <ProfileHero />
-
+        <ProfileHero isVerified={user.isVerified} />
+        
         {/* ================= EDITABLE DETAILS ================= */}
-        {viewerRole === "employee" && <section className="space-y-12 flex flex-col bg-violet-100 dark:bg-neutral-900 rounded-4xl -mt-50 pb-10 pt-40 mx-auto w-[95%]">
-    <SectionTitle title="Profile Details" />
+        {viewerRole === "employee" && (
+          <section className="space-y-12 flex flex-col bg-violet-100 dark:bg-neutral-900 rounded-4xl -mt-50 pb-10 pt-60 mx-auto w-[95%]">
+            <SectionTitle title="Profile Details" />
 
-    {/* Grid Inputs */}
-    <form handleChange={handleChange} className="grid grid-cols-1 md:grid-cols-2 gap-6 px-20">
+            {/* Grid Inputs */}
+            <form
+              handleChange={handleChange}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 md:px-20 px-7"
+            >
+              {/* Basic Info */}
+              <Input
+                label="Full Name"
+                name="fullName"
+                value={user.fullName}
+                onChange={handleChange}
+              />
+              <Input
+                label="Email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+              />
+              <Input
+                label="Phone"
+                name="phone"
+                value={user.phone}
+                onChange={handleChange}
+              />
+              <Input
+                label="Role"
+                name="role"
+                value={user.role}
+                onChange={handleChange}
+              />
 
-        {/* Basic Info */}
-        <Input
-        label="Full Name"
-        name="fullName"
-        value={user.fullName}
-        onChange={handleChange}
-        />
-        <Input
-        label="Email"
-        name="email"
-        value={user.email}
-        onChange={handleChange}
-        />
-        <Input
-        label="Phone"
-        name="phone"
-        value={user.phone}
-        onChange={handleChange}
-        />
-        <Input
-        label="Role"
-        name="role"
-        value={user.role}
-        onChange={handleChange}
-        />
-        {/* <Input
-        label="Verified"
-        name="isVerified"
-        type="checkbox"
-        checked={user.isVerified}
-        onChange={(e) => handleChange({ target: { name: 'isVerified', value: e.target.checked } })}
-        /> */}
-        {/* <Input
-        label="Blocked"
-        name="isBlocked"
-        type="checkbox"
-        checked={user.isBlocked}
-        onChange={(e) => handleChange({ target: { name: 'isBlocked', value: e.target.checked } })}
-        /> */}
+              {/* Education */}
+              <Input
+                label="College"
+                name="education.college"
+                value={user.education?.college || ""}
+                onChange={handleChange}
+              />
+              <Input
+                label="Degree"
+                name="education.degree"
+                value={user.education?.degree || ""}
+                onChange={handleChange}
+              />
+              <Input
+                label="Graduation Year"
+                name="education.graduationYear"
+                type="number"
+                value={user.education?.graduationYear || ""}
+                onChange={handleChange}
+              />
 
-        {/* Education */}
-        <Input
-        label="College"
-        name="education.college"
-        value={user.education?.college || ""}
-        onChange={handleChange}
-        />
-        <Input
-        label="Degree"
-        name="education.degree"
-        value={user.education?.degree || ""}
-        onChange={handleChange}
-        />
-        <Input
-        label="Graduation Year"
-        name="education.graduationYear"
-        type="number"
-        value={user.education?.graduationYear || ""}
-        onChange={handleChange}
-        />
+              {/* Skills */}
+              <Input
+                label="Skills (comma separated)"
+                name="skills"
+                value={user.skills?.join(", ") || ""}
+                onChange={(e) =>
+                  handleChange({
+                    target: {
+                      name: "skills",
+                      value: e.target.value.split(",").map((s) => s.trim()),
+                    },
+                  })
+                }
+              />
 
-        {/* Skills */}
-        <Input
-        label="Skills (comma separated)"
-        name="skills"
-        value={user.skills?.join(", ") || ""}
-        onChange={(e) =>
-            handleChange({ target: { name: "skills", value: e.target.value.split(",").map(s => s.trim()) } })
-        }
-        />
+              {/* Resume Upload */}
+              <div className="flex flex-col gap-2 col-span-1 md:col-span-2">
+                <div className="flex md:flex-row flex-col items-center gap-2">
+                  <Input
+                    label="Resume"
+                    type="file"
+                    accept=".pdf,.doc,.docx,.png"
+                    onChange={(e) =>
+                      handleChange({
+                        target: {
+                          name: "resumeFile",
+                          value: e.target.files[0],
+                        },
+                      })
+                    }
+                    className="rounded-lg border border-neutral-300 dark:border-white/20 px-3 py-2 flex-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if (!user.resumeFile)
+                        return alert("Select a file first!");
+                      // Demo API upload simulation
+                      const formData = new FormData();
+                      formData.append("resume", user.resumeFile);
+                      await new Promise((res) => setTimeout(res, 1000));
+                      alert(`Resume uploaded: ${user.resumeFile.name}`);
+                      handleChange({
+                        target: {
+                          name: "resumeUrl",
+                          value: URL.createObjectURL(user.resumeFile),
+                        },
+                      });
+                    }}
+                    className="px-4 py-2 bg-gradient-to-r from-violet-500 to-blue-500 font-semibold text-white rounded-lg hover:scale-105 transition"
+                  >
+                    Upload
+                  </button>
+                </div>
+                {user.resumeUrl && (
+                  <a
+                    href={user.resumeUrl}
+                    target="_blank"
+                    className="text-blue-500 underline mt-1 block text-sm"
+                  >
+                    View Current Resume
+                  </a>
+                )}
+              </div>
 
-        {/* Resume */}
-        <Input
-        label="Resume URL"
-        name="resumeUrl"
-        value={user.resumeUrl || ""}
-        onChange={handleChange}
-        />
+              {/* Subscription */}
+              <Input
+                label="Subscription Plan"
+                name="subscriptionPlan"
+                value={user.subscriptionPlan}
+                onChange={handleChange}
+              />
 
-        {/* Subscription */}
-        <Input
-        label="Subscription Plan"
-        name="subscriptionPlan"
-        value={user.subscriptionPlan}
-        onChange={handleChange}
-        />
-        {/* <Input
-        label="Priority Access"
-        name="hasPriorityAccess"
-        type="checkbox"
-        checked={user.hasPriorityAccess}
-        onChange={(e) => handleChange({ target: { name: 'hasPriorityAccess', value: e.target.checked } })}
-        /> */}
+              {/* Save Button */}
+              <button
+                type="submit"
+                className="text-sm w-50 mx-auto font-semibold text-white px-6 py-2
+            bg-gradient-to-r from-violet-500 to-blue-500
+            rounded-xl hover:opacity-90 transition col-span-1 md:col-span-2"
+              >
+                Save Changes
+              </button>
+            </form>
+          </section>
+        )}
 
-    {/* Save Button */}
-    <button
-        className="text-sm w-50 mx-auto font-semibold text-white px-6 py-2
-                bg-gradient-to-r from-violet-500 to-blue-500
-                rounded-xl hover:opacity-90 transition"
-    >
-        Save Changes
-    </button>
-    </form>
-        </section>}
 
 
         {/* ================= tabs ================= */}
-        <section className="mx-auto py-20">
-         <ProfileSmoothTabs user={currentUser} />
+        <section className="mx-auto">
+          <ProfileSmoothTabs user={currentUser} />
         </section>
-        
-      
+
+
+
       </div>
     </main>
   );
 }
 
+
+
+
+
 /* ================= REUSABLE ================= */
 
 function SectionTitle({ title }) {
   return (
-    <div className="flex items-center gap-4 w-full ">
-      <div className="h-px w-10 bg-border" />
-      <h2 className="font-bold w-full text-center mb-10 text-4xl bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+    <div className="flex items-center gap-4  w-full ">
+      <h2 className="font-bold w-full text-center  text-4xl bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
         {title}
       </h2>
     </div>
   );
 }
-
 
 export function Input({
   label,

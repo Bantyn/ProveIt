@@ -1059,7 +1059,7 @@ const thirdColumn = testimonials.slice(6, 9);
 const Testimonials = () => {
   return (
     <>
-      <section className="bg-background relative  bg-white/90 dark:bg-transparent text-black dark:text-white transition-all duration-500">
+      <section className="bg-background relative  bg-transparent transition-all duration-500">
         <div className="container z-10 mx-auto">
           <motion.div
             initial={{ opacity: 0.0, y: 40 }}

@@ -1,4 +1,14 @@
 body{
     user-select: none;
+ 
     box-sizing: border-box;
 }
+
+.x-none-scrollBar::-webkit-scrollbar{
+    display: none;
+}
+
+.x-none-scrollBar{
+    scroll-behavior: smooth;
+}
+
