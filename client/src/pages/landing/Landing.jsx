@@ -431,77 +431,7 @@ export default function Landing() {
         ></IntroductionWithImages>
       </section>
 
-      {/* //Companys Fourth section */}
-      <section className="w-full py-20 relative">
-        {/* Soft background glow */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/3 left-1/2 w-200 h-200 bg-violet-500/20 blur-[5rem] rounded-full" />
-          <div className="absolute top-1/4 right-1/3 w-200 h-200 bg-blue-500/20 blur-[5rem] rounded-full" />
-
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 mt-20">
-          <h2 className="text-center text-lg uppercase  tracking-[0.25em] text-gray-500 dark:text-gray-400 mb-28">
-            Trusted by leading teams worldwide
-          </h2>
-
-          <ul
-            className="
-              grid grid-cols-2
-              sm:grid-cols-3
-              md:grid-cols-4
-              lg:grid-cols-6
-              gap-x-8 gap-y-12
-              items-center
-            "
-          >
-            {logos.map((logo, i) => (
-              <li key={i} className="flex justify-center">
-                <div
-                  className="
-                    group relative
-                    flex items-center justify-center
-                    w-full max-w-[160px] h-30
-                    rounded-2xl
-                    bg-white/5 dark:bg-neutral-100/10
-                    backdrop-blur-md
-                    border border-white/10
-                    shadow-lg
-                    transition-all duration-300
-                    hover:scale-110 hover:shadow-violet-500/20
-                  "
-                >
-                  {/* Gradient glow */}
-                  <div
-                    className="
-                      absolute inset-0 rounded-2xl opacity-0
-                      bg-gradient-to-r from-violet-400/30 to-blue-400/30
-                      blur-lg
-                      group-hover:opacity-100
-                      transition
-                    "
-                  />
-
-                  <img
-                    src={logo.src}
-                    alt="Company logo"
-                    style={{ maxWidth: logo.w }}
-                    className="
-                      relative z-10
-                      max-h-8 object-contain
-                      opacity-70 grayscale
-                      group-hover:opacity-100 group-hover:grayscale-0
-                      transition duration-300
-                    "
-                    loading="lazy"
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
+     
 
       {/* // Fifth section */}
       <section>
@@ -1267,7 +1197,7 @@ export function IntroductionWithImages({title,desc,img_url,className}){
                   {title}
                 </h1>
 
-                <p className="text-xl md:w-200 mx-auto w-100 bg-neutral-100 dark:bg-neutral-900 hover:rotate-1 duration-400 hover:scale-101 transition-all p-5 rounded-4xl  text-gray-900 dark:text-white">
+                <p className="text-lg md:w-200 mx-auto w-100 bg-neutral-100 dark:bg-neutral-900 hover:rotate-1 duration-400 hover:scale-101 transition-all p-7 rounded-4xl  text-gray-900 dark:text-white/80">
                   {desc}
                 </p>
               </motion.div>

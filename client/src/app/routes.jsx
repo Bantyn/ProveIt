@@ -7,12 +7,17 @@ import EmployeeProfile from "../pages/Emplyee_UI/profile/Profile";
 // Pages
 import Home from "../pages/Emplyee_UI/dashboard/EmplyeeDashboard";
 import Landing from "../pages/landing/Landing";
+import Maintaince from "../pages/maintaince/Maintaince.jsx";
 
 
 export const routes = [
    {
     path: "/",
     element: <Landing />,
+  },
+   {
+    path: "/maintaince",
+    element: <Maintaince />,
   },
   {
     path: "/client/emplyee_dashboard",
