@@ -344,7 +344,7 @@ export default function Landing() {
             className=" flex flex-col hover:-translate-y-3 hover:rotate-3 transition-all duration-200 justify-center items-center h-60 w-70  rounded-[3rem] border dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
           >
             <h1
-              className=" text-6xl font-bold bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-transform duration-300"
+              className=" text-6xl font-bold bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-transform duration-300"
             >
               27%
             </h1>
@@ -362,7 +362,7 @@ export default function Landing() {
           >
             <h1
               className=" text-6xl font-bold 
-  bg-gradient-to-r from-violet-600 to-blue-600 
+  bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 
   bg-clip-text text-transparent
   cursor-pointer hover:scale-105 transition-transform duration-300"
             >
@@ -382,7 +382,7 @@ export default function Landing() {
           >
             <h1
               className=" text-6xl font-bold 
-  bg-gradient-to-r from-violet-600 to-blue-600 
+  bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 
   bg-clip-text text-transparent
   cursor-pointer hover:scale-105 transition-transform duration-300"
             >
@@ -559,7 +559,7 @@ export const FloatingIconsHero = React.forwardRef(
           ref={ref}
           onMouseMove={handleMouseMove}
           className={clsx(
-            "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
+            "relative w-full h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 ",
             className
           )}
           {...props}
@@ -579,15 +579,15 @@ export const FloatingIconsHero = React.forwardRef(
 
           {/* Foreground Content */}
           <div className="relative z-10 text-center px-4">
-            <div className="md:-mt-40  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-black via-gray-950  to-gray-100/70 bg-clip-text text-transparent dark:text-white/80">
+            <div className="md:-mt-40  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
               <WordFadeIn
                 text={title}
                 delay={0.3}
-                className="text-black dark:text-white/80"
+                className="text-slate-900 dark:text-white/80"
               />
             </div>
 
-            <p className="mt-6 max-w-xl mx-auto text-lg text-muted-foreground dark:text-white/50">
+            <p className="mt-6 max-w-xl mx-auto text-lg text-slate-700 dark:text-white/80">
               {subtitle}
             </p>
 
@@ -600,7 +600,7 @@ export const FloatingIconsHero = React.forwardRef(
               <UltimateGlassCTA
                 ctaHref={ctaHref2}
                 ctaText={ctaText2}
-                className="bg-gradient-to-l from-blue-500 to-violet-400 hover:to-violet-400  hover:from-blue-500   rounded-4xl"
+                className="bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 hover:from-violet-500 hover:via-pink-500 hover:to-blue-500 rounded-4xl"
               ></UltimateGlassCTA>
             </div>
           </div>
@@ -880,8 +880,8 @@ export function UltimateGlassCTA({ ctaText, ctaHref, className }) {
       <span
         className="absolute inset-0 rounded-3xl blur-2xl opacity-60
         bg-gradient-to-r
-        from-amber-400 via-orange-500 to-pink-500
-        dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600
+        from-violet-400 via-pink-400 to-blue-400
+        dark:from-violet-400 dark:via-pink-400 dark:to-blue-400
         transition-all duration-700
         group-hover:opacity-100"
       />
@@ -891,8 +891,8 @@ export function UltimateGlassCTA({ ctaText, ctaHref, className }) {
         px-12 py-4
         font-semibold text-white tracking-wide
         backdrop-blur-xl
-        bg-white/10 dark:bg-black/20
-        border dark:border-white/20 border-black/20 
+        bg-slate-900/20 dark:bg-white/20
+        border border-slate-700/30 dark:border-white/30
         shadow-xl"
       >
         <motion.span

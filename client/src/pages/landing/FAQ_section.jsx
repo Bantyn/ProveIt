@@ -23,7 +23,7 @@ export default function FAQ ({
   return (
     <section
       className={cx(
-        "relative  px-4 py-16 bg-white dark:bg-black text-black dark:text-white",
+        "relative  px-4 py-16 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white",
         className
       )}
     >
@@ -45,13 +45,13 @@ export default function FAQ ({
 ---------------------------------------- */
 const FAQHeader = ({ title, subtitle }) => (
   <div className="relative z-10 mb-12 flex flex-col items-center text-center">
-    <span className="mb-3 bg-gradient-to-r from-indigo-500 to-rose-500 bg-clip-text text-transparent font-medium">
+    <span className="mb-3 bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-medium">
       {subtitle}
     </span>
 
     <h2 className="text-4xl md:text-5xl font-bold">{title}</h2>
 
-    <span className="absolute -top-[300px] left-1/2 -translate-x-1/2 h-[450px] md:w-[550px] rounded-full bg-gradient-to-r from-indigo-500/10 to-rose-500/5 blur-3xl" />
+    <span className="absolute -top-[300px] left-1/2 -translate-x-1/2 h-[450px] md:w-[550px] rounded-full bg-gradient-to-r from-violet-500/10 via-pink-500/5 to-blue-500/10 blur-3xl" />
   </div>
 );
 
@@ -67,8 +67,8 @@ const FAQTabs = ({ categories, selected, setSelected }) => (
         className={cx(
           "relative overflow-hidden rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
           selected === key
-            ? "border-indigo-500 text-white"
-            : "border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
+            ? "border-violet-500 text-white"
+            : "border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
         )}
       >
         <span className="relative z-10">{label}</span>
@@ -80,7 +80,7 @@ const FAQTabs = ({ categories, selected, setSelected }) => (
               animate={{ y: "0%" }}
               exit={{ y: "100%" }}
               transition={{ duration: 0.4, ease: "backIn" }}
-              className="absolute inset-0 z-0 bg-gradient-to-r from-indigo-500 to-rose-500"
+              className="absolute inset-0 z-0 bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400"
             />
           )}
         </AnimatePresence>

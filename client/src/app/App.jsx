@@ -2,6 +2,9 @@ import ErrorBoundary from './ErrorBoundary.jsx';
 import { routes } from "./routes.jsx";
 import { useRoutes, useLocation } from "react-router-dom";
 import '../styles/App.css';
+import Navbar from '../components/ui/navbar/Navbar.jsx';
+import Footer from '../components/ui/footer/Footer.jsx';
+
 
 export default function App() {
   const element = useRoutes(routes);
@@ -16,21 +19,17 @@ export default function App() {
 
         {showHeaderFooter && (
           <header>
-            <h1 className="dark:text-white text-center py-5 bg-white dark:bg-black border-b border-black/10 fixed z-50 w-full top-0">
-              ProveIt header
-            </h1>
+            <Navbar></Navbar>
           </header>
         )}
 
-        <main className=''>
+        <main className='min-h-screen w-full'>
           {element}
         </main>
 
         {showHeaderFooter && (
-          <footer className='mt-50'>
-            <h1 className="dark:text-white text-center py-5 bg-white dark:bg-black border-t border-black/10 h-50 pt-10">
-              ProveIt footer
-            </h1>
+          <footer className=''>
+           <Footer></Footer>
           </footer>
         )}
 

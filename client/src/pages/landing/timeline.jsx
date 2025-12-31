@@ -83,9 +83,9 @@ const Timeline = ({ data }) => {
                   <Link
                     to={item.ClientSignup}
                     className="relative px-8 py-3 rounded-xl font-semibold text-white
-               bg-gradient-to-r from-purple-500 to-pink-500
-               shadow-lg shadow-purple-500/30
-               hover:scale-[1.05] hover:shadow-purple-500/50
+               bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400
+               shadow-lg shadow-violet-500/30
+               hover:scale-[1.05] hover:shadow-violet-500/50
                active:scale-95
                transition-all duration-300"
                   >
@@ -115,9 +115,9 @@ const Timeline = ({ data }) => {
                   <Link
                     to={item.join}
                     className="relative px-8 py-3 rounded-xl font-semibold text-white
-               bg-gradient-to-r from-purple-500 to-pink-500
-               shadow-lg shadow-purple-500/30
-               hover:scale-[1.05] hover:shadow-purple-500/50
+               bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400
+               shadow-lg shadow-violet-500/30
+               hover:scale-[1.05] hover:shadow-violet-500/50
                active:scale-95
                transition-all duration-300"
                   >

@@ -55,17 +55,17 @@ const ThemeToggle = () => {
         bg-zinc-100/80 dark:bg-black/50
         backdrop-blur-xl
         border border-zinc-200 dark:border-white/10
-        shadow-lg shadow-purple-500/5
+        shadow-lg shadow-violet-500/5
         transition-all duration-300
         hover:scale-110 active:scale-95
-        hover:border-purple-500/30
+        hover:border-violet-500/30
         group
       "
     >
       {theme === "dark" ? (
-        <Sun className="w-5 h-5 text-purple-400 group-hover:text-yellow-300 transition-colors" />
+        <Sun className="w-5 h-5 text-violet-400 group-hover:text-yellow-300 transition-colors" />
       ) : (
-        <Moon className="w-5 h-5 text-zinc-600 group-hover:text-purple-600 transition-colors" />
+        <Moon className="w-5 h-5 text-zinc-600 group-hover:text-violet-600 transition-colors" />
       )}
     </button>
   );
@@ -76,16 +76,16 @@ const ThemeToggle = () => {
 const BrandLogo = () => (
   <div className="flex items-center gap-4 mb-10 select-none">
     <div className="relative group">
-      <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+      <div className="absolute -inset-1 bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
       <div className="relative w-14 h-14 rounded-2xl bg-black border border-white/10 flex items-center justify-center shadow-2xl">
         <Building2 className="text-white w-7 h-7" />
       </div>
     </div>
     <div>
       <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
-        ProveIt<span className="text-purple-500">.</span>io
+        ProveIt<span className="text-violet-500">.</span>io
       </h2>
-      <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-purple-600 dark:text-purple-400">
+      <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-violet-600 dark:text-violet-400">
         Enterprise Portal
       </p>
     </div>
@@ -102,7 +102,7 @@ const InputField = ({ label, name, formik, type = "text", icon: Icon }) => {
     <div className="relative group">
       <Icon 
         className={`absolute left-4 top-4 transition-colors duration-300 ${
-          error ? "text-red-400" : "text-zinc-400 group-focus-within:text-purple-500"
+          error ? "text-red-400" : "text-zinc-400 group-focus-within:text-violet-500"
         }`} 
         size={20} 
       />
@@ -120,7 +120,7 @@ const InputField = ({ label, name, formik, type = "text", icon: Icon }) => {
           focus:outline-none focus:bg-white dark:focus:bg-black
           ${error
             ? "border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-            : "border-zinc-200 dark:border-white/5 focus:border-purple-500 dark:focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10"}
+            : "border-zinc-200 dark:border-white/5 focus:border-violet-500 dark:focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10"}
         `}
         placeholder={label}
       />
@@ -130,8 +130,8 @@ const InputField = ({ label, name, formik, type = "text", icon: Icon }) => {
           absolute left-12 px-1 text-xs font-bold uppercase tracking-wider
           transition-all duration-300 pointer-events-none rounded
           ${hasValue
-            ? "-top-2.5 bg-white dark:bg-black text-purple-600 dark:text-purple-400"
-            : "top-4 bg-transparent text-zinc-500 dark:text-zinc-500 peer-focus:-top-2.5 peer-focus:bg-white dark:peer-focus:bg-black peer-focus:text-purple-600 dark:peer-focus:text-purple-400"}
+            ? "-top-2.5 bg-white dark:bg-black text-violet-600 dark:text-violet-400"
+            : "top-4 bg-transparent text-zinc-500 dark:text-zinc-500 peer-focus:-top-2.5 peer-focus:bg-white dark:peer-focus:bg-black peer-focus:text-violet-600 dark:peer-focus:text-violet-400"}
         `}
       >
         {label}
@@ -172,7 +172,7 @@ const Stepper = ({ step }) => {
                   isCompleted
                     ? "bg-green-500 border-green-500 text-white shadow-[0_0_20px_rgba(34,197,94,0.4)]"
                     : isActive
-                    ? "bg-purple-600 border-purple-950 text-white shadow-[0_0_20px_rgba(147,51,234,0.5)] scale-110"
+                    ? "bg-violet-600 border-violet-950 text-white shadow-[0_0_20px_rgba(147,51,234,0.5)] scale-110"
                     : "bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-400"
                 }`}
               >
@@ -180,7 +180,7 @@ const Stepper = ({ step }) => {
               </div>
               <span 
                 className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300
-                ${isActive || isCompleted ? "text-purple-600 dark:text-purple-400" : "text-zinc-400 dark:text-zinc-600"}`}
+                ${isActive || isCompleted ? "text-violet-600 dark:text-violet-400" : "text-zinc-400 dark:text-zinc-600"}`}
               >
                 {s}
               </span>
@@ -189,7 +189,7 @@ const Stepper = ({ step }) => {
             {/* Progress Line Fill */}
             {i < steps.length - 1 && (
                <div 
-                 className={`absolute top-1/2 h-0.5 bg-gradient-to-r from-purple-600 to-pink-500 transition-all duration-700 ease-out -z-0
+                 className={`absolute top-1/2 h-0.5 bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 transition-all duration-700 ease-out -z-0
                  ${step > i + 1 ? "w-1/2" : step > i ? "w-0" : "w-0"}`} // Simplified logic for visual clarity in this snippet
                  style={{ 
                    left: i === 0 ? '16%' : '50%', 
@@ -270,22 +270,22 @@ const CompanySignup = () => {
           <div className="hidden lg:flex relative p-16 flex-col justify-center bg-zinc-50 dark:bg-zinc-950 overflow-hidden">
              {/* Decorative Background Blobs */}
              <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
-                <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-[128px] animate-blob"></div>
-                <div className="absolute bottom-10 right-10 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-[128px] animate-blob animation-delay-2000"></div>
+                <div className="absolute top-10 left-10 w-72 h-72 bg-violet-500 rounded-full mix-blend-multiply filter blur-[128px] animate-blob"></div>
+                <div className="absolute bottom-10 right-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] animate-blob animation-delay-2000"></div>
              </div>
 
             <div className="relative z-10">
                 <BrandLogo />
                 <h1 className="text-6xl font-black text-zinc-900 dark:text-white mb-8 leading-[1.1]">
                 Scale your <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400">
                     ambition.
                 </span>
                 </h1>
                 
                 <div className="space-y-6">
                     <div className="flex items-center gap-4 text-zinc-600 dark:text-zinc-400">
-                        <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                        <div className="w-12 h-12 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-violet-600 dark:text-violet-400">
                             <CheckCircle2 size={20} />
                         </div>
                         <p className="text-sm font-medium">Enterprise-grade security built-in.</p>
@@ -332,7 +332,7 @@ const CompanySignup = () => {
                          <Users className="absolute left-4 top-4 text-zinc-400" size={20} />
                          <select
                             {...formik.getFieldProps("teamSize")}
-                            className="w-full pl-12 pr-4 py-4 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 backdrop-blur-md border border-zinc-200 dark:border-white/5 text-zinc-900 dark:text-white appearance-none focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all"
+                            className="w-full pl-12 pr-4 py-4 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 backdrop-blur-md border border-zinc-200 dark:border-white/5 text-zinc-900 dark:text-white appearance-none focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10 transition-all"
                          >
                              <option value="" disabled>Select Team Size</option>
                              <option value="1-10">1-10 Employees</option>
@@ -349,8 +349,8 @@ const CompanySignup = () => {
                 )}
 
                 {step === 3 && (
-                    <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 text-center animate-scaleIn">
-                    <div className="w-16 h-16 mx-auto bg-gradient-to-tr from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/30 mb-4">
+                    <div className="p-8 rounded-3xl bg-gradient-to-br from-violet-500/10 via-pink-500/10 to-blue-500/10 border border-violet-500/20 text-center animate-scaleIn">
+                    <div className="w-16 h-16 mx-auto bg-gradient-to-tr from-violet-400 via-pink-400 to-blue-400 rounded-full flex items-center justify-center shadow-lg shadow-violet-500/30 mb-4">
                         <CheckCircle2 className="text-white w-8 h-8" />
                     </div>
                     <h4 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">Everything looks good!</h4>
@@ -379,9 +379,9 @@ const CompanySignup = () => {
                     type="button"
                     onClick={step === 3 ? formik.handleSubmit : next}
                     className="
-                        flex-1 py-4 rounded-xl font-bold text-white shadow-lg shadow-purple-500/25
-                        bg-gradient-to-r from-purple-600 to-pink-600
-                        hover:from-purple-500 hover:to-pink-500
+                        flex-1 py-4 rounded-xl font-bold text-white shadow-lg shadow-violet-500/25
+                        bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400
+                        hover:from-violet-500 hover:via-pink-500 hover:to-blue-500
                         active:scale-[0.98] transition-all duration-300
                         flex items-center justify-center gap-2
                     "

@@ -365,7 +365,7 @@ export default function ProfileSmoothTabs({ user }) {
 
                 <div className="mt-3 h-2 rounded-full bg-zinc-500 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-violet-500 to-blue-500 transition-all duration-700"
+                    className="h-full bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 transition-all duration-700"
                     style={{
                       width: hoveredIndex === index ? `${skill.level}%` : "0%",
                     }}
@@ -411,7 +411,7 @@ export default function ProfileSmoothTabs({ user }) {
       >
         <motion.div
           animate={{ width: indicator.width - 10, x: indicator.left + 5 }}
-          className="absolute top-1.5 h-[calc(100%-12px)] rounded-xl bg-gradient-to-r from-violet-500 to-blue-500"
+          className="absolute top-1.5 h-[calc(100%-12px)] rounded-xl bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400"
         />
 
         <div className="relative z-10 grid grid-cols-3 gap-1">
