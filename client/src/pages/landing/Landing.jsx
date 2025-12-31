@@ -4,7 +4,7 @@ import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
 import { useRef } from "react";
-import { TestimonialsColumn } from "../../../components/ui/testominals/testimonials-columns-1.jsx";
+import { TestimonialsColumn } from "../../components/ui/testominals/testimonials-columns-1.jsx";
 import { CheckCircle, Clock } from "lucide-react";
 import { Particles } from "./Partical.jsx";
 import CompitionHelp from "./timeline.jsx";

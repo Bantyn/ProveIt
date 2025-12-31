@@ -1,12 +1,12 @@
 // Authanication
-import Login from "../features/auth/login/Login";
-import ClientSignup from "../features/auth/signup/client/ClientSignup";
-import CompanySignup from "../features/auth/signup/company/CompanySignup";
-import EmployeeProfile from "../features/pages/Emplyee_UI/profile/Profile";
+import Login from "../pages/auth/login/Login";
+import ClientSignup from "../pages/auth/signup/client/ClientSignup";
+import CompanySignup from "../pages/auth/signup/company/CompanySignup";
+import EmployeeProfile from "../pages/Emplyee_UI/profile/Profile";
 
 // Pages
-import Home from "../features/pages/Emplyee_UI/dashboard/EmplyeeDashboard";
-import Landing from "../features/pages/landing/Landing";
+import Home from "../pages/Emplyee_UI/dashboard/EmplyeeDashboard";
+import Landing from "../pages/landing/Landing";
 
 
 export const routes = [
