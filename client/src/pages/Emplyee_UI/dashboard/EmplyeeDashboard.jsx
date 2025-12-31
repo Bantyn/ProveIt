@@ -85,7 +85,7 @@ const AnimatedTitle = ({ title1, title2 }) => {
       >
         <h1 className="mb-6 text-6xl font-bold tracking-tight sm:text-7xl md:text-9xl">
           <span
-            className="bg-gradient-to-b from-slate-900 to-slate-700 
+            className="bg-gradient-to-b from-neutral-900 to-slate-700 
                            dark:from-white dark:to-white/80 
                            bg-clip-text text-transparent "
           >
@@ -128,7 +128,7 @@ export default function EmployeeDashboard() {
       <section>
         <div
           className="relative flex pb-50 md:pb-40 min-h-screen items-center justify-center  
-                    bg-slate-50 dark:bg-slate-900 
+                    bg-slate-50 dark:bg-neutral-900 
                     transition-colors duration-500"
         >
           {/* Background glow */}
@@ -194,7 +194,7 @@ export default function EmployeeDashboard() {
             className="pointer-events-none absolute inset-0 
                       bg-gradient-to-t 
                       from-slate-50 via-transparent to-slate-50/80
-                      dark:from-slate-900 dark:via-transparent dark:to-slate-900/80"
+                      dark:from-neutral-900 dark:via-transparent dark:to-neutral-900/80"
           />
         </div>
       </section>

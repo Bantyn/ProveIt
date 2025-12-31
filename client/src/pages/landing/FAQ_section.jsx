@@ -23,7 +23,7 @@ export default function FAQ ({
   return (
     <section
       className={cx(
-        "relative  px-4 py-16 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white",
+        "relative  px-4 py-16 bg-slate-50 dark:bg-neutral-900 text-neutral-900 dark:text-white",
         className
       )}
     >
@@ -68,7 +68,7 @@ const FAQTabs = ({ categories, selected, setSelected }) => (
           "relative overflow-hidden rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
           selected === key
             ? "border-violet-500 text-white"
-            : "border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            : "border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-neutral-900 dark:hover:text-white"
         )}
       >
         <span className="relative z-10">{label}</span>

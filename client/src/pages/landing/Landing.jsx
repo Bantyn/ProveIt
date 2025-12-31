@@ -559,7 +559,7 @@ export const FloatingIconsHero = React.forwardRef(
           ref={ref}
           onMouseMove={handleMouseMove}
           className={clsx(
-            "relative w-full h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 ",
+            "relative w-full h-screen flex items-center justify-center bg-slate-50 dark:bg-neutral-900 ",
             className
           )}
           {...props}
@@ -579,11 +579,11 @@ export const FloatingIconsHero = React.forwardRef(
 
           {/* Foreground Content */}
           <div className="relative z-10 text-center px-4">
-            <div className="md:-mt-40  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
+            <div className="md:-mt-40  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-neutral-900 via-slate-700 to-neutral-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
               <WordFadeIn
                 text={title}
                 delay={0.3}
-                className="text-slate-900 dark:text-white/80"
+                className="text-neutral-900 dark:text-white/80"
               />
             </div>
 
@@ -891,7 +891,7 @@ export function UltimateGlassCTA({ ctaText, ctaHref, className }) {
         px-12 py-4
         font-semibold text-white tracking-wide
         backdrop-blur-xl
-        bg-slate-900/20 dark:bg-white/20
+        bg-neutral-900/20 dark:bg-white/20
         border border-slate-700/30 dark:border-white/30
         shadow-xl"
       >

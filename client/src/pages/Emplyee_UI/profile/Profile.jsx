@@ -65,7 +65,7 @@ export default function Profile() {
   };
 
   return (
-    <main className="min-h-screen w-full bg-slate-50 dark:bg-slate-900 relative overflow-hidden">
+    <main className="min-h-screen w-full bg-slate-50 dark:bg-neutral-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/10 dark:bg-violet-500/20 rounded-full blur-3xl" />
@@ -210,7 +210,7 @@ export default function Profile() {
 
                   {/* Education Section */}
                   <div className="pt-6 border-t border-slate-200 dark:border-white/10">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
                       <GraduationCap className="w-5 h-5 text-violet-500" />
                       Education
                     </h3>
@@ -242,7 +242,7 @@ export default function Profile() {
 
                   {/* Skills Section */}
                   <div className="pt-6 border-t border-slate-200 dark:border-white/10">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
                       <Sparkles className="w-5 h-5 text-pink-500" />
                       Skills
                     </h3>
@@ -264,7 +264,7 @@ export default function Profile() {
 
                   {/* Resume Upload */}
                   <div className="pt-6 border-t border-slate-200 dark:border-white/10">
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
                       <FileText className="w-5 h-5 text-blue-500" />
                       Resume
                     </h3>
@@ -373,7 +373,7 @@ function StatItem({ icon, label, value, color }) {
           {label}
         </span>
       </div>
-      <span className="text-sm font-bold text-slate-900 dark:text-white">
+      <span className="text-sm font-bold text-neutral-900 dark:text-white">
         {value}
       </span>
     </div>
@@ -423,7 +423,7 @@ export function Input({
           backdrop-blur-sm
           border-2
           text-sm font-medium
-          text-slate-900 dark:text-white
+          text-neutral-900 dark:text-white
           placeholder-transparent
           transition-all duration-300
           `,

@@ -132,9 +132,9 @@ export default function Maintance() {
   }, [])
 
   return (
-    <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-50 dark:bg-slate-900">
+    <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-50 dark:bg-black">
       {/* Base background with subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-neutral-900 dark:via-slate-800 dark:to-neutral-900" />
 
       {/* Half Sun - Center */}
       <div
@@ -485,9 +485,9 @@ export default function Maintance() {
               animate="visible"
               className="mb-8"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/20 dark:bg-white/20 backdrop-blur-md border border-slate-700/30 dark:border-white/30 shadow-lg">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md border border-slate-700/30 dark:border-white/30 shadow-lg">
                 <div className="w-2 h-2 rounded-full bg-yellow-500 dark:bg-yellow-400 animate-pulse" />
-                <span className="text-sm font-medium text-slate-900/90 dark:text-white/90">
+                <span className="text-sm font-medium text-neutral-900/90 dark:text-white/90">
                   Maintenance Mode
                 </span>
               </div>
@@ -498,11 +498,11 @@ export default function Maintance() {
               variants={contentVariants}
               initial="hidden"
               animate="visible"
-              className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-6 text-slate-900 dark:text-white drop-shadow-lg"
+              className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center mb-6 text-neutral-900 dark:text-white drop-shadow-lg"
             >
               We're Building
               <br />
-              <span className="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-neutral-900 via-slate-700 to-neutral-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
                 Something Powerful
               </span>
             </motion.h1>
