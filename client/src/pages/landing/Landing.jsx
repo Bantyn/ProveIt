@@ -4,11 +4,17 @@ import * as React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import clsx from "clsx";
 import { useRef } from "react";
-import { TestimonialsColumn } from "../../components/ui/testominals/testimonials-columns-1.jsx";
-import { CheckCircle, Clock } from "lucide-react";
+import { TestimonialsColumn } from "../../components/ui/testimonials-columns-1.jsx";
+import { CheckCircle, Clock,Code,CheckCircle2,Building2, LinkIcon, User } from "lucide-react";
 import { Particles } from "./Partical.jsx";
 import CompitionHelp from "./timeline.jsx";
 import FAQ from "./FAQ_section.jsx";
+import SectionHeader from "../../components/ui/SectionHeader.jsx";
+import AActionButton from "../../components/ui/button/aActionButton.jsx";
+import LinkActionButton from "../../components/ui/button/LinkActionButton.jsx";
+import {Link} from "react-router-dom"
+
+
 // --- default Landing Component ---
 const testimonials = [
   {
@@ -66,7 +72,6 @@ const testimonials = [
     role: "E-commerce Manager",
   },
 ];
-
 
 export default function Landing() {
   // ---  icons array ---
@@ -270,192 +275,314 @@ export default function Landing() {
     ],
   };
 
-  // Trustade Logo 
+  // Trustade Logo
   const logos = [
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Canva-1.svg", w: 91 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Ramp-1.svg", w: 100 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/SoFi-1.svg", w: 91 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/10/logo1.svg", w: 81 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/10/Hubspot2.svg", w: 100 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Instacart1.svg", w: 126 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/motive-logo.svg", w: 96 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Toast-1.svg", w: 92 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Zapier.svg", w: 94 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Frame.svg", w: 129 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Attentive-1.svg", w: 112 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Abnormal-1.svg", w: 107 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Justworks-1.svg", w: 116 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/CharlieHealth-1.svg", w: 140 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Navan-1.svg", w: 89 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Talentful-1.svg", w: 114 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Lucid-1.svg", w: 132 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Groq-1.svg", w: 68 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Vercel-1.svg", w: 105 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Onetrust1-1.svg", w: 114 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Vector1.svg", w: 118 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Webflow.svg", w: 126 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Klaviyo-1.svg", w: 115 },
-    { src: "https://brighthire.com/wp-content/uploads/2025/09/Mr-Beast-Logo.svg", w: 93 },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Canva-1.svg",
+      w: 91,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Ramp-1.svg",
+      w: 100,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/SoFi-1.svg",
+      w: 91,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/10/logo1.svg",
+      w: 81,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/10/Hubspot2.svg",
+      w: 100,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Instacart1.svg",
+      w: 126,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/motive-logo.svg",
+      w: 96,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Toast-1.svg",
+      w: 92,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Zapier.svg",
+      w: 94,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Frame.svg",
+      w: 129,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Attentive-1.svg",
+      w: 112,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Abnormal-1.svg",
+      w: 107,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Justworks-1.svg",
+      w: 116,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/CharlieHealth-1.svg",
+      w: 140,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Navan-1.svg",
+      w: 89,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Talentful-1.svg",
+      w: 114,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Lucid-1.svg",
+      w: 132,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Groq-1.svg",
+      w: 68,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Vercel-1.svg",
+      w: 105,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Onetrust1-1.svg",
+      w: 114,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Vector1.svg",
+      w: 118,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Webflow.svg",
+      w: 126,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Klaviyo-1.svg",
+      w: 115,
+    },
+    {
+      src: "https://brighthire.com/wp-content/uploads/2025/09/Mr-Beast-Logo.svg",
+      w: 93,
+    },
   ];
-  
+
   return (
     <>
-      {/* // First section */}
-      <section>
-        {/* // Hero Section */}
-        <FloatingIconsHero
-          title="Skill-Verified Hiring Platform"
-          subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
-          ctaText="Company"
-          ctaText2="Employees"
-          ctaHref="/signup/companySignup"
-          ctaHref2="/signup/clientSignup"
-          icons={demoIcons}
-        />
-      </section>
+      <div className="mt-10">
+        {/* // First section */}
+        <section>
+          {/* // Hero Section */}
+          <FloatingIconsHero
+            title="Skill-Verified Hiring Platform"
+            subtitle="proveIt.io is a centralized platform for skill-based hiring. Companies post jobs with project tasks; candidates submit work (e.g., GitHub repos) for evaluation. Admins manage postings, evaluate submissions, and shortlist candidates. Features: rankings, plagiarism checks, analytics, and subscriptions."
+            ctaHref="#reg"
+            ctaHref2="#reg"
+            icons={demoIcons}
+          />
+        </section>
 
-      {/* // Delivering immediate impact... Second section */}
-      <section className="min-h-screen">
-        {/* title */}
-        <WordFadeIn
-          className="md:mt-60 mt-60  md:text-5xl text-3xl font-bold md:font-bold mx-auto md:w-300  text-black dark:text-white/80 "
-          text="Delivering immediate impact for forward-thinking talent acquisition teams."
-          delay={0.06}
-        ></WordFadeIn>
-        {/* sub title */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-          className="text-center text-xl -mt-10 text-gray-500"
-        >
-          *Based on a real study across 25,000+ candidates on the impact of
-          BrightHire.
-        </motion.p>
 
-        <div className="flex justify-center gap-40 mt-30 w-full">
-          {/* card 1 */}
-          <motion.div
-            initial={{ opacity: 0, x: -90 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.6 }}
-            className=" flex flex-col hover:-translate-y-3 hover:rotate-3 transition-all duration-200 justify-center items-center h-60 w-70  rounded-[3rem] border dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
-          >
-            <h1
-              className=" text-6xl font-bold bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
-              27%
-            </h1>
-            <p className="text-xl mt-5 w-[80%] mx-auto text-center font-bold text-gray-500">
-              fewer interviews per hire
-            </p>
-          </motion.div>
-          {/* card 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.4 }}
-            className="  flex flex-col justify-center hover:-translate-y-3 hover:scale-105 transition-all duration-200 items-center h-60 w-70  rounded-[3rem] border border-gray-200 dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
-          >
-            <h1
-              className=" text-6xl font-bold 
-  bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 
-  bg-clip-text text-transparent
-  cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
-              28%
-            </h1>
-            <p className="text-xl mt-5 w-[80%] mx-auto text-center font-bold text-gray-500">
-              increase in pipeline efficiency
-            </p>
-          </motion.div>
-          {/* card 3 */}
-          <motion.div
-            initial={{ opacity: 0, x: 90 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className=" flex flex-col hover:-translate-y-3 hover:-rotate-3 transition-all duration-200 justify-center items-center h-60 w-70  rounded-[3rem] border dark:border-gray-200/20 shadow-lg dark:bg-neutral-900"
-          >
-            <h1
-              className=" text-6xl font-bold 
-  bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 
-  bg-clip-text text-transparent
-  cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
-              19%
-            </h1>
-            <p className="text-xl mt-5 w-[80%] mx-auto text-center font-bold text-gray-500">
-              reduction in candidate drop offs
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        {/* // Third section */}
+        <section className="min-h-screen mt-50">
+          {/* Second Sub Title */}
+          <WordFadeIn
+            className="mb-30 md:text-5xl text-3xl font-bold md:font-semibold mx-auto md:w-300  text-black dark:text-white/80 "
+            text="Build exceptional teams with an end-to-end skills-based hiring platform."
+            delay={0.1}
+          ></WordFadeIn>
 
-      {/* // Third section */}
-      <section className="min-h-screen -mt-50">
-        {/* Second Sub Title */}
-        <WordFadeIn
-          className="mb-30 md:text-5xl text-3xl font-bold md:font-semibold mx-auto md:w-300  text-black dark:text-white/80 "
-          text="Build exceptional teams with an end-to-end skills-based hiring platform."
-          delay={0.06}
-        ></WordFadeIn>
+          <IntroductionWithImages
+            title="Easily Scope Skills-Based Roles"
+            desc="Quickly scope new roles, write inclusive job descriptions, and deliver structured interview plans with ease — all tailored to company standards. Save time and ensure consistency by relying on our powerful AI to help you create interview plans focused on the skills that matter."
+            img_url="https://brighthire.com/wp-content/uploads/2024/10/image1.png"
+          ></IntroductionWithImages>
+          {/* Reverse Card  */}
+          <IntroductionWithImages
+            title="Run Skills-Based Interviews"
+            desc="Conduct interviews that zero in on the skills that matter most, with your AI copilot guiding you through the interview questions and automatically capturing notes so you can stay focused on the conversation"
+            img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
+            className="flex md:flex-row-reverse mt-20"
+          ></IntroductionWithImages>
 
-        <IntroductionWithImages
-          title="Easily Scope Skills-Based Roles"
-          desc="Quickly scope new roles, write inclusive job descriptions, and deliver structured interview plans with ease — all tailored to company standards. Save time and ensure consistency by relying on our powerful AI to help you create interview plans focused on the skills that matter."
-          img_url="https://brighthire.com/wp-content/uploads/2024/10/image1.png"
-        ></IntroductionWithImages>
-        {/* Reverse Card  */}
-        <IntroductionWithImages
-          title="Run Skills-Based Interviews"
-          desc="Conduct interviews that zero in on the skills that matter most, with your AI copilot guiding you through the interview questions and automatically capturing notes so you can stay focused on the conversation"
-          img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
-          className="flex md:flex-row-reverse mt-20"
-        ></IntroductionWithImages>
+          <IntroductionWithImages
+            title="Make Skills-Based Hiring Decisions"
+            desc="Automatically map interview discussions to key job-related skills, enabling your team to make smarter, evidence-based hiring decisions. Use skills-based candidate debriefs or our powerful AI chatbot to quickly review critical skills discussed during interviews and get instant, objective answers, complete with direct references to the original conversations."
+            img_url="https://brighthire.com/wp-content/uploads/2024/10/image3.png"
+          ></IntroductionWithImages>
+          {/* Reverse Card  */}
+          <IntroductionWithImages
+            title="Analyze & Improve Skills-Based Interviews"
+            desc="Ensure your organization is assessing critical skills at scale with unprecedented visibility. For the first time, gain insights into the quality of your interviews and confidently track whether key skills are being evaluated consistently across your hiring teams. Over time, evaluate what skills correlate to successful hires to continuously improve quality."
+            img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
+            className="flex md:flex-row-reverse mt-20"
+          ></IntroductionWithImages>
+        </section>
 
-        <IntroductionWithImages
-          title="Make Skills-Based Hiring Decisions"
-          desc="Automatically map interview discussions to key job-related skills, enabling your team to make smarter, evidence-based hiring decisions. Use skills-based candidate debriefs or our powerful AI chatbot to quickly review critical skills discussed during interviews and get instant, objective answers, complete with direct references to the original conversations."
-          img_url="https://brighthire.com/wp-content/uploads/2024/10/image3.png"
-        ></IntroductionWithImages>
-        {/* Reverse Card  */}
-        <IntroductionWithImages
-          title="Analyze & Improve Skills-Based Interviews"
-          desc="Ensure your organization is assessing critical skills at scale with unprecedented visibility. For the first time, gain insights into the quality of your interviews and confidently track whether key skills are being evaluated consistently across your hiring teams. Over time, evaluate what skills correlate to successful hires to continuously improve quality."
-          img_url="https://brighthire.com/wp-content/uploads/2024/10/2.png"
-          className="flex md:flex-row-reverse mt-20"
-        ></IntroductionWithImages>
-      </section>
 
-     
+        {/* Forth Section */}
+        {/* Fourth Section */}
+        <section id="reg" className="py-24 relative">
+          <div className="container mx-auto px-6">
+            <SectionHeader
+              badge="Two-Sided Platform"
+              title="Built for Everyone"
+              subtitle="Whether you're a candidate or a company, ProveIt.io works for you"
+            />
 
-      {/* // Fifth section */}
-      <section>
-        {/*  */}
-        {/* Hired Employees */}
-        {/* <HiredEmployeesTimeline
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+              {/* ================= Candidates ================= */}
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="rounded-3xl glass-card p-8
+                          border border-pink-400/30
+                          bg-white/60 dark:bg-white/5 backdrop-blur-xl
+                          hover:scale-101 transition-all duration-300"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl
+                                  bg-pink-400/20 border border-pink-400/30
+                                  flex items-center justify-center">
+                    <Code className="w-7 h-7 text-pink-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold font-display text-slate-900 dark:text-white">
+                    For Candidates
+                  </h3>
+                </div>
+
+                <ul className="space-y-4">
+                  {[
+                    "Build a verified skill portfolio",
+                    "Apply with real project work, not just resumes",
+                    "Get ranked based on actual abilities",
+                    "Access skill-matched job opportunities",
+                    "Earn badges and certifications",
+                    "Stand out without fancy degrees",
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.08 }}
+                      className="flex items-center gap-3 text-slate-700 dark:text-white/80"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-pink-400 flex-shrink-0" />
+                      <span>{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                <LinkActionButton
+                  icon={User}
+                  variant="primary"
+                  className="mt-8 text-white"
+                  showArrow
+                  url="/signup/clientSignup"
+
+                >
+                  Join as Candidate
+                </LinkActionButton>
+              </motion.div>
+
+              {/* ================= Companies ================= */}
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="rounded-3xl glass-card p-8
+                          border border-blue-400/30
+                          bg-white/60 dark:bg-white/5 backdrop-blur-xl 
+                          hover:scale-101 transition-all duration-300"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl
+                                  bg-blue-400/20 border border-blue-400/30
+                                  flex items-center justify-center">
+                    <Building2 className="w-7 h-7 text-blue-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold font-display text-slate-900 dark:text-white">
+                    For Companies
+                  </h3>
+                </div>
+
+                <ul className="space-y-4">
+                  {[
+                    "Post jobs with project-based challenges",
+                    "Receive verified, plagiarism-checked submissions",
+                    "Access pre-ranked candidate lists",
+                    "Reduce bad hires by 60%",
+                    "Analytics on hiring pipeline",
+                    "Subscription plans for all company sizes",
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.08 }}
+                      className="flex items-center gap-3 text-slate-700 dark:text-white/80"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                      <span>{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                <LinkActionButton
+                  icon={Building2}
+                  variant="secondary"
+                  className="mt-8"
+                  showArrow
+                  url="/signup/companySignup"
+                >
+                  Start Hiring
+                </LinkActionButton>
+              </motion.div>
+
+            </div>
+          </div>
+        </section>
+
+
+
+        {/* // Fifth section */}
+        <section>
+          {/*  */}
+          {/* Hired Employees */}
+          {/* <HiredEmployeesTimeline
           title="Hired Employees This Week"
           employees={employees}
         /> */}
 
-        {/* Compition Help Section */}
-        {/* <CompitionHelp data={timelineData}></CompitionHelp> */}
+          {/* Compition Help Section */}
+          {/* <CompitionHelp data={timelineData}></CompitionHelp> */}
 
-        {/* // Testimonials */}
-        <Testimonials />
+          {/* // Testimonials */}
+          <Testimonials />
 
-        {/* FAQ Section */}
-        <FAQ
-          title="Frequently Asked Questions"
-          subtitle="Let's answer some questions"
-          categories={categories}
-          faqData={faqData}
-        />
-      </section>
+          {/* FAQ Section */}
+          <FAQ
+            title="Frequently Asked Questions"
+            subtitle="Let's answer some questions"
+            categories={categories}
+            faqData={faqData}
+          />
+        </section>
+      </div>
     </>
   );
 }
@@ -516,8 +643,9 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
           x: [0, 6, 0, -6, 0],
           rotate: [0, 5, 0, -5, 0],
         }}
+        // Controlling Icon Speed
         transition={{
-          duration: 2 + Math.random() * 1,
+          duration: 5 + Math.random() * 1,
           repeat: Infinity,
           repeatType: "mirror",
           ease: "easeInOut",
@@ -528,7 +656,6 @@ const Icon = ({ mouseX, mouseY, iconData, index }) => {
     </motion.div>
   );
 };
-
 // --- Main Floating Icons Hero Component ---
 export const FloatingIconsHero = React.forwardRef(
   (
@@ -536,9 +663,7 @@ export const FloatingIconsHero = React.forwardRef(
       className,
       title,
       subtitle,
-      ctaText,
       ctaHref,
-      ctaText2,
       ctaHref2,
       icons,
       ...props
@@ -559,7 +684,7 @@ export const FloatingIconsHero = React.forwardRef(
           ref={ref}
           onMouseMove={handleMouseMove}
           className={clsx(
-            "relative w-full h-screen flex items-center justify-center bg-slate-50 dark:bg-neutral-900 ",
+            "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
             className
           )}
           {...props}
@@ -579,7 +704,7 @@ export const FloatingIconsHero = React.forwardRef(
 
           {/* Foreground Content */}
           <div className="relative z-10 text-center px-4">
-            <div className="md:-mt-40  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-neutral-900 via-slate-700 to-neutral-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
+            <div className="md:mt-10 mt-45  text-6xl md:scale-100 md:text-7xl font-bold tracking-tight  bg-gradient-to-b from-neutral-900 via-slate-700 to-neutral-900 dark:from-white dark:via-pink-100 dark:to-white bg-clip-text text-transparent">
               <WordFadeIn
                 text={title}
                 delay={0.3}
@@ -588,28 +713,30 @@ export const FloatingIconsHero = React.forwardRef(
             </div>
 
             <p className="mt-6 max-w-xl mx-auto text-lg text-slate-700 dark:text-white/80">
-              {subtitle}
+              
+
+              <WordFadeIn
+                text={subtitle}
+                delay={0.05}
+                className="text-neutral-900 dark:text-white/80"
+              />
             </p>
 
-            <div className="md:mt-15 mt-30 flex justify-center gap-10">
-              <UltimateGlassCTA
-                ctaHref={ctaHref}
-                ctaText={ctaText}
-              ></UltimateGlassCTA>
-
-              <UltimateGlassCTA
-                ctaHref={ctaHref2}
-                ctaText={ctaText2}
-                className="bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 hover:from-violet-500 hover:via-pink-500 hover:to-blue-500 rounded-4xl"
-              ></UltimateGlassCTA>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="md:mt-15 relative top-50 flex justify-center  md:gap-10 md md:flex-row flex-col gap-5"
+            >
+              <AActionButton icon={User} showArrow className="text-white hover:scale-105" url={ctaHref} variant="primary">Join As Candidate</AActionButton>
+              <AActionButton icon={Building2} showArrow className=" hover:scale-105" url={ctaHref2} variant="secondary">Start Hiring</AActionButton>
+            </motion.div>
           </div>
         </div>
       </>
     );
   }
 );
-
 // ------------------- SVG ICONS -------------------
 const IconGoogle = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none">
@@ -844,108 +971,26 @@ const IconYouTube = (props) => (
   </svg>
 );
 
-// ------------------- Button -------------------
-export function UltimateGlassCTA({ ctaText, ctaHref, className }) {
-  const ref = useRef(null);
 
-  // 🎯 Magnetic cursor
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 20 });
-  const springY = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const handleMouseMove = (e) => {
-    const rect = ref.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left - rect.width / 2;
-    const offsetY = e.clientY - rect.top - rect.height / 2;
-    x.set(offsetX * 0.25);
-    y.set(offsetY * 0.25);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.a
-      href={ctaHref}
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ x: springX, y: springY }}
-      whileTap={{ scale: 0.92 }}
-      className={clsx("relative group inline-flex", className)}
-    >
-      <span
-        className="absolute inset-0 rounded-3xl blur-2xl opacity-60
-        bg-gradient-to-r
-        from-violet-400 via-pink-400 to-blue-400
-        dark:from-violet-400 dark:via-pink-400 dark:to-blue-400
-        transition-all duration-700
-        group-hover:opacity-100"
-      />
-
-      <span
-        className="relative overflow-hidden rounded-3xl
-        px-12 py-4
-        font-semibold text-white tracking-wide
-        backdrop-blur-xl
-        bg-neutral-900/20 dark:bg-white/20
-        border border-slate-700/30 dark:border-white/30
-        shadow-xl"
-      >
-        <motion.span
-          initial={{ scale: 0, opacity: 0 }}
-          whileHover={{ scale: 2.5, opacity: 0.15 }}
-          transition={{ duration: 0.6 }}
-          className="absolute inset-0 rounded-full
-          bg-white"
-        />
-
-        {[...Array(6)].map((_, i) => (
-          <motion.span
-            key={i}
-            initial={{ opacity: 0, scale: 0 }}
-            whileHover={{
-              opacity: 1,
-              scale: 1,
-              x: Math.cos((i * Math.PI) / 3) * 20,
-              y: Math.sin((i * Math.PI) / 3) * 20,
-            }}
-            transition={{ duration: 0.4 }}
-            className="absolute top-1/2 left-1/2 h-1.5 w-1.5
-            rounded-full bg-white"
-          />
-        ))}
-
-        <motion.span
-          whileHover={{ x: "120%" }}
-          transition={{ duration: 0.8 }}
-          className="absolute top-0 left-[-120%] h-full w-[120%]
-          bg-gradient-to-r from-transparent via-white/40 to-transparent
-          skew-x-12"
-        />
-
-        <span className="relative z-10 text-black dark:text-white">
-          {ctaText}
-        </span>
-      </span>
-    </motion.a>
-  );
-}
 // --------------------------------------------------------------------------------------------------------
 // Word Fead Effect
 export function WordFadeIn({ text, className = "", delay = 0.15, variants }) {
   const words = text.split(" ");
 
   const defaultVariants = {
-    hidden: { opacity: 0 },
+    hidden: {
+      opacity: 0,
+      y: 12,
+      filter: "blur(10px)",
+    },
     visible: (i) => ({
       opacity: 1,
       y: 0,
+      filter: "blur(0px)",
       transition: {
         delay: i * delay,
+        duration: 0.6,
+        ease: "easeOut",
       },
     }),
   };
@@ -980,7 +1025,6 @@ export function WordFadeIn({ text, className = "", delay = 0.15, variants }) {
 
 // Testimonials Datas fetching Reviews API in Future
 
-
 // Splitting Testimonials into 3 Columns
 const firstColumn = testimonials.slice(0, 3);
 const secondColumn = testimonials.slice(3, 6);
@@ -1002,19 +1046,16 @@ const Testimonials = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
           >
-            <div className="flex justify-center">
-              <div className="border py-1 px-4 mt-30 rounded-lg dark:text-white/50  dark:hover:text-white/80 text-black/30 bg-amber-50/5 hover:text-black transition-all ease-in-out duration-150 hover:scale-105">
-                Testimonials
-              </div>
-            </div>
 
-            <h2 className="text-black/90 text-xl dark:text-white/80 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter mt-5">
-              What Our Clients Say
-            </h2>
-            <p className="text-black/90 text-center mt-5 opacity-75 dark:text-white/75">
-              Real feedback from teams who transformed their workflow with our
-              AI-powered Web3 platform.
-            </p>
+            <SectionHeader
+            badge="Testimonials"
+            title="What Our Clients Say"
+            subtitle=" Real feedback from teams who transformed their workflow with our
+              AI-powered Web3 platform."
+            // className="text-black"
+            // textVariants="default"
+          />
+            
           </motion.div>
 
           <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
@@ -1175,49 +1216,59 @@ function StatusBadge({ status }) {
 }
 
 // --------------------------------------------------------------------------------------------------------
-export function IntroductionWithImages({title,desc,img_url,className}){
-
-  var img_class = "" 
-  if(className?.includes("md:flex-row-reverse")){
-    img_class = "rounded-br-[5rem] rounded-tr-[5rem]"
+export function IntroductionWithImages({ title, desc, img_url, className }) {
+  var img_class = "";
+  if (className?.includes("md:flex-row-reverse")) {
+    img_class = "rounded-br-[5rem] rounded-tr-[5rem]";
   }
-  
-  return(<>
+
+  return (
+    <>
       <div className="card overflow-hidden">
         <div className="w-full px-6">
-            <div className={clsx("mx-auto flex flex-col md:flex-row grid-cols-1 items-center gap-12 md:grid-cols-2",className)} >
-              {/* Text Section */}
-              <motion.div initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+          <div
+            className={clsx(
+              "mx-auto flex flex-col md:flex-row grid-cols-1 items-center gap-12 md:grid-cols-2",
+              className
+            )}
+          >
+            {/* Text Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="space-y-4 flex flex-col md:pl-30 text-center md:text-left"
+            >
+              <h1 className="text-2xl md:text-3xl md:w-200 mx-auto w-100 font-bold  text-gray-900 dark:text-white sm:text-4xl lg:text-5xl">
+                {title}
+              </h1>
 
-                className="space-y-4 flex flex-col md:pl-30 text-center md:text-left">
-                <h1 className="text-2xl md:text-3xl md:w-200 mx-auto w-100 font-bold  text-gray-900 dark:text-white sm:text-4xl lg:text-5xl">
-                  {title}
-                </h1>
+              <p className="text-lg md:w-200 mx-auto w-100 bg-neutral-100 dark:bg-neutral-900 black hover:rotate-1 duration-400 hover:scale-101 transition-all p-7 rounded-4xl  text-gray-900 dark:text-white/80">
+                {desc}
+              </p>
+            </motion.div>
 
-                <p className="text-lg md:w-200 mx-auto w-100 bg-neutral-100 dark:bg-neutral-900 hover:rotate-1 duration-400 hover:scale-101 transition-all p-7 rounded-4xl  text-gray-900 dark:text-white/80">
-                  {desc}
-                </p>
-              </motion.div>
-
-              {/* Image Section */}
-              <motion.div initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5,delay:0.5 }}
-                className={clsx("flex md:w-full rounded-br-[5rem] rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-[5rem] md:justify-center bg-blue-50",img_class)}>
-                <img
-                  src={img_url}
-                  alt="Introduction"
-                  className="object-contain h-100"
-                />
-              </motion.div>
-
-            </div>
+            {/* Image Section */}
+            <motion.div
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className={clsx(
+                "flex md:w-full rounded-br-[5rem] rounded-tr-[5rem] rounded-bl-[5rem] rounded-tl-[5rem] md:justify-center bg-blue-50",
+                img_class
+              )}
+            >
+              <img
+                src={img_url}
+                alt="Introduction"
+                className="object-contain h-100"
+              />
+            </motion.div>
           </div>
-
+        </div>
       </div>
-  </>)
+    </>
+  );
 }

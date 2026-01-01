@@ -1,140 +1,167 @@
-"use client";
-
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useMemo, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   Search,
   Send,
-  BarChart2,
-  Video,
-  PlaneTakeoff,
-  AudioLines,
-  LayoutGrid,
-} from "lucide-react";
+  Building2,
+  Trophy,
+  Briefcase,
+  Code2,
+  Users,
+  ShieldCheck,
+} from "lucide-react"
 
-/* -------------------------------------------------------------------------- */
-/* Utils                                                                       */
-/* -------------------------------------------------------------------------- */
+/* ---------------------------------- Utils --------------------------------- */
 
-const cn = (...c) => c.filter(Boolean).join(" ");
+const cn = (...c) => c.filter(Boolean).join(" ")
 
-function useDebounce(value, delay = 200) {
-  const [debounced, setDebounced] = useState(value);
+function useDebounce(value, delay = 250) {
+  const [debounced, setDebounced] = useState(value)
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(t);
-  }, [value, delay]);
+    const t = setTimeout(() => setDebounced(value), delay)
+    return () => clearTimeout(t)
+  }, [value, delay])
 
-  return debounced;
+  return debounced
 }
 
-/* -------------------------------------------------------------------------- */
-/* Data                                                                        */
-/* -------------------------------------------------------------------------- */
+/* -------------------------------- Dummy API ------------------------------- */
 
-const ACTIONS = [
+export const MOCK_ACTIONS = [
   {
-    id: "1",
-    label: "Book tickets",
-    icon: <PlaneTakeoff className="h-4 w-4 text-blue-400" />,
-    description: "Operator",
-    short: "⌘K",
-    end: "Agent",
+    id: "c1",
+    label: "Post a Job",
+    description: "Company hiring challenge",
+    icon: Briefcase,
+    short: "⌘J",
+    end: "Company",
   },
   {
-    id: "2",
-    label: "Summarize",
-    icon: <BarChart2 className="h-4 w-4 text-orange-400" />,
-    description: "GPT-5",
-    short: "⌘P",
-    end: "Command",
+    id: "c2",
+    label: "Host Competition",
+    description: "Skill-based hiring contest",
+    icon: Trophy,
+    short: "⌘C",
+    end: "Competition",
   },
   {
-    id: "3",
-    label: "Screen Studio",
-    icon: <Video className="h-4 w-4 text-purple-400" />,
-    description: "Claude 4.1",
-    end: "App",
+    id: "c3",
+    label: "Company Profile",
+    description: "Manage company presence",
+    icon: Building2,
+    end: "Company",
   },
   {
-    id: "4",
-    label: "Talk to Jarvis",
-    icon: <AudioLines className="h-4 w-4 text-green-400" />,
-    description: "Voice AI",
-    end: "Active",
+    id: "c4",
+    label: "Coding Challenge",
+    description: "Project-based evaluation",
+    icon: Code2,
+    end: "Competition",
   },
   {
-    id: "5",
-    label: "UI Components",
-    icon: <LayoutGrid className="h-4 w-4 text-sky-400" />,
-    description: "Design system",
-    end: "Link",
+    id: "c5",
+    label: "Team Management",
+    description: "Recruiter & HR access",
+    icon: Users,
+    end: "Company",
   },
-];
+  {
+    id: "c6",
+    label: "Verified Submissions",
+    description: "Plagiarism & AI checks",
+    icon: ShieldCheck,
+    end: "Trust",
+  },
+]
+function fakeSearchApi(query) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      if (!query) return resolve(MOCK_ACTIONS)
+      resolve(
+        MOCK_ACTIONS.filter((a) =>
+          `${a.label} ${a.description}`
+            .toLowerCase()
+            .includes(query.toLowerCase())
+        )
+      )
+    }, 500)
+  })
+}
 
-/* -------------------------------------------------------------------------- */
-/* Animations                                                                  */
-/* -------------------------------------------------------------------------- */
+/* -------------------------------- Animations ------------------------------ */
 
 const listAnim = {
-  hidden: { opacity: 0, y: -6 },
+  hidden: { opacity: 0, y: -8 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.05 },
   },
-  exit: { opacity: 0, y: -6 },
-};
+  exit: { opacity: 0, y: -8 },
+}
 
 const itemAnim = {
-  hidden: { opacity: 0, y: 8 },
+  hidden: { opacity: 0, y: 10 },
   show: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -6 },
-};
+}
 
-/* -------------------------------------------------------------------------- */
-/* Component                                                                   */
-/* -------------------------------------------------------------------------- */
+/* -------------------------------- Component ------------------------------- */
 
-export default function ActionSearchBar({ actions = ACTIONS }) {
-  const [query, setQuery] = useState("");
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(-1);
+export default function ActionSearchBar() {
+  const [query, setQuery] = useState("")
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [results, setResults] = useState([])
+  const [active, setActive] = useState(-1)
 
-  const debounced = useDebounce(query);
+  const debounced = useDebounce(query)
 
-  const filtered = useMemo(() => {
-    if (!debounced) return actions;
-    return actions.filter((a) =>
-      `${a.label} ${a.description || ""}`
-        .toLowerCase()
-        .includes(debounced.toLowerCase())
-    );
-  }, [debounced, actions]);
+  /* ------------------------------- API Call ------------------------------- */
+  useEffect(() => {
+    let mounted = true
+    setLoading(true)
 
+    fakeSearchApi(debounced).then((data) => {
+      if (mounted) {
+        setResults(data)
+        setActive(-1)
+        setLoading(false)
+      }
+    })
+
+    return () => (mounted = false)
+  }, [debounced])
+
+  /* ------------------------------ Keyboard -------------------------------- */
   const onKeyDown = useCallback(
     (e) => {
-      if (!filtered.length) return;
+      if (!results.length) return
 
       if (e.key === "ArrowDown") {
-        e.preventDefault();
-        setActive((i) => (i + 1) % filtered.length);
+        e.preventDefault()
+        setActive((i) => (i + 1) % results.length)
       }
+
       if (e.key === "ArrowUp") {
-        e.preventDefault();
-        setActive((i) => (i - 1 + filtered.length) % filtered.length);
+        e.preventDefault()
+        setActive((i) => (i - 1 + results.length) % results.length)
       }
+
+      if (e.key === "Enter" && active >= 0) {
+        console.log("Selected:", results[active])
+        setOpen(false)
+      }
+
       if (e.key === "Escape") {
-        setOpen(false);
-        setActive(-1);
+        setOpen(false)
       }
     },
-    [filtered]
-  );
+    [results, active]
+  )
 
   return (
-    <div className="relative hidden md:block w-[220px]">
+    <div className="relative hidden md:block w-[240px]">
       {/* Input */}
       <div className="relative">
         <input
@@ -143,7 +170,7 @@ export default function ActionSearchBar({ actions = ACTIONS }) {
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 150)}
           onKeyDown={onKeyDown}
-          placeholder="Search…"
+          placeholder="Search actions…"
           className={cn(
             "h-9 w-full rounded-full px-4 pr-9 text-sm",
             "bg-white/10 dark:bg-black/30",
@@ -164,7 +191,7 @@ export default function ActionSearchBar({ actions = ACTIONS }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
               >
-                <Send className="h-4 w-4 text-black/60 dark:text-white/60" />
+                <Send className="h-4 w-4 opacity-60" />
               </motion.div>
             ) : (
               <motion.div
@@ -173,7 +200,7 @@ export default function ActionSearchBar({ actions = ACTIONS }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
               >
-                <Search className="h-4 w-4 text-black/60 dark:text-white/60" />
+                <Search className="h-4 w-4 opacity-60" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -182,47 +209,62 @@ export default function ActionSearchBar({ actions = ACTIONS }) {
 
       {/* Dropdown */}
       <AnimatePresence>
-        {open && filtered.length > 0 && (
+        {open && (
           <motion.ul
             variants={listAnim}
             initial="hidden"
             animate="show"
             exit="exit"
             className={cn(
-              "absolute mt-2 w-full rounded-xl overflow-hidden",
-              "bg-white/80 dark:bg-black/70 backdrop-blur-xl",
+              "absolute mt-6 w-150 right-0 rounded-xl overflow-hidden z-50",
+              "bg-white/90 dark:bg-black/80 backdrop-blur-xl",
               "border border-white/10 shadow-xl"
             )}
           >
-            {filtered.map((a, i) => (
-              <motion.li
-                key={a.id}
-                variants={itemAnim}
-                className={cn(
-                  "px-4 py-2 flex items-center justify-between cursor-pointer",
-                  "hover:bg-black/5 dark:hover:bg-white/5 dark:text-white ",
-                  i === active && "bg-black/10 dark:bg-white/10"
-                )}
-              >
-                <div className="flex items-center gap-2">
-                  {a.icon}
-                  <div>
-                    <p className="text-sm font-medium">{a.label}</p>
-                    {a.description && (
-                      <p className="text-xs opacity-60">{a.description}</p>
-                    )}
-                  </div>
-                </div>
+            {loading && (
+              <li className="px-4 py-3 text-sm opacity-60">
+                Searching…
+              </li>
+            )}
 
-                <div className="text-xs opacity-50 flex gap-2">
-                  {a.short && <span>{a.short}</span>}
-                  {a.end && <span>{a.end}</span>}
-                </div>
-              </motion.li>
-            ))}
+            {!loading && results.length === 0 && (
+              <li className="px-4 py-3 text-sm opacity-60">
+                No results found
+              </li>
+            )}
+
+            {!loading &&
+              results.map((a, i) => {
+                const Icon = a.icon
+                return (
+                  <motion.li
+                    key={a.id}
+                    variants={itemAnim}
+                    onMouseDown={() => console.log("Selected:", a)}
+                    className={cn(
+                      "px-4 py-2 flex items-center justify-between cursor-pointer",
+                      "hover:bg-black/5 dark:hover:bg-white/5",
+                      i === active && "bg-black/10 dark:bg-white/10"
+                    )}
+                  >
+                    <div className="flex items-center gap-5">
+                      <Icon className="h-5 w-5 text-pink-400" />
+                      <div>
+                        <p className="text-sm font-medium">{a.label}</p>
+                        <p className="text-xs opacity-60">{a.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="text-xs opacity-50 flex gap-2">
+                      {a.short && <span>{a.short}</span>}
+                      {a.end && <span>{a.end}</span>}
+                    </div>
+                  </motion.li>
+                )
+              })}
           </motion.ul>
         )}
       </AnimatePresence>
     </div>
-  );
+  )
 }

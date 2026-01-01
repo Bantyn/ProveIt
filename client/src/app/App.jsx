@@ -4,6 +4,7 @@ import { useRoutes, useLocation } from "react-router-dom";
 import '../styles/App.css';
 import Navbar from '../components/ui/navbar/Navbar.jsx';
 import Footer from '../components/ui/footer/Footer.jsx';
+import {motion} from 'framer-motion';
 
 
 export default function App() {

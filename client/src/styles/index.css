@@ -4,3 +4,17 @@
     
     box-sizing: border-box;
 }
+
+/* marquee Animation */
+@keyframes marquee{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(-100%);
+    }       
+}
+.animate-marquee{
+    animation: marquee infinite 40s linear;
+
+}

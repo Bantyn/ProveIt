@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "lucide-react";
+import SectionHeader from "../../components/ui/SectionHeader.jsx";
 
 /* ----------------------------------------
    Utility: class merge
@@ -23,7 +24,7 @@ export default function FAQ ({
   return (
     <section
       className={cx(
-        "relative  px-4 py-16 bg-slate-50 dark:bg-neutral-900 text-neutral-900 dark:text-white",
+        "relative  px-4 py-16 bg-transparent dark:bg-transparent text-neutral-900 dark:text-white",
         className
       )}
     >
@@ -44,14 +45,12 @@ export default function FAQ ({
    Header
 ---------------------------------------- */
 const FAQHeader = ({ title, subtitle }) => (
-  <div className="relative z-10 mb-12 flex flex-col items-center text-center">
-    <span className="mb-3 bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-medium">
-      {subtitle}
-    </span>
-
-    <h2 className="text-4xl md:text-5xl font-bold">{title}</h2>
-
-    <span className="absolute -top-[300px] left-1/2 -translate-x-1/2 h-[450px] md:w-[550px] rounded-full bg-gradient-to-r from-violet-500/10 via-pink-500/5 to-blue-500/10 blur-3xl" />
+  <div className="relative z-10  flex flex-col items-center text-center">
+        <SectionHeader
+            badge={subtitle}
+            title={title}
+            // subtitle={subtitle}
+          />
   </div>
 );
 

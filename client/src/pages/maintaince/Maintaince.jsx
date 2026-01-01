@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect, useRef } from "react"
+import { useState,useMemo, useEffect, useRef } from "react"
 
 // Intro overlay animation variants
 const overlayVariants = {
@@ -103,7 +103,8 @@ export default function Maintance() {
   const [showIntro, setShowIntro] = useState(true)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef(null)
-  const particles = generateParticles(30)
+  const particles = useMemo(() => generateParticles(30), [])
+  const bgmRef = useRef(null)
 
   // Mouse parallax effect
   useEffect(() => {
@@ -126,13 +127,54 @@ export default function Maintance() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowIntro(false)
+      
     }, 3000)
 
     return () => clearTimeout(timer)
   }, [])
-
+  
+  // Music
+  // Init BGM
+  useEffect(() => {
+    const audio = new Audio("../../../public/assets/bgm_effects/ambient.mp3")
+    audio.loop = true
+    audio.muted = true
+    audio.volume = 0
+    bgmRef.current = audio
+  
+    return () => {
+      audio.pause()
+      audio.currentTime = 0
+    }
+  }, [])
+  
+  useEffect(() => {
+    if (!showIntro && bgmRef.current) {
+      const audio = bgmRef.current
+      audio.muted = false
+      const playAudio = () => {
+        audio.play().then(() => {
+          let vol = 0
+          const fade = setInterval(() => {
+            vol += 0.02
+            if (vol >= 0.35) {
+              vol = 0.35
+              clearInterval(fade)
+            }
+            audio.volume = vol
+          }, 100)
+        })
+      }
+  
+      playAudio()
+  
+      window.addEventListener("click", playAudio, { once: true })
+    }
+  }, [showIntro])
+  
+  
   return (
-    <div ref={containerRef} className="relative h-screen w-full overflow-hidden bg-slate-50 dark:bg-black">
+    <div ref={containerRef} className="selection:bg-pink-500/30 selection:text-white relative h-screen w-full overflow-hidden bg-slate-50 dark:bg-black">
       {/* Base background with subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-neutral-900 dark:via-slate-800 dark:to-neutral-900" />
 
@@ -460,9 +502,15 @@ export default function Maintance() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="font-bold text-7xl md:text-8xl bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 bg-clip-text text-transparent tracking-tight"
+                className="font-bold flex flex-col md:flex-row items-center justify-center gap-2 text-7xl md:text-8xl bg-gradient-to-r from-violet-400 via-pink-400 to-blue-400 bg-clip-text text-transparent tracking-tight"
               >
-                ProveIt.io
+                <img 
+                  src="../../../public/assets/logo/logo.png"
+                  alt="ProveIt.io"
+                  className="w-20 md:w-30 h-auto object-contain"
+                />
+                <span className="hidden md:block -ml-5 mt-10">roveIt.io</span>
+                <span className="block md:hidden text-5xl">ProveIt.io</span>
               </motion.h1>
             </motion.div>
           </motion.div>
@@ -532,9 +580,13 @@ export default function Maintance() {
                 Powered by <span className="text-slate-800 dark:text-white/80 font-bold">ProveIt.io</span>
               </p>
             </motion.div>
+
+
           </motion.div>
         )}
       </AnimatePresence>
+
+      
     </div>
   )
 }
