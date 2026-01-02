@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
 import Dropdown from "./Dropdown.jsx";
@@ -21,8 +21,7 @@ import {
   Bot,
   BarChart2,
   LayoutDashboard,
-  Building2
-  
+  Building2,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -50,15 +49,19 @@ export default function Navbar() {
     { name: "Post Competition", url: "/company/post", icon: Upload },
     { name: "Competitions", url: "/company/competitions", icon: Bot },
     { name: "Analytics", url: "/company/analytics", icon: BarChart2 },
-    { name: "Messages", url: "/company/messages", icon:  MessageCircle },
+    { name: "Messages", url: "/company/messages", icon: MessageCircle },
   ];
 
   // CLIENT MENU
   const clientItems = [
-    { name: "Dashboard", url: "/client/emplyee_dashboard", icon: LayoutDashboard },
+    {
+      name: "Dashboard",
+      url: "/client/emplyee_dashboard",
+      icon: LayoutDashboard,
+    },
     { name: "Competitions", url: "/competitions", icon: Bot },
     { name: "Submissions", url: "/submissions", icon: Upload },
-    { name: "Messages", url: "/messages", icon:  MessageCircle },
+    { name: "Messages", url: "/messages", icon: MessageCircle },
   ];
 
   // GUEST MENU
@@ -111,57 +114,96 @@ export default function Navbar() {
   /* RENDER */
   /* ------------------------------------------------------------------ */
 
-
-const handleLogoClick = () => {
-  if (!isLoggedIn) {
-    navigate("/");
-  } else if (role === "company") {
-    navigate("/company/emplyee_dashboard");
-  } else {
-    navigate("/client/emplyee_dashboard");
-  }
-};
+  const handleLogoClick = () => {
+    if (!isLoggedIn) {
+      navigate("/");
+    } else if (role === "company") {
+      navigate("/company/emplyee_dashboard");
+    } else {
+      navigate("/client/emplyee_dashboard");
+    }
+  };
 
   return (
     <motion.div
-      initial={false}
-      animate={{ y: hidden ? -120 : 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ y: hidden ? -120 : 0, opacity: 1 }}
       transition={{
         duration: 0.35,
         ease: "easeOut",
-        delay: hidden ? 2 : 0,
+        delay: hidden ? 2 : 0.5,
       }}
-      className="fixed z-50 left-1/2 -translate-x-1/2 top-4 md:top-0"
+      className="fixed z-100 left-1/2 -translate-x-1/2 top-4 md:top-0"
     >
+
+
+       {/* <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ y: hidden ? -120 : 0, opacity: 1 }}
+      transition={{
+        duration: 0.35,
+        ease: "easeOut",
+        delay: hidden ? 2 : 0.5,
+      }}
+      className={clsx(
+        "absolute w-13 h-13 rounded-full inset-0 md:hidden -left-13  items-center justify-center  backdrop-blur-[6px] shadow-lg shadow-black/8",
+        "bg-black/5 dark:bg-white/5 border-white/5",
+        "rounded-full",
+        !scrolled &&
+          "md:w-screen md:rounded-none md:rounded-b-2xl md:px-10 md:py-4",
+        scrolled && "md:mt-5 md:w-auto md:rounded-full"
+      )}
+    ></motion.div> */}
+
+
+      {/* <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ y: hidden ? -120 : 0, opacity: 1 }}
+      transition={{
+        duration: 0.35,
+        ease: "easeOut",
+        delay: hidden ? 2 : 0.5,
+      }}
+      className={clsx(
+        "absolute w-13 h-13 rounded-full inset-0 md:hidden left-82 items-center justify-center  backdrop-blur-[6px] shadow-lg shadow-black/8",
+        "bg-black/5 dark:bg-white/5 border-white/5",
+        "rounded-full",
+        !scrolled &&
+          "md:w-screen md:rounded-none md:rounded-b-2xl md:px-10 md:py-4",
+        scrolled && "md:mt-5 md:w-auto md:rounded-full"
+      )}
+    ></motion.div> */}
+
+
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 260, damping: 28 }}
         className={clsx(
-          "flex items-center justify-center gap-2 px-2 py-2 border backdrop-blur-[6px] shadow-xl",
-          "bg-white/10 dark:bg-black/30 border-white/10",
+          "flex items-center justify-center gap-2 px-2 py-2 border backdrop-blur-[6px] shadow-lg shadow-black/8",
+          "bg-black/5 dark:bg-white/5 border-white/5",
           "rounded-full",
           !scrolled &&
             "md:w-screen md:rounded-none md:rounded-b-2xl md:px-10 md:py-4",
-          scrolled && "mt-5 md:w-auto md:rounded-full"
+          scrolled && "md:mt-5 md:w-auto md:rounded-full"
         )}
       >
         {/* LOGO */}
         <button
-  onClick={handleLogoClick}
-  className="hidden md:block px-4 text-lg font-extrabold 
+          onClick={handleLogoClick}
+          className="hidden md:block px-4 text-lg font-extrabold 
   bg-gradient-to-r from-violet-400 to-blue-400 
   bg-clip-text text-transparent
   cursor-pointer hover:scale-105 transition-transform duration-300"
->
-  ProveIt.io
-</button>
-
+        >
+          ProveIt.io
+        </button>
         {/* NAV ITEMS */}
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.name;
 
           return (
+            
             <Link
               key={item.name}
               title={item.name}
@@ -173,14 +215,13 @@ const handleLogoClick = () => {
                 isActive && "text-black dark:text-violet-400"
               )}
             >
-              
               {/* Desktop */}
-              <span 
-              className={clsx("hidden",!scrolled && "md:inline")}
-              >{item.name}</span>
+              <span className={clsx("hidden", !scrolled && "md:inline")}>
+                {item.name}
+              </span>
 
               {/* Mobile */}
-              <span className={clsx("md:hidden",scrolled && "md:inline")}>
+              <span className={clsx("md:hidden ", scrolled && "md:inline")}>
                 <Icon size={20} strokeWidth={2.2} />
               </span>
 
@@ -194,10 +235,14 @@ const handleLogoClick = () => {
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                   >
                     {/* GLOW */}
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 
-                    w-8 h-1 bg-black dark:bg-violet-300 rounded-t-full">
-                      <div className="absolute w-12 h-6 
-                      bg-black/30 dark:bg-violet-400/40 blur-md -top-2 -left-2" />
+                    <div
+                      className="absolute -top-2 left-1/2 -translate-x-1/2 
+                    w-8 h-1 bg-black dark:bg-violet-300 rounded-t-full"
+                    >
+                      <div
+                        className="absolute w-12 h-6 
+                      bg-black/30 dark:bg-violet-400/40 blur-md -top-2 -left-2"
+                      />
                     </div>
                   </motion.div>
                 )}
