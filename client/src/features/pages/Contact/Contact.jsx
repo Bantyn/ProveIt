@@ -1586,13 +1586,13 @@ const Contact = () => {
       <ContactHero darkMode={darkMode ? 'dark bg-black' : 'bg-white'} />
       <ContactSection darkMode={darkMode} setDarkMode={setDarkMode} />
       <FAQ
-          title="Frequently Asked Questions"
-          subtitle="Let's answer some questions"
-          categories={categories}
-          faqData={faqData}
-        />
+        title="Frequently Asked Questions"
+        subtitle="Let's answer some questions"
+        categories={categories}
+        faqData={faqData}
+      />
 
-        <Earth />
+      <Earth />
     </div>
   );
 };
