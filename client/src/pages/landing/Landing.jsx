@@ -684,7 +684,7 @@ export const FloatingIconsHero = React.forwardRef(
           ref={ref}
           onMouseMove={handleMouseMove}
           className={clsx(
-            "relative w-full h-screen flex items-center justify-center bg-white dark:bg-black ",
+            "relative w-full h-screen flex items-center justify-center bg-transparent",
             className
           )}
           {...props}

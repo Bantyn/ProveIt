@@ -133,21 +133,6 @@ export default function Maintance() {
     return () => clearTimeout(timer)
   }, [])
   
-  // Music
-  // Init BGM
-  useEffect(() => {
-    const audio = new Audio("../../../public/assets/bgm_effects/ambient.mp3")
-    audio.loop = true
-    audio.muted = true
-    audio.volume = 0
-    bgmRef.current = audio
-  
-    return () => {
-      audio.pause()
-      audio.currentTime = 0
-    }
-  }, [])
-  
   useEffect(() => {
     if (!showIntro && bgmRef.current) {
       const audio = bgmRef.current
@@ -174,9 +159,9 @@ export default function Maintance() {
   
   
   return (
-    <div ref={containerRef} className="selection:bg-pink-500/30 selection:text-white relative h-screen w-full overflow-hidden bg-slate-50 dark:bg-black">
-      {/* Base background with subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-neutral-900 dark:via-slate-800 dark:to-neutral-900" />
+    <>
+    
+    <div ref={containerRef} className="selection:bg-pink-500/30 selection:text-white relative overflow-hidden h-screen w-full  bg-slate-50 dark:bg-black">
 
       {/* Half Sun - Center */}
       <div
@@ -588,5 +573,14 @@ export default function Maintance() {
 
       
     </div>
+
+    <AnimatePresence>
+        {!showIntro && (
+    <div className="h-[400vh] w-full"></div>
+        )}
+      </AnimatePresence>
+
+    </>
+
   )
 }

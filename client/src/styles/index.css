@@ -18,3 +18,37 @@
     animation: marquee infinite 40s linear;
 
 }
+
+body{
+    scroll-behavior: smooth;
+    /* user-select: none; */
+    box-sizing: border-box;
+    background-color: #282539;
+    color: #76ABAE;
+}
+
+body::-webkit-scrollbar{
+    position: absolute;
+    background: transparent;
+    width: 5px;
+    transition-duration: 1s;
+}
+body::-webkit-scrollbar-thumb{
+    background: linear-gradient(to top, var(--color-violet-500),var(--color-blue-300));
+    border-radius: 50px;
+    transition-duration: 1s;
+}
+body::-webkit-scrollbar-thumb:hover{
+    background: linear-gradient(to top, var(--color-blue-300),var(--color-violet-500));
+    border-radius: 50px;
+    transition-duration: 1s;
+}
+
+.x-none-scrollBar::-webkit-scrollbar{
+    display: none;
+}
+
+.x-none-scrollBar{
+    scroll-behavior: smooth;
+}
+
