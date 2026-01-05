@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ContactHero from '../../ContactCom/ContactHero';
 import ContactSection from '../../ContactCom/ContactSection';
 import FAQ from './FAQ';
-import Earth from '../../ContactCom/Earth'
+
 const Contact = () => {
   const [darkMode, setDarkMode] = useState(true);
   const categories = {
@@ -58,7 +58,6 @@ const Contact = () => {
         faqData={faqData}
       />
 
-      <Earth />
     </div>
   );
 };
