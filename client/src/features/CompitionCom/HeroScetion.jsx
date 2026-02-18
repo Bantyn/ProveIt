@@ -1,433 +1,540 @@
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  ArrowRight,
-  Sparkles,
-  GraduationCap,
-  Code2,
-  Trophy,
-  Users,
-  Calendar,
-  Award,
-  ChevronRight,
-  Moon,
-  Sun,
-  Zap,
-  Target,
-  Rocket,
-  Star
-} from "lucide-react";
-import { useState, useEffect } from "react";
+import { Sparkles, Moon, Sun, ArrowRight, Target, Trophy, Users } from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import RightSectionWithLottie from "./RightSectionWithLottie";
 
-const HeroSection = () => {
+// ENLARGED ANIMATION CONSTANTS WITH REDUCED MOTION SUPPORT
+const createAnimations = (reduceMotion) => ({
+  fadeInUp: {
+    initial: { opacity: 0, y: reduceMotion ? 0 : 40 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+  },
+  staggerContainer: {
+    animate: {
+      transition: {
+        staggerChildren: reduceMotion ? 0 : 0.15,
+        delayChildren: reduceMotion ? 0 : 0.3
+      }
+    }
+  }
+});
+
+// ========================================
+// NEW GRADIENT SYSTEM WITH FRESH LIGHT THEME
+// ========================================
+const GRADIENTS = {
+  brand: {
+    light: "linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #F59E0B 100%)", // Purple → Pink → Amber
+    dark: "linear-gradient(135deg, #0891B2 0%, #7C3AED 50%, #059669 100%)", // Increased contrast
+  },
+  premium: {
+    light: "linear-gradient(135deg, #8B5CF6, #EC4899, #F59E0B)", // Purple → Pink → Amber
+    dark: "linear-gradient(135deg, #0891B2, #7C3AED, #059669)", // Increased contrast
+  },
+};
+
+// USING GLOBAL THEME_TOKENS FROM utils/theme.js
+import { THEME_TOKENS as GLOBAL_TOKENS } from "../../utils/theme";
+
+// ========================================
+// UPDATED LIGHT BACKGROUND WITH NEW COLORS
+// ========================================
+const LightBackground = () => {
   const shouldReduceMotion = useReducedMotion();
-  const [theme, setTheme] = useState("light");
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === "light" ? "dark" : "light");
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* New color scheme: Violet, Pink, Amber */}
+      <div className="absolute inset-0 opacity-40">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-violet-300 rounded-full mix-blend-multiply filter blur-[120px] opacity-25" />
+        <div className="absolute bottom-1/4 left-1/3 w-[450px] h-[450px] bg-pink-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-25" />
+        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-amber-100 rounded-full mix-blend-multiply filter blur-[90px] opacity-20" />
+      </div>
+
+      {/* Updated grid pattern color */}
+      <div
+        className="absolute inset-0 opacity-8"
+        style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, #8B5CF6 1.5px, transparent 0)`,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Updated particles with new colors */}
+      {!shouldReduceMotion && [...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: Math.random() * 6 + 3 + 'px',
+            height: Math.random() * 6 + 3 + 'px',
+            background: i % 3 === 0
+              ? 'rgba(139, 92, 246, 0.4)' // Violet
+              : i % 3 === 1
+                ? 'rgba(236, 72, 153, 0.4)' // Pink
+                : 'rgba(245, 158, 11, 0.4)', // Amber
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [0.3, 0.9, 0.3],
+          }}
+          transition={{
+            duration: 6 + Math.random() * 4,
+            repeat: Infinity,
+            delay: i * 0.5,
+          }}
+          aria-hidden="true"
+        />
+      ))}
+    </div>
+  );
+};
+
+const DarkBackground = () => {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Reduced animated elements */}
+      <div className="absolute inset-0 opacity-50">
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-900 rounded-full mix-blend-multiply filter blur-[150px] opacity-40" />
+        <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-blue-900 rounded-full mix-blend-multiply filter blur-[150px] opacity-40" />
+      </div>
+
+      {/* Reduced number of stars */}
+      {!shouldReduceMotion && [...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: Math.random() * 4 + 2 + 'px',
+            height: Math.random() * 4 + 2 + 'px',
+            background: `rgba(96, 165, 250, ${0.4 + Math.random() * 0.6})`,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [0.2, 0.8, 0.2],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 4,
+            repeat: Infinity,
+            delay: i * 0.2,
+          }}
+          aria-hidden="true"
+        />
+      ))}
+    </div>
+  );
+};
+
+// ========================================
+// UPDATED THEME TOGGLE WITH NEW COLORS
+// ========================================
+const ThemeToggle = ({ theme, toggleTheme }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const buttonRef = useRef(null);
+
+  return (
+    <motion.button
+      ref={buttonRef}
+      onClick={toggleTheme}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="fixed top-8 right-8 z-50 p-3.5 rounded-full backdrop-blur-xl border shadow-2xl focus:outline-none focus:ring-4 focus:ring-violet-500/50 transition-all"
+      style={{
+        background: theme === "light"
+          ? "linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.9))"
+          : "linear-gradient(135deg, rgba(17, 24, 39, 0.97), rgba(31, 41, 55, 0.9))",
+        borderColor: theme === "light" ? "rgba(168, 85, 247, 0.25)" : "rgba(59, 130, 246, 0.3)",
+        boxShadow: theme === "light" ? "0 25px 70px rgba(168, 85, 247, 0.15)" : "0 25px 70px rgba(37, 99, 235, 0.3)",
+      }}
+      animate={{
+        scale: isHovered ? 1.15 : 1,
+        rotate: isHovered ? 180 : 0,
+      }}
+      transition={{ duration: 0.4 }}
+      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      role="switch"
+      aria-checked={theme === 'dark'}
+    >
+      {theme === "light" ? (
+        <Moon className="size-6 text-violet-600" aria-hidden="true" />
+      ) : (
+        <Sun className="size-6 text-yellow-400" aria-hidden="true" />
+      )}
+    </motion.button>
+  );
+};
+
+// ========================================
+// UPDATED GRADIENT BADGE WITH NEW COLORS
+// ========================================
+const GradientBadge = ({ theme, text }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      whileHover={!shouldReduceMotion ? { scale: 1.05 } : {}}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-xl"
+      style={{
+        background: theme === "light"
+          ? "rgba(139, 92, 246, 0.12)"
+          : "rgba(96, 165, 250, 0.18)",
+        border: `2px solid ${theme === "light" ? "rgba(139, 92, 246, 0.35)" : "rgba(96, 165, 250, 0.45)"}`,
+        boxShadow: `0 8px 32px ${theme === "light" ? "rgba(139, 92, 246, 0.25)" : "rgba(96, 165, 250, 0.3)"}`,
+      }}
+      role="status"
+      aria-label={text}
+    >
+      <motion.div
+        animate={!shouldReduceMotion ? { rotate: isHovered ? 360 : 0 } : {}}
+        transition={{ duration: 0.6 }}
+      >
+        <Sparkles className={`size-5 ${theme === "light" ? "text-violet-600" : "text-blue-400"}`} aria-hidden="true" />
+      </motion.div>
+      <span
+        className="text-base font-bold tracking-wider"
+        style={{
+          backgroundImage: GRADIENTS.brand[theme],
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          color: 'transparent',
+        }}
+      >
+        {text}
+      </span>
+    </motion.div>
+  );
+};
+
+// ========================================
+// UPDATED CTA BUTTON WITH NEW GRADIENT
+// ========================================
+const PrimaryCTA = ({ theme, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+  const buttonRef = useRef(null);
+
+  return (
+    <motion.button
+      ref={buttonRef}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative px-8 py-4 rounded-2xl font-bold text-lg tracking-wide transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-violet-500/50 shadow-2xl"
+      style={{
+        background: GRADIENTS.brand[theme],
+        color: "#FFFFFF",
+      }}
+      animate={!shouldReduceMotion ? {
+        scale: isHovered ? 1.05 : 1,
+        boxShadow: isHovered
+          ? `0 20px 60px ${theme === 'light' ? 'rgba(139, 92, 246, 0.4)' : 'rgba(37, 99, 235, 0.6)'}`
+          : `0 10px 40px ${theme === 'light' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(37, 99, 235, 0.4)'}`,
+      } : {}}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.3 }}
+      aria-label="Start coding challenge - Join 15K+ developers"
+      role="button"
+    >
+      <span className="flex items-center gap-3">
+        Start Free Challenge
+        <motion.span
+          animate={!shouldReduceMotion ? { x: isHovered ? 8 : 0 } : {}}
+          transition={{ duration: 0.2 }}
+        >
+          <ArrowRight className="size-5" aria-hidden="true" />
+        </motion.span>
+      </span>
+
+      {/* Ripple effect */}
+      {!shouldReduceMotion && (
+        <motion.span
+          className="absolute inset-0 rounded-2xl bg-white/20"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={isHovered ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.4 }}
+          aria-hidden="true"
+        />
+      )}
+    </motion.button>
+  );
+};
+
+// ========================================
+// UPDATED FEATURE PILLS WITH NEW COLORS
+// ========================================
+const FeaturePills = ({ theme }) => {
+  const colorMap = {
+    purple: { light: '#8B5CF6', dark: '#60A5FA' },
+    pink: { light: '#EC4899', dark: '#3B82F6' },
+    orange: { light: '#F59E0B', dark: '#06B6D4' }
+  };
+
+  const features = [
+    { icon: Target, text: "Real Challenges", colorKey: 'purple' },
+    { icon: Trophy, text: "Win Prizes", colorKey: 'pink' },
+    { icon: Users, text: "15K+ Community", colorKey: 'orange' },
+  ];
+
+  return (
+    <div className="flex flex-wrap justify-center lg:justify-start gap-2">
+      {features.map((feature, index) => (
+        <div
+          key={index}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm border"
+          style={{
+            background: theme === 'light'
+              ? 'rgba(255, 255, 255, 0.9)'
+              : 'rgba(31, 41, 55, 0.9)',
+            borderColor: theme === 'light'
+              ? 'rgba(139, 92, 246, 0.2)'
+              : 'rgba(96, 165, 250, 0.3)',
+          }}
+          role="listitem"
+        >
+          <feature.icon
+            className="size-3.5"
+            style={{ color: colorMap[feature.colorKey][theme] }}
+            aria-hidden="true"
+          />
+          <span
+            className="text-xs font-medium whitespace-nowrap"
+            style={{ color: theme === 'light' ? '#2E1065' : '#F8FAFC' }}
+          >
+            {feature.text}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// ========================================
+// MAIN COMPONENT - UPDATED LIGHT THEME
+// ========================================
+const HeroSection = ({ themeMode, onThemeToggle }) => {
+  const shouldReduceMotion = useReducedMotion();
+  const [internalTheme, setInternalTheme] = useState("light");
+
+  const theme = themeMode || internalTheme;
+  const toggleTheme = onThemeToggle || (() => setInternalTheme(prev => prev === "light" ? "dark" : "light"));
+
+  const animations = useMemo(() => createAnimations(shouldReduceMotion), [shouldReduceMotion]);
+
+  const handleCTAClick = () => {
+    // Implement your CTA action here
+    console.log('CTA clicked - redirect to signup/challenge');
+    // Example: router.push('/signup')
   };
 
   useEffect(() => {
-    document.documentElement.className = theme;
-  }, [theme]);
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-  };
-
-  const staggerContainer = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
+    if (!themeMode) { // Only manipulate DOM if self-managed or forced? Actually, standard theme behavior usually touches DOM. 
+      // Let's keep it but maybe we should rely on parent? 
+      // If parent manages it, parent might handle DOM. 
+      // But for safety, let's keep consistency.
+      const root = document.documentElement;
+      root.classList.remove("light", "dark");
+      root.classList.add(theme);
     }
-  };
-
-  // Enhanced colors with glow effects
-  const gradients = {
-    light: {
-      background: "bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50",
-      primary: "from-blue-500 via-purple-500 to-pink-500",
-      secondary: "from-amber-400 via-orange-400 to-red-400",
-      accent: "from-emerald-400 via-teal-400 to-cyan-400",
-      glowPrimary: "shadow-blue-500/30",
-      glowSecondary: "shadow-purple-500/30",
-      glowAccent: "shadow-pink-500/30",
-      card: "bg-white/95 backdrop-blur-sm",
-      text: "text-slate-900",
-      subtext: "text-slate-600",
-      border: "border-slate-200",
-      badge: "bg-gradient-to-r from-blue-500/10 to-purple-500/10",
-      glass: "bg-white/90 backdrop-blur-md",
-      stats: "bg-gradient-to-br from-white to-slate-50"
-    },
-    dark: {
-      background: "bg-gradient-to-br from-slate-900 via-blue-900/20 to-purple-900/20",
-      primary: "from-cyan-400 via-blue-400 to-purple-400",
-      secondary: "from-amber-300 via-orange-300 to-pink-300",
-      accent: "from-emerald-300 via-teal-300 to-cyan-300",
-      glowPrimary: "shadow-cyan-500/40",
-      glowSecondary: "shadow-blue-500/40",
-      glowAccent: "shadow-purple-500/40",
-      card: "bg-slate-900/95 backdrop-blur-sm",
-      text: "text-white",
-      subtext: "text-slate-300",
-      border: "border-slate-700",
-      badge: "bg-gradient-to-r from-cyan-500/10 to-blue-500/10",
-      glass: "bg-slate-900/90 backdrop-blur-md",
-      stats: "bg-gradient-to-br from-slate-900 to-slate-800"
+    // If themeMode is provided, we assume parent might handle global theme class, 
+    // OR we should still handle it here to ensure this component looks right?
+    // Given the component styling relies on CSS module/Tailwind classes that might depend on valid parent class... 
+    // Actually, this component uses `tokens` object mostly.
+    // But `dark:` variants in Tailwind need the class on html/body.
+    if (themeMode) {
+      const root = document.documentElement;
+      root.classList.remove("light", "dark");
+      root.classList.add(theme);
     }
-  };
+  }, [theme, themeMode]);
 
-  const current = gradients[theme];
-  const particles = Array.from({ length: 12 }, (_, i) => i);
+  const tokens = useMemo(() => GLOBAL_TOKENS[theme], [theme]);
 
   return (
-    <div className={`relative min-h-screen overflow-hidden transition-all duration-500 ${current.background}`}>
-      
-      {/* GLOWING GRADIENT BACKGROUND */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Primary glowing orbs with strong glow */}
-        <div className={`absolute top-1/4 -left-48 w-[700px] h-[700px] rounded-full bg-gradient-to-r ${current.primary} opacity-20 blur-3xl animate-pulse ${theme === 'light' ? 'shadow-2xl shadow-blue-500/20' : 'shadow-2xl shadow-cyan-500/20'}`} />
-        <div className={`absolute bottom-1/4 -right-48 w-[700px] h-[700px] rounded-full bg-gradient-to-r ${current.secondary} opacity-20 blur-3xl animate-pulse delay-1000 ${theme === 'light' ? 'shadow-2xl shadow-pink-500/20' : 'shadow-2xl shadow-purple-500/20'}`} />
-        
-        {/* Floating glowing particles */}
-        {particles.map((i) => (
-          <div
-            key={i}
-            className={`absolute rounded-full ${i % 4 === 0 ? 'bg-blue-400/40' : i % 4 === 1 ? 'bg-purple-400/40' : i % 4 === 2 ? 'bg-pink-400/40' : 'bg-cyan-400/40'} animate-bounce ${theme === 'light' ? 'shadow-lg shadow-blue-500/20' : 'shadow-lg shadow-cyan-500/20'}`}
-            style={{
-              width: `${2 + (i % 3)}px`,
-              height: `${2 + (i % 3)}px`,
-              left: `${5 + (i * 8)}%`,
-              top: `${15 + (i * 6)}%`,
-              animationDelay: `${i * 0.3}s`,
-              animationDuration: `${2 + (i % 3)}s`
-            }}
-          />
-        ))}
-        
-        {/* Grid with subtle glow */}
-        <div className={`absolute inset-0 ${theme === 'light' ? 'bg-grid-light-glow' : 'bg-grid-dark-glow'}`} />
-      </div>
+    <div
+      className={`relative py-12 md:py-20 lg:py-24 overflow-hidden transition-all duration-500`}
+      role="banner"
+      aria-label="Hero section"
+    >
+      {/* Enhanced Background with reduced animations */}
+      {theme === "light" ? <LightBackground /> : <DarkBackground />}
 
-      {/* GLOWING THEME TOGGLE */}
-      <motion.button
-        onClick={toggleTheme}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className={`fixed top-6 right-6 z-50 p-3 rounded-full ${theme === 'light' ? 'bg-white/20' : 'bg-slate-800/30'} backdrop-blur-lg border ${theme === 'light' ? 'border-white/30' : 'border-slate-600/50'} shadow-lg ${theme === 'light' ? 'shadow-blue-500/20' : 'shadow-cyan-500/30'} hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300`}
-        aria-label="Toggle theme"
-      >
-        {theme === 'light' ? 
-          <Moon className="size-5 text-slate-700" /> : 
-          <Sun className="size-5 text-amber-300" />
-        }
-      </motion.button>
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-32 pb-16 lg:pb-24">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 lg:pt-16 pb-8 lg:pb-12">
         <motion.div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center"
-          variants={staggerContainer}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center"
+          variants={animations.staggerContainer}
           initial="initial"
           animate="animate"
         >
-          
-          {/* LEFT CONTENT */}
+          {/* LEFT CONTENT - ENHANCED FOR MOBILE */}
           <motion.div
-            className="lg:col-span-6 flex flex-col gap-10 text-center lg:text-left"
-            variants={fadeInUp}
+            className="lg:col-span-6 flex flex-col gap-8 text-center lg:text-left"
+            variants={animations.fadeInUp}
           >
-            
-            {/* GLOWING BADGE */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-full ${current.badge} border ${current.border} backdrop-blur-lg w-fit mx-auto lg:mx-0 group hover:scale-105 transition-all duration-300 ${theme === 'light' ? 'shadow-lg shadow-blue-500/10' : 'shadow-lg shadow-cyan-500/10'} hover:shadow-xl hover:shadow-blue-500/20`}
-            >
-              <div className="relative">
-                <Sparkles className={`size-5 ${theme === 'light' ? 'text-blue-500' : 'text-cyan-400'} animate-pulse`} />
-                <div className={`absolute -inset-1 ${theme === 'light' ? 'bg-blue-500/30' : 'bg-cyan-400/30'} blur rounded-full`} />
-              </div>
-              <span className={`text-sm font-semibold bg-gradient-to-r ${current.primary} bg-clip-text text-transparent tracking-wide`}>
-                Join 10,000+ Student Builders
-              </span>
-              <ChevronRight className={`size-4 ${theme === 'light' ? 'text-blue-500' : 'text-cyan-400'} group-hover:translate-x-1 transition-transform`} />
-            </motion.div>
+            <div className="flex flex-col items-center lg:items-start gap-6">
+              <GradientBadge
+                theme={theme}
+                text="Join 15K+ Elite Developers"
+              />
 
-            {/* HEADLINE WITH GLOW */}
-            <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-                <span className={current.text}>
-                  Where{" "}
-                  <span className="relative inline-block">
-                    <span className={`relative z-10 bg-gradient-to-r ${current.primary} bg-clip-text text-transparent drop-shadow-lg`}>
-                      Students
+              {/* HEADLINE WITH UPDATED GRADIENTS */}
+              <div className="space-y-6">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
+                  <span className={`block ${tokens.textPrimary}`}>
+                    Code Like a{" "}
+                    <span className="relative inline-block">
+                      <span className="absolute -inset-6 bg-gradient-to-r from-violet-500/25 to-pink-500/25 rounded-3xl blur-2xl" aria-hidden="true" />
+                      <motion.span
+                        className="relative z-10 bg-clip-text text-transparent"
+                        style={{
+                          backgroundImage: GRADIENTS.premium[theme],
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                        }}
+                        animate={!shouldReduceMotion ? {
+                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                        } : {}}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      >
+                        Pro
+                      </motion.span>
                     </span>
-                    <div className={`absolute -bottom-2 left-0 right-0 h-3 ${theme === 'light' ? 'bg-blue-100' : 'bg-blue-900/40'} -rotate-1 blur-sm opacity-70`} />
-                  </span>{" "}
-                  Build
-                </span>
-                <br />
-                <span className={current.text}>
-                  Their{" "}
-                  <span className="relative inline-block">
-                    <span className={`relative z-10 bg-gradient-to-r ${current.secondary} bg-clip-text text-transparent drop-shadow-lg`}>
-                      Future
-                    </span>
-                    <div className={`absolute -bottom-2 left-0 right-0 h-3 ${theme === 'light' ? 'bg-pink-100' : 'bg-pink-900/40'} rotate-1 blur-sm opacity-70`} />
                   </span>
-                </span>
-              </h1>
-              
-              <p className={`text-xl leading-relaxed max-w-2xl ${current.subtext} drop-shadow-sm`}>
-                Compete in real-world hackathons, showcase your skills on live leaderboards, 
-                and connect with companies looking for the next generation of innovators.
-              </p>
-            </div>
 
-            {/* GLOWING STATS */}
-            <motion.div
-              className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-center lg:justify-start"
-              variants={fadeInUp}
-            >
-              {[
-                { icon: Users, value: "500+", label: "Active Teams", gradient: "from-blue-500 to-cyan-500", glow: "shadow-blue-500/20" },
-                { icon: Trophy, value: "$100K+", label: "In Prizes", gradient: "from-purple-500 to-pink-500", glow: "shadow-purple-500/20" },
-                { icon: Calendar, value: "50+", label: "Challenges", gradient: "from-pink-500 to-rose-500", glow: "shadow-pink-500/20" },
-                { icon: Award, value: "200+", label: "Success Stories", gradient: "from-amber-500 to-orange-500", glow: "shadow-amber-500/20" }
-              ].map((stat, index) => (
-                <div 
-                  key={index} 
-                  className={`p-4 rounded-2xl ${current.stats} border ${current.border} backdrop-blur-sm shadow-lg ${stat.glow} hover:shadow-xl hover:scale-105 transition-all duration-300 group`}
+                  <span className={`block ${tokens.textPrimary}`}>
+                    <span className="relative">
+                      Compete for{" "}
+                      <motion.span
+                        animate={!shouldReduceMotion ? {
+                          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                        } : {}}
+                        transition={{
+                          duration: 3.5,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                        className="inline-block bg-gradient-to-r from-violet-600 via-pink-600 to-amber-600 bg-[length:250%_auto] bg-clip-text text-transparent font-black"
+                      >
+                        Glory
+                      </motion.span>
+                    </span>
+                  </span>
+
+                  <span className={`block ${tokens.textPrimary}`}>
+                    Build Your{" "}
+                    <span className="relative">
+                      <motion.span
+                        className="inline-block"
+                        animate={!shouldReduceMotion ? {
+                          textShadow: [
+                            "0 0 30px rgba(139, 92, 246, 0.6)",
+                            "0 0 60px rgba(139, 92, 246, 1)",
+                            "0 0 30px rgba(139, 92, 246, 0.6)"
+                          ]
+                        } : {}}
+                        transition={{ duration: 2.5, repeat: Infinity }}
+                        style={{
+                          backgroundImage: theme === "light"
+                            ? "linear-gradient(90deg, #8B5CF6, #EC4899)"
+                            : "linear-gradient(90deg, #0891B2, #7C3AED)",
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          color: 'transparent',
+                        }}
+                      >
+                        Legacy
+                      </motion.span>
+                    </span>
+                  </span>
+                </h1>
+
+                {/* SUBTITLE WITH REDUCED ANIMATION */}
+                <motion.p
+                  className={`text-xl sm:text-1xl max-w-1xl mx-auto lg:mx-0 leading-relaxed ${tokens.textSecondary}`}
+                  animate={!shouldReduceMotion ? {
+                    opacity: [0.8, 1, 0.8],
+                  } : {}}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.gradient} shadow-lg`}>
-                      <stat.icon className="size-5 text-white drop-shadow" />
-                    </div>
-                    <div>
-                      <div className={`text-2xl font-bold ${current.text} group-hover:scale-105 transition-transform`}>
-                        {stat.value}
-                      </div>
-                      <div className={`text-sm ${current.subtext} mt-1`}>{stat.label}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* GLOWING CTA BUTTONS */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-              variants={fadeInUp}
-            >
-              <motion.button
-                whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`
-                  group relative
-                  h-14 px-8 rounded-xl
-                  bg-gradient-to-r ${current.primary}
-                  shadow-2xl ${theme === 'light' ? 'shadow-blue-500/30' : 'shadow-cyan-500/40'}
-                  text-white font-semibold text-lg
-                  flex items-center justify-center gap-3
-                  overflow-hidden
-                  hover:shadow-3xl hover:shadow-blue-500/40
-                  transition-all duration-300
-                `}
-              >
-                {/* Enhanced shine effect */}
-                <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                
-                {/* Inner glow */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <Rocket className="size-5 group-hover:rotate-12 transition-transform drop-shadow" />
-                <span className="drop-shadow">Start Building Now</span>
-                <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform drop-shadow" />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: shouldReduceMotion ? 1 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`
-                  h-14 px-8 rounded-xl
-                  border-2 ${current.border}
-                  ${current.glass}
-                  ${current.text} font-semibold text-lg
-                  shadow-lg ${theme === 'light' ? 'shadow-slate-500/10' : 'shadow-slate-700/30'}
-                  hover:shadow-xl hover:shadow-blue-500/20
-                  transition-all duration-300
-                  flex items-center justify-center gap-2
-                  hover:border-blue-400/50
-                `}
-              >
-                <Target className="size-5" />
-                How It Works
-              </motion.button>
-            </motion.div>
-
-            {/* TRUST SIGNALS WITH GLOW */}
-            <motion.div
-              className="flex flex-wrap gap-4 justify-center lg:justify-start items-center pt-6"
-              variants={fadeInUp}
-            >
-              <div className={`text-sm font-medium ${current.subtext} drop-shadow-sm`}>Trusted by students from</div>
-              <div className="flex flex-wrap gap-3">
-                {["MIT", "Stanford", "CMU", "Berkeley", "Harvard", "Princeton"].map((uni, i) => (
-                  <div
-                    key={i}
-                    className={`px-3 py-1.5 rounded-lg border ${current.border} ${theme === 'light' ? 'bg-white/80' : 'bg-slate-800/60'} backdrop-blur-sm text-sm font-medium ${current.text} shadow-lg ${theme === 'light' ? 'shadow-slate-500/10' : 'shadow-slate-700/30'} hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300`}
-                  >
-                    {uni}
-                  </div>
-                ))}
+                  Master real-world challenges. Showcase your skills. Get hired by top tech companies.
+                </motion.p>
               </div>
-            </motion.div>
+
+              {/* FEATURE PILLS */}
+              <div className="w-full">
+                <FeaturePills theme={theme} />
+              </div>
+
+              {/* PRIMARY CTA BUTTON */}
+              <div className="mt-1">
+                <PrimaryCTA theme={theme} onClick={handleCTAClick} />
+              </div>
+
+              {/* ADDITIONAL ACCESSIBILITY: VISUALLY HIDDEN DESCRIPTION */}
+              <div className="sr-only">
+                <p>Interactive coding platform for developers to practice, compete, and get hired.</p>
+                <p>Current theme: {theme} mode</p>
+              </div>
+            </div>
           </motion.div>
 
-          {/* RIGHT VISUAL WITH ENHANCED GLOW */}
+          {/* RIGHT SIDE - LOTTIE ANIMATION WITH MOBILE OPTIMIZATION */}
           <motion.div
-            className="lg:col-span-6"
-            variants={fadeInUp}
+            className="lg:col-span-6 relative mt-8 lg:mt-0"
+            variants={animations.fadeInUp}
           >
-            <div className="relative">
-              {/* Main card with glowing border */}
-              <div className="relative rounded-3xl overflow-hidden group">
-                {/* Glowing border effect */}
-                <div className={`absolute -inset-1 bg-gradient-to-r ${current.primary} rounded-3xl blur-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 ${theme === 'light' ? 'shadow-2xl shadow-blue-500/30' : 'shadow-2xl shadow-cyan-500/40'}`} />
-                
-                <div className={`relative rounded-3xl ${current.card} border ${current.border} shadow-2xl overflow-hidden backdrop-blur-sm ${theme === 'light' ? 'shadow-xl shadow-slate-500/10' : 'shadow-xl shadow-slate-900/30'}`}>
-                  
-                  {/* Background with overlay */}
-                  <div className="relative h-[500px] overflow-hidden">
-                    <img
-                      src={theme === 'light' ? 
-                        "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" :
-                        "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=2070&auto=format&fit=crop"
-                      }
-                      alt="Students collaborating at hackathon"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-t ${theme === 'light' ? 'from-slate-900/50' : 'from-slate-900/70'} via-transparent to-transparent`} />
-                  </div>
-
-                  {/* Floating ranking card with glow */}
-                  <div className={`absolute top-6 right-6 ${current.glass} rounded-xl p-4 shadow-2xl border ${current.border} backdrop-blur-md animate-bounce ${theme === 'light' ? 'shadow-lg shadow-blue-500/20' : 'shadow-lg shadow-cyan-500/30'}`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`size-10 rounded-full bg-gradient-to-r ${current.primary} flex items-center justify-center shadow-lg ${theme === 'light' ? 'shadow-blue-500/30' : 'shadow-cyan-500/40'}`}>
-                        <Trophy className="size-5 text-white drop-shadow" />
-                      </div>
-                      <div>
-                        <div className={`text-xs font-medium ${current.subtext} drop-shadow-sm`}>Live Ranking</div>
-                        <div className={`text-lg font-bold ${current.text} drop-shadow`}>#1 - Team Alpha</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom challenge card with glow */}
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className={`${current.glass} rounded-2xl p-6 shadow-2xl border ${current.border} backdrop-blur-md ${theme === 'light' ? 'shadow-xl shadow-slate-500/20' : 'shadow-xl shadow-slate-700/30'}`}>
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <div className={`size-2 rounded-full ${theme === 'light' ? 'bg-emerald-500' : 'bg-emerald-400'} animate-pulse shadow-lg ${theme === 'light' ? 'shadow-emerald-500/40' : 'shadow-emerald-400/40'}`} />
-                            <span className={`text-xs font-semibold uppercase tracking-widest bg-gradient-to-r ${current.primary} bg-clip-text text-transparent drop-shadow`}>
-                              Live Challenge
-                            </span>
-                          </div>
-                          <h3 className={`text-2xl font-bold ${current.text} drop-shadow`}>
-                            Sustainable Tech Hackathon
-                          </h3>
-                          <p className={`${current.subtext} drop-shadow-sm`}>
-                            48 hours to build solutions for climate change
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="text-right">
-                            <div className={`text-2xl font-bold ${current.text} drop-shadow`}>24:18:32</div>
-                            <div className={`text-xs ${current.subtext} drop-shadow-sm`}>Time Remaining</div>
-                          </div>
-                          <div className={`size-12 rounded-full bg-gradient-to-r ${current.primary} flex items-center justify-center shadow-lg ${theme === 'light' ? 'shadow-blue-500/30' : 'shadow-cyan-500/40'} hover:scale-105 transition-transform duration-300`}>
-                            <ArrowRight className="size-5 text-white drop-shadow" />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Challenge stats */}
-                      <div className="flex items-center gap-4 mt-6 pt-6 border-t border-slate-200/50">
-                        {[
-                          { icon: Users, label: "320 Participants" },
-                          { icon: Trophy, label: "$25K Prizes" },
-                          { icon: Code2, label: "Web3 Track" },
-                          { icon: Zap, label: "48 Hours" }
-                        ].map((item, i) => (
-                          <div key={i} className={`flex items-center gap-2 text-sm ${current.subtext} drop-shadow-sm`}>
-                            <item.icon className="size-4" />
-                            <span>{item.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Decorative glowing dots */}
-                <div className={`absolute -top-3 -left-3 size-6 rounded-full bg-gradient-to-r ${current.primary} shadow-2xl ${theme === 'light' ? 'shadow-blue-500/40' : 'shadow-cyan-500/50'} animate-pulse`} />
-                <div className={`absolute -bottom-3 -right-3 size-6 rounded-full bg-gradient-to-r ${current.secondary} shadow-2xl ${theme === 'light' ? 'shadow-pink-500/40' : 'shadow-purple-500/50'} animate-pulse delay-700`} />
-                <div className={`absolute top-1/2 -left-2 size-4 rounded-full bg-gradient-to-r ${current.accent} shadow-xl ${theme === 'light' ? 'shadow-emerald-500/40' : 'shadow-emerald-400/40'} animate-pulse delay-300`} />
-              </div>
+            <div className="relative" style={{ minHeight: '300px' }}>
+              <RightSectionWithLottie
+                theme={theme}
+                fadeInUp={animations.fadeInUp}
+              />
             </div>
+
+            {/* REDUCED FLOATING ELEMENT */}
+            {!shouldReduceMotion && (
+              <motion.div
+                className="absolute -top-6 -right-6 w-32 h-32 rounded-full z-0"
+                animate={{
+                  y: [-10, 10, -10],
+                  rotate: [0, 180, 360],
+                }}
+                transition={{
+                  duration: 12,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                style={{
+                  background: `radial-gradient(circle, ${theme === "light" ? "rgba(139, 92, 246, 0.2)" : "rgba(96, 165, 250, 0.25)"} 0%, transparent 70%)`,
+                  filter: 'blur(30px)',
+                }}
+                aria-hidden="true"
+              />
+            )}
           </motion.div>
         </motion.div>
       </section>
-
-      {/* Add custom styles for enhanced glow effects */}
-      <style jsx>{`
-        .bg-grid-light-glow {
-          background-image: 
-            linear-gradient(to right, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-        .bg-grid-dark-glow {
-          background-image: 
-            linear-gradient(to right, rgba(34, 211, 238, 0.05) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-        
-        /* Enhanced text shadow for better glow */
-        .drop-shadow {
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-        
-        .drop-shadow-sm {
-          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
-        }
-        
-        .drop-shadow-lg {
-          filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-        }
-        
-        @keyframes float-glow {
-          0%, 100% { 
-            transform: translateY(0px) scale(1);
-            opacity: 0.8;
-          }
-          50% { 
-            transform: translateY(-20px) scale(1.1);
-            opacity: 1;
-          }
-        }
-        
-        .animate-float-glow {
-          animation: float-glow 3s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   );
 };
